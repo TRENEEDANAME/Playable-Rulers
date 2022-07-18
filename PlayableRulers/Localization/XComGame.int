@@ -1,0 +1,143 @@
+; *****************************
+; Soldier Template 
+; *****************************
+
+[ViperKingClass X2SoldierClassTemplate]
++DisplayName="Viper King"
++ClassSummary="The Viper King"
++LeftAbilityTreeTitle="Viper King"
++RightAbilityTreeTitle="Viper King"
++AbilityTreeTitles[0]="Viper King"
++AbilityTreeTitles[1]="Viper King"
++AbilityTreeTitles[2]="Viper King"
++AbilityTreeTitles[3]="XCOM"
+;ALPHABETICAL ORDER
++RandomNickNames[0]="Gamma"
+
+[BerserkerQueenClass X2SoldierClassTemplate]
++DisplayName="Berserker Queen"
++ClassSummary="The berserker queen"
++LeftAbilityTreeTitle="Berserker Queen"
++RightAbilityTreeTitle="Berserker Queen"
++AbilityTreeTitles[0]="Berserker Queen"
++AbilityTreeTitles[1]="Berserker Queen"
++AbilityTreeTitles[2]="Berserker Queen"
++AbilityTreeTitles[3]="XCOM"
+;ALPHABETICAL ORDER
++RandomNickNames[0]="Beta"
+
+[ArchonKingClass X2SoldierClassTemplate]
++DisplayName="Archon King"
++ClassSummary="The Archon King"
++LeftAbilityTreeTitle="Archon King"
++RightAbilityTreeTitle="Archon King"
++AbilityTreeTitles[0]="Archon King"
++AbilityTreeTitles[1]="Archon King"
++AbilityTreeTitles[2]="Archon King"
++AbilityTreeTitles[3]="XCOM"
+;ALPHABETICAL ORDER
++RandomNickNames[0]="Alpha"
+
+; *****************************
+;RULER CUSTOM ABILITY
+; *****************************
+
+[ViperBossReaction X2AbilityTemplate]
+LocFriendlyName="Ruler Reaction"
+LocLongDescription="The Viper King can react and adapt to battle at great speeds."
+LocHelpText="Rapid reactions."
+LocFlyOverText="Ruler Reaction"
+
+[BerserkerBossReaction X2AbilityTemplate]
+LocFriendlyName="Ruler Reaction"
+LocLongDescription="the Berserker Queen can rage onwards in battle way faster."
+LocHelpText="Rapid reactions."
+LocFlyOverText="Ruler Reaction"
+
+[ArchonBossReaction X2AbilityTemplate]
+LocFriendlyName="Ruler Reaction"
+LocLongDescription="the Archon King can glide over combat in great agility."
+LocHelpText="Rapid reactions."
+LocFlyOverText="Ruler Reaction"
+
+; *****************************
+;UNLOCK RULER TECH
+; *****************************
+
+[PA_ViperKing_Tech X2TechTemplate]
+DisplayName="Viper King"
+Summary="We should be able to \"reactivate\" the Viper King."
+CodeName="Subject Gamma"
+LongDescript="The Viper king was healed, and using the implants in his body, we were able to do so. Without it, the King would be dead"
+
+[PA_BerserkerQueen_Tech X2TechTemplate]
+DisplayName="Berserker Queen"
+Summary="We should be able to \"reactivate\" the Berserker Queen."
+CodeName="Subject Beta"
+LongDescript="It seems the Berserker queen was, \"too angry to die\". She now want to join your forces, Commander."
+
+[PA_ArchonKing_Tech X2TechTemplate]
+DisplayName="Archon King"
+Summary="We should be able to \"reactivate\" the Archon King."
+CodeName="Subject Alpha"
+LongDescript="The Archon king survived thanks to his part-mechanical body."
+
+; *****************************
+;WEAPON NAME IN GAME
+; *****************************
+
+; -----------------------------
+; VIPER KING
+; -----------------------------
+
+[VIPERBOSS_WPN X2WeaponTemplate]
+FriendlyName="Vipers King Boltcaster"
+BriefSummary="The Viper's king boltcaster, even more powerful than our own"
+TacticalText="<Bullet/> The Viper's king boltcaster<Bullet/>"
+
+[ViperBoss_Tongue_WPN X2WeaponTemplate]
+FriendlyName="Viper King's tongue"
+BriefSummary="This muscle is unbelievably strong, it can crush any humanoid creatures given enough time"
+TacticalText="<Bullet/> The Viper King's tongue<Bullet/>"
+
+; -----------------------------
+; ARCHON KING
+; -----------------------------
+
+[ARCHONBOSS_WPN X2WeaponTemplate]
+FriendlyName="Archon Kings Staff"
+BriefSummary="This weapon is similar to the standard Archon staff, but it has been upgraded by the King for increased damage"
+TacticalText="<Bullet/> The Archon King weapon\n<Bullet/>"
+
+[ArchonBoss_Blazing_Pinions_WPN X2WeaponTemplate]
+FriendlyName="Archon King's Pinions"
+BriefSummary="The Archon King can rain explosives on it's ennemy"
+TacticalText="<Bullet/> The Archon King's Pinions<Bullet/>"
+
+; ********************
+; UFOPEDIA SECTION
+; ********************
+
+; Header for Playable Rulers
+[Playables-Rulers-Header X2EncyclopediaTemplate]
+ListTitle="Playable Rulers"
+DescriptionTitle="What and How can you \"unlock\" the Rulers ?"
+DescriptionEntry="It's actually pretty simple, you kill them ! And with the power of bullet, they can come back to life as your own soldier \n Each front pages will provide \"meta\" information, for some lore / fluff, go on the second screen."
+
+; Viper King
+[Playable-Rulers-ViperKing X2EncyclopediaTemplate]
+ListTitle="Viper King"
+DescriptionTitle="Some information about the Viper King"
+DescriptionEntry="To \"build\" the Viper king, you will need : \n - 1 Viper king's corpse \n - 1 elerium core \n -500 supplies"
+
+; Archon King
+[Playable-Rulers-ArchonKing X2EncyclopediaTemplate]
+ListTitle="Archon King"
+DescriptionTitle="Some information about the Archon King"
+DescriptionEntry="To \"build\" the Archon king, you will need : \n - 1 Archon king's corpse \n - 3 elerium core \n - 750 supplies"
+
+; Berserker Queen
+[Playable-Rulers-BerserkerQueen X2EncyclopediaTemplate]
+ListTitle="Berserker Queen"
+DescriptionTitle="Some information about the Berserker Queen"
+DescriptionEntry="To \"build\" the Berserker Queen, you will need : \n - 1 Berserker queeen's corpse \n - 5 elerium core \n - 1000 supplies"

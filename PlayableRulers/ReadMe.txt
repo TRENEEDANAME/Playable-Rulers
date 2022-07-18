@@ -1,0 +1,2 @@
+?Allows you to create the Rulers at the proving grounds after killing them. 
+Credits to https://www.nexusmods.com/xcom2/users/71160223
