@@ -1,7 +1,5 @@
 # Playable Rulers [WOTC]
 
-
-ID = 2823002635
 Description = Allows you to have the Alien Rulers on your side. You will get them as a project in the proving grounds. 
 You can also add them using command : 
 - addviperkingrecruit
