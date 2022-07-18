@@ -121,14 +121,14 @@ TacticalText="<Bullet/> The Archon King's Pinions<Bullet/>"
 ; Header for Playable Rulers
 [Playables-Rulers-Header X2EncyclopediaTemplate]
 ListTitle="Playable Rulers"
-DescriptionTitle="What and How can you \"unlock\" the Rulers ?"
-DescriptionEntry="It's actually pretty simple, you kill them ! And with the power of bullet, they can come back to life as your own soldier \n Each front pages will provide \"meta\" information, for some lore / fluff, go on the second screen."
+DescriptionTitle="It's story time !"
+DescriptionEntry="The first page will have a report soldier or Shen / Tygan / Bradford. Maybe an \'interview\'. The second page will have a lot more lore."
 
 ; Viper King
 [Playable-Rulers-ViperKing X2EncyclopediaTemplate]
 ListTitle="Viper King"
-DescriptionTitle="Some information about the Viper King"
-DescriptionEntry="To \"build\" the Viper king, you will need : \n - 1 Viper king's corpse \n - 1 elerium core \n -500 supplies"
+DescriptionTitle="Report from \*classified\* about the Viper King"
+DescriptionEntry="After the Viper King has emerged from the dead, I personally decided to take a small \'conversation\' to the alien Ruler. Though I distrust this being, he maintained a friendly behavior and did not try to escape, even when we prepared a fake and controlled opportunity to do so, he remained compose and prefered to stay and answer my questions. \n What we know about his true intention are unclear. Nonetheless, he expressed that he wants to see the Elders fall for what they have done to him and his people. He also offered an alliance, a peace offering and the opportunity to assist our soldiers in the field, if we allow him to lead his people in the avenger. \n It's difficult for me and many other to still trust him, but he sounded sincere. Maybe one day, after all this conflict has ended, we might see the start of a new era and future for earth. \n\n -Anonymous Soldier. "
 
 ; Archon King
 [Playable-Rulers-ArchonKing X2EncyclopediaTemplate]
