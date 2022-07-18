@@ -1,7 +1,7 @@
 ## Description
 
 This is the github repository of the **mod project** folder for my [Playable Rulers mod](https://steamcommunity.com/sharedfiles/filedetails/?id=2823002635). 
-This will be the most up to date project folder from the mod, even before it's on steam
+This will be the most up to date project folder from the mod, even before it's on steam.
 
 ## How to build the mod
 
@@ -19,7 +19,7 @@ This will be the most up to date project folder from the mod, even before it's o
 Because it allows you to change the source code and compile the mod as you see fit. If enough people ask, I will release the proper mod to github as well.
 
 ### Can I do mod requests and bug reports ?
-**YES**, you can. You can make pull request if you know what you are doing.
+**YES**, you can. You can even make pull request if you know what you are doing.
 
 ### Can I fork it ?
 Yes you can, just credit the original author (Gazgemauch) and me.
