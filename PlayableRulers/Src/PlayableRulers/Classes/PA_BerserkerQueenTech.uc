@@ -1,11 +1,5 @@
 class PA_BerserkerQueenTech extends X2StrategyElement config(PlayableAdvent);
 
-var config int BerserkerQueenTech_Days;
-var config int BerserkerQueenTech_SupplyCost;
-var config int BerserkerQueenTech_CorpseCost;
-var config int BerserkerQueenTech_CoreCost;
-var config array<name> BerserkerQueenTech_RequiredTech;
-var config name BerserkerQueenTech_RequiredCorpse;
 
 static function array<X2DataTemplate> CreateTemplates()
 {
