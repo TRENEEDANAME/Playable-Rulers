@@ -37,6 +37,8 @@ static function X2DataTemplate CreatePA_BerserkerQueen_TechTemplate()
 		Artifacts.ItemTemplateName = 'CorpseBerserkerQueen';
 		Artifacts.Quantity = default.BerserkerQueenTech_CoreCost;
 		Template.Cost.ArtifactCosts.AddItem(Artifacts);
+		Template.Requirements.RequiredTechs.AddItem('BerserkerQueenReanimationResearch');
+
 	return Template;
 }
 

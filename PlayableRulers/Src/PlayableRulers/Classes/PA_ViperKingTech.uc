@@ -37,6 +37,7 @@ static function X2DataTemplate CreatePA_ViperKing_TechTemplate()
 		Artifacts.ItemTemplateName = 'CorpseViperKing';
 		Artifacts.Quantity = default.ViperKingTech_CoreCost;
 		Template.Cost.ArtifactCosts.AddItem(Artifacts);
+		Template.Requirements.RequiredTechs.AddItem('ViperKingReanimationResearch');
 	return Template;
 }
 
@@ -88,7 +89,7 @@ static function XComGameState_Unit CreateUnit(XComGameState NewGameState)
 	return UnitState;
 }
 
-static function X2DataTemplate CreateViperKReanimationResearch()
+static function X2DataTemplate CreateViperKingReanimationResearch()
 {
 	local X2TechTemplate Template;
 	local ArtifactCost Artifacts;

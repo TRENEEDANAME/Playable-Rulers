@@ -37,6 +37,8 @@ static function X2DataTemplate CreatePA_ArchonKing_TechTemplate()
 		Artifacts.ItemTemplateName = 'EleriumCore';
 		Artifacts.Quantity = default.ArchonKingTech_CorpseCost;
 		Template.Cost.ArtifactCosts.AddItem(Artifacts);
+		Template.Requirements.RequiredTechs.AddItem('ArchonKingReanimationResearch');
+
 	return Template;
 
 }
