@@ -6,10 +6,7 @@ You can also add them using command :
 - addberserkerqueenrecruit
 - addarchonkingrecruit
 
-The mod work with current save, don't forget to make backups of your save. The mods also have entry with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2819129273][WOTC] UFOpedia & Bestiary[/url], it's not a required mod.
-
-[h3]IMPORTANT[/h3] 
-The mod will be updated in a week (new lore text, new research and bug fixes for all of my mods), so please be patient (you can always ask me for the mod's project on discord)
+The mod work with current save, don't forget to make backups of your save. The mods also have entry with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2819129273][WOTC] UFOpedia & Bestiary[/url], it's not a required mod but it's advised to install it, just because it's an awesome mod.
 
 Cost Viper = 1 Viper king's corpse, 1 elerium core, 500 supplies
 Cost Archon = 1 Archon king's corpse, 3 elerium core, 750 supplies
