@@ -12,15 +12,15 @@ This will be the most up to date project folder from the mod, even before it's o
 - Start the SDK, go in file then "open mod project" (you will need to extract the project's folder).
 - Then do your changes (DO NOT CHANGES the `XcomEditor.ini`, `XcomEngine.ini` and `XcomGame.ini` or the mod will throw in an errors. In general, don't change the headers in the `.uc` file unless you know what you are doing)
 
-#### Mod required
+### Mod used by the mod
 
-##### Required mod
+#### Required mod
 
 Required mod = [Mitzruti's Perk Pack](https://steamcommunity.com/sharedfiles/filedetails/?id=1561030099), [X2WOTCCommunityHighlander](https://steamcommunity.com/workshop/filedetails/?id=1134256495), [Custom Soldier Evac Fix](https://steamcommunity.com/sharedfiles/filedetails/?id=1124713229) and [Alien Hunters Community Highlander [WOTC]](https://steamcommunity.com/sharedfiles/filedetails/?id=2534737016)
 
 (The perk pack is not **required**, but a lot of ability won't work or will need new ability tree.)
 
-##### Optional mod
+#### Optional mod
 
 Optional mod = [UFOpedia & Bestiary](https://steamcommunity.com/sharedfiles/filedetails/?id=2819129273).
 
