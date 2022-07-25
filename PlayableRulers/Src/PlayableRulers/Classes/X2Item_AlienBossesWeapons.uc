@@ -80,7 +80,7 @@ static function X2DataTemplate CreateTemplate_ViperBoss_Tongue_WPN()
 
 	Template.WeaponPanelImage = "_ConventionalRifle";                       // used by the UI. Probably determines iconview of the weapon.
 	Template.ItemCat = 'weapon';
-	Template.WeaponCat = 'rifle';
+	Template.WeaponCat = 'PA_ViperKingTongueCat';
 	Template.WeaponTech = 'magnetic';
 	Template.strImage = "img:///UILibrary_Common.AlienWeapons.ViperRifle";
 	Template.RemoveTemplateAvailablility(Template.BITFIELD_GAMEAREA_Multiplayer); //invalidates multiplayer availability

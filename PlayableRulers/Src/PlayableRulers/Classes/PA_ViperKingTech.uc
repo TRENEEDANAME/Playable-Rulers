@@ -87,3 +87,21 @@ static function XComGameState_Unit CreateUnit(XComGameState NewGameState)
 
 	return UnitState;
 }
+
+static function X2DataTemplate CreateViperKReanimationResearch()
+{
+	local X2TechTemplate Template;
+	local ArtifactCost Artifacts;
+
+	`CREATE_X2TEMPLATE(class'X2TechTemplate', Template, 'ViperKingReanimationResearch');
+	Template.PointsToComplete = 8000;
+	Template.bJumpToLabs = true;
+	Template.bAutopsy = true;
+	Template.IsPriorityFn = class'X2StrategyElement_DefaultTechs'.static.AlwaysPriority;
+	Template.SortingTier = 3;
+	Template.strImage = "img:///UILibrary_DLC2Images.IC_AutopsyViperKing";
+
+	Template.Requirements.RequiredItems.AddItem('CorpseViperKing');
+
+	return Template;
+}

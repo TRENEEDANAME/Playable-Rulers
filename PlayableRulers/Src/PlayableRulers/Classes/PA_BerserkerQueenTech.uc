@@ -1,5 +1,11 @@
 class PA_BerserkerQueenTech extends X2StrategyElement config(PlayableAdvent);
 
+var config int BerserkerQueenTech_Days;
+var config int BerserkerQueenTech_SupplyCost;
+var config int BerserkerQueenTech_CorpseCost;
+var config int BerserkerQueenTech_CoreCost;
+var config array<name> BerserkerQueenTech_RequiredTech;
+var config name BerserkerQueenTech_RequiredCorpse;
 
 static function array<X2DataTemplate> CreateTemplates()
 {
@@ -79,4 +85,22 @@ static function XComGameState_Unit CreateUnit(XComGameState NewGameState)
 	UnitState.kAppearance.iGender = 1;
 	UnitState.StoreAppearance();
 	return UnitState;
+}
+
+static function X2DataTemplate CreateBerserkerQueenReanimationResearch()
+{
+	local X2TechTemplate Template;
+	local ArtifactCost Artifacts;
+
+	`CREATE_X2TEMPLATE(class'X2TechTemplate', Template, 'BerserkerQueenReanimationResearch');
+	Template.PointsToComplete = 8000;
+	Template.bJumpToLabs = true;
+	Template.bAutopsy = true;
+	Template.IsPriorityFn = class'X2StrategyElement_DefaultTechs'.static.AlwaysPriority;
+	Template.SortingTier = 3;
+	Template.strImage = "img:///UILibrary_DLC2Images.IC_AutopsyBerserkerQueen";
+
+	Template.Requirements.RequiredItems.AddItem('CorpseBerserkerQueen');
+
+	return Template;
 }

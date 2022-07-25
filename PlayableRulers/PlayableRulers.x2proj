@@ -23,7 +23,6 @@
     <Folder Include="Src\PlayableRulers\Classes\PlayableRulers\Src\PlayableRulers\Classes\" />
     <Content Include="ReadMe.txt" />
     <Content Include="ModPreview.jpg" />
-    <Content Include="Config\XComAI.ini" />
     <Content Include="Config\XComClassData.ini" />
     <Content Include="Config\XComEditor.ini" />
     <Content Include="Config\XComEngine.ini" />

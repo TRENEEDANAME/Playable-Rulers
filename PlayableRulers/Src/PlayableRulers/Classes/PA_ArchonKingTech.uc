@@ -29,13 +29,13 @@ static function X2DataTemplate CreatePA_ArchonKing_TechTemplate()
 	Template.strImage = "img:///UILibrary_DLC2Images.IC_AutopsyArchonKing";
 	Template.SortingTier = 1;
 	Template.ResearchCompletedFn = ResearchCompleted;
-	Template.PointsToComplete = class'X2StrategyElement_DefaultTechs'.static.StafferXDays(1, default.BerserkerQueenTech_Days);
+	Template.PointsToComplete = class'X2StrategyElement_DefaultTechs'.static.StafferXDays(1, default.ArchonKingTech_Days);
 		Resources.ItemTemplateName = 'Supplies';
 		Resources.Quantity = default.ArchonKingTech_SupplyCost;
 		Template.Cost.ResourceCosts.AddItem(Resources);
-		Artifacts.ItemTemplateName = 'CorpseArchoning';
+		Artifacts.ItemTemplateName = 'CorpseArchonKing';
 		Artifacts.ItemTemplateName = 'EleriumCore';
-		Artifacts.Quantity = default.BerserkerQueenTech_CoreCost;
+		Artifacts.Quantity = default.ArchonKingTech_CorpseCost;
 		Template.Cost.ArtifactCosts.AddItem(Artifacts);
 	return Template;
 
@@ -86,4 +86,22 @@ static function XComGameState_Unit CreateUnit(XComGameState NewGameState)
 	UnitState.kAppearance.iGender = 1;
 	UnitState.StoreAppearance();
 	return UnitState;
+}
+
+static function X2DataTemplate CreateArchonKingReanimationResearch()
+{
+	local X2TechTemplate Template;
+	local ArtifactCost Artifacts;
+
+	`CREATE_X2TEMPLATE(class'X2TechTemplate', Template, 'ArchonKingReanimationResearch');
+	Template.PointsToComplete = 8000;
+	Template.bJumpToLabs = true;
+	Template.bAutopsy = true;
+	Template.IsPriorityFn = class'X2StrategyElement_DefaultTechs'.static.AlwaysPriority;
+	Template.SortingTier = 3;
+	Template.strImage = "img:///UILibrary_DLC2Images.IC_AutopsyArchonKing";
+
+	Template.Requirements.RequiredItems.AddItem('CorpseArchonKing');
+
+	return Template;
 }

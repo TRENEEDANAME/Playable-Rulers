@@ -39,42 +39,30 @@
 +RandomNickNames[0]="Alpha"
 
 ; *****************************
-;RULER CUSTOM ABILITY
+; RULER CUSTOM ABILITY
 ; *****************************
 
-[ViperBossReaction X2AbilityTemplate]
+[RulersReactions X2AbilityTemplate]
 LocFriendlyName="Ruler Reaction"
-LocLongDescription="The Viper King can react and adapt to battle at great speeds."
-LocHelpText="Rapid reactions."
-LocFlyOverText="Ruler Reaction"
-
-[BerserkerBossReaction X2AbilityTemplate]
-LocFriendlyName="Ruler Reaction"
-LocLongDescription="the Berserker Queen can rage onwards in battle way faster."
-LocHelpText="Rapid reactions."
-LocFlyOverText="Ruler Reaction"
-
-[ArchonBossReaction X2AbilityTemplate]
-LocFriendlyName="Ruler Reaction"
-LocLongDescription="the Archon King can glide over combat in great agility."
+LocLongDescription="The rulers are able to adapt to situation faster than even our best soldier."
 LocHelpText="Rapid reactions."
 LocFlyOverText="Ruler Reaction"
 
 ; *****************************
-;UNLOCK RULER TECH
+; UNLOCK RULER TECH (PROVING GROUNDS)
 ; *****************************
 
 [PA_ViperKing_Tech X2TechTemplate]
 DisplayName="Viper King"
-Summary="We should be able to \"reactivate\" the Viper King."
+Summary="Commander,\n by combining all our knowledge and resources, we should be able to \"restore\" the Viper King to a state of mental and physical clarity, giving us the opportunity to recruit him for the Resistance. \n\n-Lily Shen."
 CodeName="Subject Gamma"
-LongDescript="The Viper king was healed, and using the implants in his body, we were able to do so. Without it, the King would be dead"
+LongDescript="Commander,\n,\n the operation and Tygan’s theory has been successful. After long hours of speculation, the Viper King is alive once more and has agree to join our efforts towards the Elders downfall.\n\n -Central Bradford."
 
 [PA_BerserkerQueen_Tech X2TechTemplate]
 DisplayName="Berserker Queen"
-Summary="We should be able to \"reactivate\" the Berserker Queen."
+Summary="Commander,\n by combining the research by Tygan and a high number of resources, we should be able to treat and \"restore\" the Berserker Queen to a state of mental and physical clarity, giving us the opportunity to recruit her for the Resistance.\n\n -Lily Shen. "
 CodeName="Subject Beta"
-LongDescript="It seems the Berserker queen was, \"too angry to die\". She now want to join your forces, Commander."
+LongDescript="Commander,\n our bets has been successful. The Berserker Queen is alive and well, and after long days of conversations and debates, the Queen has sworn loyalty to XCOM and to you, as penitence for all the trouble we had to go undergo to restore her.\n\n -Bradford"
 
 [PA_ArchonKing_Tech X2TechTemplate]
 DisplayName="Archon King"
@@ -82,8 +70,30 @@ Summary="We should be able to \"reactivate\" the Archon King."
 CodeName="Subject Alpha"
 LongDescript="The Archon king survived thanks to his part-mechanical body."
 
+; ********************
+; RESEARCH (LAB)
+; ********************
+
+; -----------------------------
+; VIPER KING
+; -----------------------------
+
+[ViperKingReanimationResearch X2TechTemplate]
+DisplayName="<font color='#4d99c1'>Viper King Reanimation</font>"
+Summary="Commander,\n during one of my examinations through Vahlen’s reports and study the records of her situation, I had developed a hypothesis of what was her original purpose with those subjects.\n By conducting a small revision to her old interrogation ways, Shen and I engineer a new prototype that would allow us to made a neural scan, so we can research its memories and maybe, gain a new ally that could turn the ties to the resistance efforts.\n\n R. Tygan"
+CodeName="<font color='#4d99c1'>Regius</font>"
+LongDescription="By conducting a series of operation and removing an ADVENT Chip incrusted in the King’s brain. I discovered that Vahlen’s original plan was to turn these specially gifted subjects, into a force that would rival the Ethereal Dominion for the good.\n\n When the Gamma subject escape from my predecessor's lab, and immediately resume some of its natural instincts, getting himself into the Elder’s eyes. Though they seem unable to dominate its mind psionically, ADVENT manage to capture him and introduce some new kind of chip in his brain. \n Being similar to the one I find in you, this one was specifically crafted to regulate, indoctrinate and influence them to the point that they fully believe on their lies on their own. Shen and I hope that we could ‘’heal’’ this damage and restore them to a point in which they were never corrupted, giving them one last chance to redeem and fight for a right and mutual cause.\n When you give the order, we will start working in his reconstruction. It won't be easy, nor cheap. We will have to contact the Skirmisher and the Templars, so that they can provide psychological, physical and language assistance to ensure that this new possible ally can be fully trusted.\n\n R. Tygan."
+
+; -----------------------------
+; BERSERKER QUEEN
+; -----------------------------
+
+[BerserkerQueenReanimationResearch X2TechTemplate]
+DisplayName="<font color='#4d99c1'>Berserker Queen Reanimation</font>"
+Summary="When our troops defeated the Berserker Queen, I had serious thoughts of how and \"if\" we could turn the Berserker Queen to our side. Nonetheless, in one of her recordings, she mentions that this Subject \"Beta\" show promise to her expectations. Maybe if we dig into the Queen’s brain, we could discover what she saw in her, that make she consider to continue. \n\nTo reveal this secret, we developped a new upgrade to our neural scanning systems, allowing us to recreate in digital format small visual memories. This, alongside the single hint that my predecessor left us, might give us the chance we need to convince her to join the resistance. \n\n -R.Tygan.
+
 ; *****************************
-;WEAPON NAME IN GAME
+; WEAPON NAME IN GAME
 ; *****************************
 
 ; -----------------------------
@@ -113,6 +123,7 @@ TacticalText="<Bullet/> The Archon King weapon\n<Bullet/>"
 FriendlyName="Archon King's Pinions"
 BriefSummary="The Archon King can rain explosives on it's ennemy"
 TacticalText="<Bullet/> The Archon King's Pinions<Bullet/>"
+
 
 ; ********************
 ; UFOPEDIA SECTION

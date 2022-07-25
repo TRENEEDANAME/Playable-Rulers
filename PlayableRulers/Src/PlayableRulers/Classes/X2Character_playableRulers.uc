@@ -87,6 +87,7 @@ static function X2CharacterTemplate CreateTemplate_ViperBoss()
 	CharTemplate.Abilities.AddItem('LiftOffAvenger');
 	CharTemplate.Abilities.AddItem('Knockout');
 	CharTemplate.Abilities.AddItem('KnockoutSelf');
+	CharTemplate.Abilities.AddItem('Interact_MarkSupplyCrate');
 
 
 	CharTemplate.ImmuneTypes.AddItem('Panicked');
