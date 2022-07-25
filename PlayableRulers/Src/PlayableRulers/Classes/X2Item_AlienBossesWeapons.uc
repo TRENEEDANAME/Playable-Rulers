@@ -2,7 +2,7 @@ class X2Item_AlienBossesWeapons extends X2Item config(GameData_WeaponData);
 
 var config int GENERIC_MELEE_ACCURACY;
 
-var config WeaponDamageValue VIPERBOSS_WPN_BASEDAMAGE;
+var config WeaponDamageValue ViperBoss_WPN_BASEDAMAGE;
 var config WeaponDamageValue VIPERBOSS_BIND_BASEDAMAGE;
 var config WeaponDamageValue VIPERBOSS_BIND_SUSTAINDAMAGE;
 
@@ -46,7 +46,7 @@ static function X2DataTemplate CreateTemplate_ViperBoss_WPN()
 	Template.RemoveTemplateAvailablility(Template.BITFIELD_GAMEAREA_Multiplayer); //invalidates multiplayer availability
 
 	Template.RangeAccuracy =  class'X2Item_DefaultWeapons'.default.FLAT_CONVENTIONAL_RANGE;
-	Template.BaseDamage = default.VIPERBOSS_WPN_BASEDAMAGE;
+	Template.BaseDamage = default.ViperBoss_WPN_BASEDAMAGE;
 	Template.iClipSize = default.VIPERBOSSRIFLE_ICLIPSIZE;
 	Template.iSoundRange =  class'X2Item_DefaultWeapons'.default.ASSAULTRIFLE_MAGNETIC_ISOUNDRANGE;
 	Template.iEnvironmentDamage =  class'X2Item_DefaultWeapons'.default.ASSAULTRIFLE_MAGNETIC_IENVIRONMENTDAMAGE;
