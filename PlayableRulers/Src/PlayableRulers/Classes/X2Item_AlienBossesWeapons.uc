@@ -80,7 +80,7 @@ static function X2DataTemplate CreateTemplate_ViperBoss_Tongue_WPN()
 
 	Template.WeaponPanelImage = "_ConventionalRifle";                       // used by the UI. Probably determines iconview of the weapon.
 	Template.ItemCat = 'weapon';
-	Template.WeaponCat = 'rifle';
+	Template.WeaponCat = 'PA_ViperKingTongueCat';
 	Template.WeaponTech = 'magnetic';
 	Template.strImage = "img:///UILibrary_Common.AlienWeapons.ViperRifle";
 	Template.RemoveTemplateAvailablility(Template.BITFIELD_GAMEAREA_Multiplayer); //invalidates multiplayer availability
@@ -135,6 +135,8 @@ static function X2DataTemplate CreateTemplate_ArchonBoss_WPN()
 	Template.Abilities.AddItem('OverwatchShot');
 	Template.Abilities.AddItem('Reload');
 	Template.Abilities.AddItem('HotLoadAmmo');
+	Template.Abilities.AddItem('BindSustained');
+	Template.Abilities.AddItem('EndBind');
 	
 	// This all the resources; sounds, animations, models, physics, the works.
 	Template.GameArchetype = "WP_ArchonKing_Staff.WP_ArchonKing_Staff";

@@ -33,7 +33,7 @@ To ask for a feature, use the discussion tab
 ### Known bugs
 
 - Some abilities have no icons. 
-- Tthe Archon King Icarus slam might force a reload if using more than once per mission.
+- The Archon King Icarus slam might force a reload if using more than once per mission.
 - The sound that the Rulers make (in the barracks) persists (like the Skyranger lift bug).
 
 ## Credits

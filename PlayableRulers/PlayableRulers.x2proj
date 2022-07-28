@@ -21,7 +21,6 @@
     <Folder Include="Src\PlayableRulers\Classes\PlayableRulers\Src\" />
     <Folder Include="Src\PlayableRulers\Classes\PlayableRulers\Src\PlayableRulers\" />
     <Folder Include="Src\PlayableRulers\Classes\PlayableRulers\Src\PlayableRulers\Classes\" />
-    <Content Include="ReadMe.txt" />
     <Content Include="ModPreview.jpg" />
     <Content Include="Config\XComClassData.ini" />
     <Content Include="Config\XComEditor.ini" />
@@ -45,5 +44,6 @@
     <Content Include="Config\XComEncyclopedia.ini" />
     <Content Include="Config\XComUFOpedia.ini" />
     <Content Include="Localization\WOTC_UFOpedia.int" />
+    <Content Include="ReadMe.md" />
   </ItemGroup>
 </Project>
