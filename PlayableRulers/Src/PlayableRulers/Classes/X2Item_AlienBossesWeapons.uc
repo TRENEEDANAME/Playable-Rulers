@@ -14,7 +14,6 @@ var config int VIPERBOSS_IDEALRANGE;
 var config int PARulers_FrostGlobRange;
 var config int PARulers_FrostGlobRadius;
 var config int PARulers_FrostGlobClipSize;
-var config int PARulers_FrostGlobDamage;
 
 var config int ARCHONBOSS_IDEALRANGE;
 var config int ARCHONBOSS_BLAZINGPINIONS_ENVDAMAGE;
@@ -110,7 +109,6 @@ static function X2DataTemplate CreateTemplate_ViperBoss_Tongue_WPN()
 	Template.TradingPostValue = 30;
 	Template.StartingItem = true;
 
-	Template.PairedTemplateName = 'PARulers_FrostbiteGlob';
 	return Template;
 }
 
@@ -136,7 +134,7 @@ static function X2DataTemplate CreatePARulers_FrostbiteGlob()
 	Template.bSoundOriginatesFromOwnerLocation = true;
 
 	Template.BaseDamage.DamageType = 'Frost';
-	Template.BaseDamage = default.PARulers_FrostGlobDamage;
+
 
 	Template.InventorySlot = eInvSlot_Utility;
 	Template.StowedLocation = eSlot_None;
@@ -173,7 +171,7 @@ static function X2DataTemplate CreateTemplate_ArchonBoss_WPN()
 	Template.DamageTypeTemplateName = 'Heavy';
 	
 	Template.InventorySlot = eInvSlot_PrimaryWeapon;
-	Template.Abilities.AddItem('StandardShot_NoEnd');
+	Template.Abilities.AddItem('StandardShot');
 	Template.Abilities.AddItem('Overwatch');
 	Template.Abilities.AddItem('OverwatchShot');
 	Template.Abilities.AddItem('Reload');
