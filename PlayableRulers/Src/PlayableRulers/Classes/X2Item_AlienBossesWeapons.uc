@@ -2,10 +2,6 @@ class X2Item_AlienBossesWeapons extends X2Item config(GameData_WeaponData);
 
 var config int GENERIC_MELEE_ACCURACY;
 
-var config WeaponDamageValue VIPERBOSS_WPN_BASEDAMAGE;
-var config WeaponDamageValue VIPERBOSS_BIND_BASEDAMAGE;
-var config WeaponDamageValue VIPERBOSS_BIND_SUSTAINDAMAGE;
-
 var config WeaponDamageValue ARCHONBOSS_WPN_BASEDAMAGE;
 var config WeaponDamageValue ARCHONBOSS_BLAZINGPINIONS_BASEDAMAGE;
 var config WeaponDamageValue ARCHONBOSS_ICARUS_DROP_BASEDAMAGE;
@@ -20,14 +16,47 @@ var config int ARCHONBOSS_BLAZINGPINIONS_ENVDAMAGE;
 
 var config int VIPERBOSSRIFLE_ICLIPSIZE;
 
+var config int PARulers_BC_StunChance;
+
+var config WeaponDamageValue  PARulers_BC_CV_Damage;
+var config int PARulers_BC_CV_Aim;
+var config int PARulers_BC_CV_CritChance;
+var config int PARulers_BC_CV_ClipSize;
+var config int PARulers_BC_CV_SoundRange;
+var config int PARulers_BC_CV_EnvDamage;
+var config int PARulers_BC_CV_IdealRange;
+var config int PARulers_BC_CV_NumUpgradeSlots;
+
+
+var config WeaponDamageValue  PARulers_BC_MG_Damage;
+var config int PARulers_BC_MG_Aim;
+var config int PARulers_BC_MG_CritChance;
+var config int PARulers_BC_MG_ClipSize;
+var config int PARulers_BC_MG_SoundRange;
+var config int PARulers_BC_MG_EnvDamage;
+var config int PARulers_BC_MG_IdealRange;
+var config int PARulers_BC_MG_NumUpgradeSlots;
+
+
+var config WeaponDamageValue  PARulers_BC_BM_Damage;
+var config int PARulers_BC_BM_Aim;
+var config int PARulers_BC_BM_CritChance;
+var config int PARulers_BC_BM_ClipSize;
+var config int PARulers_BC_BM_SoundRange;
+var config int PARulers_BC_BM_EnvDamage;
+var config int PARulers_BC_BM_IdealRange;
+var config int PARulers_BC_BM_NumUpgradeSlots;
+
 static function array<X2DataTemplate> CreateTemplates()
 {
 	local array<X2DataTemplate> Weapons;
 
 	// Alien Rulers
 
-	Weapons.AddItem(CreateTemplate_ViperBoss_WPN());
-	Weapons.AddItem(CreateTemplate_ViperBoss_Tongue_WPN());
+	Weapons.AddItem(CreateTemplate_PARulers_BoltCaster_CV());
+	Weapons.AddItem(CreateTemplate_PARulers_BoltCaster_MG());
+	Weapons.AddItem(CreateTemplate_PARulers_BoltCaster_BM());
+
 	Weapons.AddItem(CreateTemplate_ArchonBoss_WPN());
 	Weapons.AddItem(CreateTemplate_ArchonBoss_Blazing_Pinions_WPN());
 	Weapons.AddItem(CreateTemplate_ArchonBoss_MeleeAttack());
@@ -35,45 +64,230 @@ static function array<X2DataTemplate> CreateTemplates()
 	return Weapons;
 }
 
-static function X2DataTemplate CreateTemplate_ViperBoss_WPN()
+
+
+static function X2DataTemplate CreateTemplate_PARulers_BoltCaster_CV()
 {
 	local X2WeaponTemplate Template;
 
-	`CREATE_X2TEMPLATE(class'X2WeaponTemplate', Template, 'ViperBoss_WPN');
-	
+	`CREATE_X2TEMPLATE(class'X2WeaponTemplate', Template, 'PARulers_BoltCaster_CV');
 	Template.WeaponPanelImage = "_ConventionalRifle";                       // used by the UI. Probably determines iconview of the weapon.
+	Template.EquipSound = "Conventional_Weapon_Equip";
+
 	Template.ItemCat = 'weapon';
 	Template.WeaponCat = 'PA_ViperKingGunCat';
-	Template.WeaponTech = 'magnetic';
+	Template.WeaponTech = 'conventional';
 	Template.strImage = "img:///UILibrary_DLC2Images.ConvBoltCaster_base";
-	Template.RemoveTemplateAvailablility(Template.BITFIELD_GAMEAREA_Multiplayer); //invalidates multiplayer availability
+	Template.RemoveTemplateAvailablility(Template.BITFIELD_GAMEAREA_Multiplayer);
+	Template.Tier = 0;
 
-	Template.RangeAccuracy =  class'X2Item_DefaultWeapons'.default.FLAT_CONVENTIONAL_RANGE;
-	Template.BaseDamage = default.VIPERBOSS_WPN_BASEDAMAGE;
-	Template.iClipSize = default.VIPERBOSSRIFLE_ICLIPSIZE;
-	Template.iSoundRange =  class'X2Item_DefaultWeapons'.default.ASSAULTRIFLE_MAGNETIC_ISOUNDRANGE;
-	Template.iEnvironmentDamage =  class'X2Item_DefaultWeapons'.default.ASSAULTRIFLE_MAGNETIC_IENVIRONMENTDAMAGE;
-	Template.iIdealRange = default.VIPERBOSS_IDEALRANGE;
+	Template.bCanBeDodged = false;
+	Template.RangeAccuracy = class'X2Item_DefaultWeapons'.default.MEDIUM_CONVENTIONAL_RANGE;
+	Template.BaseDamage = default.PARulers_BC_CV_Damage;
+	Template.Aim = default.PARulers_BC_CV_Aim;
+	Template.CritChance = default.PARulers_BC_CV_CritChance;
+	Template.iClipSize = default.PARulers_BC_CV_ClipSize;
+	Template.iSoundRange = default.PARulers_BC_CV_SoundRange;
+	Template.iEnvironmentDamage = default.PARulers_BC_CV_EnvDamage;
+	Template.iIdealRange = default.PARulers_BC_CV_IdealRange;
 
 	Template.DamageTypeTemplateName = 'Heavy';
-	
+	Template.NumUpgradeSlots = default.PARulers_BC_CV_NumUpgradeSlots;
+
 	Template.InventorySlot = eInvSlot_PrimaryWeapon;
-	Template.Abilities.AddItem('StandardShot_NoEnd');
+	Template.Abilities.AddItem('StandardShot');
 	Template.Abilities.AddItem('Overwatch');
 	Template.Abilities.AddItem('OverwatchShot');
 	Template.Abilities.AddItem('Reload');
 	Template.Abilities.AddItem('HotLoadAmmo');
-	
+
 	// This all the resources; sounds, animations, models, physics, the works.
 	Template.GameArchetype = "DLC_60_ProxyWeapons.WP_ViperKing_BoltCaster";
+	
+	Template.BonusWeaponEffects.AddItem(BoltCasterStunEffect());
 
 	Template.iPhysicsImpulse = 5;
 
+	 Template.CreatorTemplateName = "PARulers_BoltCaster_CV";
+
+	Template.StartingItem = false;
 	Template.CanBeBuilt = false;
-	Template.TradingPostValue = 30;
+	Template.bInfiniteItem = false;
+	
+	Template.fKnockbackDamageAmount = 5.0f;
+	Template.fKnockbackDamageRadius = 0.0f;
+
+	Template.DamageTypeTemplateName = 'Projectile_Conventional';
+
+	Template.SetUIStatMarkup(class'XLocalizedData'.default.StunChanceLabel, , default.PARulers_BC_StunChance, , , "%");
 
 	return Template;
 }
+
+static function X2DataTemplate CreateTemplate_PARulers_BoltCaster_MG()
+{
+	local X2WeaponTemplate Template;
+
+	`CREATE_X2TEMPLATE(class'X2WeaponTemplate', Template, 'PARulers_BoltCaster_MG');
+	Template.WeaponPanelImage = "_MagneticRifle";                       // used by the UI. Probably determines iconview of the weapon.
+	Template.EquipSound = "Magnetic_Weapon_Equip";
+
+	Template.WeaponCat = 'PA_ViperKingGunCat';
+	Template.WeaponTech = 'magnetic';
+	Template.ItemCat = 'weapon';
+	Template.strImage = "img:///UILibrary_DLC2Images.MagBoltCaster_base";
+	Template.RemoveTemplateAvailablility(Template.BITFIELD_GAMEAREA_Multiplayer);
+	Template.Tier = 3;
+
+	Template.bCanBeDodged = false;
+	Template.RangeAccuracy = class'X2Item_DefaultWeapons'.default.MEDIUM_MAGNETIC_RANGE;
+	Template.BaseDamage = default.PARulers_BC_MG_Damage;
+	Template.Aim = default.PARulers_BC_MG_Aim;
+	Template.CritChance = default.PARulers_BC_MG_CritChance;
+	Template.iClipSize = default.PARulers_BC_MG_ClipSize;
+	Template.iSoundRange = default.PARulers_BC_MG_SoundRange;
+	Template.iEnvironmentDamage = default.PARulers_BC_MG_EnvDamage;
+	Template.iIdealRange = default.PARulers_BC_MG_IdealRange;
+
+	Template.NumUpgradeSlots = default.PARulers_BC_MG_NumUpgradeSlots;
+	Template.DamageTypeTemplateName = 'Heavy';
+
+	Template.InventorySlot = eInvSlot_PrimaryWeapon;
+	Template.Abilities.AddItem('StandardShot');
+	Template.Abilities.AddItem('Overwatch');
+	Template.Abilities.AddItem('OverwatchShot');
+	Template.Abilities.AddItem('Reload');
+	Template.Abilities.AddItem('HotLoadAmmo');
+
+	Template.GameArchetype = "DLC_60_WP_BoltCaster_MG.WP_BoltCaster_MG";
+
+	Template.BonusWeaponEffects.AddItem(PA_BoltCasterStunEffect());
+
+	Template.iPhysicsImpulse = 5;
+
+	Template.CreatorTemplateName = 'HunterRifle_MG_Schematic';
+	Template.BaseItem = 'AlienHunterRifle_CV';
+
+	Template.StartingItem = false;
+	Template.CanBeBuilt = false;
+	Template.bInfiniteItem = false;
+
+	Template.DamageTypeTemplateName = 'Projectile_MagXCom';
+
+	Template.SetUIStatMarkup(class'XLocalizedData'.default.StunChanceLabel, , default.PARulers_BC_StunChance, , , "%");
+
+	return Template;
+}
+
+static function X2DataTemplate CreateTemplate_PARulers_BoltCaster_BM()
+{
+	local X2WeaponTemplate Template;
+
+	`CREATE_X2TEMPLATE(class'X2WeaponTemplate', Template, 'PARulers_BoltCaster_BM');
+	Template.WeaponPanelImage = "_BeamRifle";                       // used by the UI. Probably determines iconview of the weapon.
+	Template.EquipSound = "Beam_Weapon_Equip";
+
+	Template.WeaponCat = 'PA_ViperKingGunCat';
+	Template.WeaponTech = 'beam';
+	Template.ItemCat = 'weapon';
+	Template.strImage = "img:///UILibrary_DLC2Images.BeamBoltCaster_base";
+	Template.RemoveTemplateAvailablility(Template.BITFIELD_GAMEAREA_Multiplayer);
+	Template.Tier = 5;
+
+	Template.bCanBeDodged = false;
+	Template.RangeAccuracy = class'X2Item_DefaultWeapons'.default.MEDIUM_BEAM_RANGE;
+	Template.BaseDamage = default.PARulers_BC_BM_Damage;
+	Template.Aim = default.PARulers_BC_BM_Aim;
+	Template.CritChance = default.PARulers_BC_BM_CritChance;
+	Template.iClipSize = default.PARulers_BC_BM_ClipSize;
+	Template.iSoundRange = default.PARulers_BC_BM_SoundRange;
+	Template.iEnvironmentDamage = default.PARulers_BC_BM_EnvDamage;
+	Template.iIdealRange = default.PARulers_BC_BM_IdealRange;
+
+	Template.DamageTypeTemplateName = 'Heavy';
+	Template.NumUpgradeSlots = default.PARulers_BC_BM_NumUpgradeSlots;
+
+	Template.InventorySlot = eInvSlot_PrimaryWeapon;
+	Template.Abilities.AddItem('StandardShot');
+	Template.Abilities.AddItem('Overwatch');
+	Template.Abilities.AddItem('OverwatchShot');
+	Template.Abilities.AddItem('Reload');
+	Template.Abilities.AddItem('HotLoadAmmo');
+
+	Template.GameArchetype = "DLC_60_WP_BoltCaster_BM.WP_BoltCaster_BM";
+	
+	Template.BonusWeaponEffects.AddItem(BoltCasterStunEffect());
+
+	Template.iPhysicsImpulse = 5;
+
+	Template.CreatorTemplateName = 'HunterRifle_BM_Schematic';
+	Template.BaseItem = 'AlienHunterRifle_MG';
+
+	Template.StartingItem = false;
+	Template.CanBeBuilt = false;
+	Template.bInfiniteItem = false;
+
+	Template.DamageTypeTemplateName = 'Projectile_BeamXCom';
+
+	Template.SetUIStatMarkup(class'XLocalizedData'.default.StunChanceLabel, , default.PARulers_BC_StunChance, , , "%");
+
+	return Template;
+}
+
+static function X2Effect_Stunned BoltCasterStunEffect()
+{
+	local X2Effect_Stunned StunEffect;
+
+	StunEffect = class'X2StatusEffects'.static.CreateStunnedStatusEffect(2, 0, false);
+	StunEffect.ApplyChanceFn = PA_BoltCasterStunChance;
+	return StunEffect;
+}
+
+function name PA_BoltCasterStunChance(const out EffectAppliedData ApplyEffectParameters, XComGameState_BaseObject kNewTargetState, XComGameState NewGameState)
+{
+	local XComGameState_Unit TargetUnit;
+	local int Chance;
+
+	TargetUnit = XComGameState_Unit(kNewTargetState);
+	if (TargetUnit != none)
+	{
+		if (class'X2Helpers_DLC_Day60'.static.IsUnitAlienRuler(TargetUnit))
+		{
+			// Get the Stun Chance modifier for individual Ruler and subtract it
+			Chance = default.PARulers_BC_StunChance - class'X2Helpers_DLC_Day60'.static.GetRulerStunChanceModifier(TargetUnit);
+		}
+		else
+		{
+			Chance = default.PARulers_BC_StunChance;
+		}
+		if (`SYNC_RAND(100) < Chance)
+		{
+			return 'AA_Success';
+		}
+	}
+	return 'AA_EffectChanceFailed';
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 static function X2DataTemplate CreateTemplate_ViperBoss_Tongue_WPN()
 {
@@ -267,3 +481,5 @@ defaultproperties
 {
 	bShouldCreateDifficultyVariants = true
 }
+
+

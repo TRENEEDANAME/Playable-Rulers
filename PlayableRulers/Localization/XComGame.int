@@ -112,10 +112,25 @@ LocLongDescription="From what we learn of all the previous rulers, was that they
 ; VIPER KING
 ; -----------------------------
 
-[VIPERBOSS_WPN X2WeaponTemplate]
+[PARulers_BoltCaster_CV X2WeaponTemplate]
 FriendlyName="Vipers King Boltcaster"
 BriefSummary="The Viper's king boltcaster, even more powerful than our own"
 TacticalText="<Bullet/> The Viper's king boltcaster<Bullet/>"
+AbilityDescName="bolt caster"
+
+[PARulers_BoltCaster_MG X2WeaponTemplate]
+FriendlyName="Viper King Magnetic Bolt Caster"
+BriefSummary="By modifying the armature and permanently affixing a series of magnets along its stock, we were able to substantially increase the damage output of the King’s Bolt Caster through electromagnetic propulsion."
+TacticalText="<Bullet/> The addition of a magnetic coil increases the damage of each individual bolt.\n<Bullet/> Each attack has a chance to stun the target, and cannot be dodged.\n<Bullet/> Genetically-empowered aliens are highly susceptible to being stunned.\n<Bullet/> Launches a single, high-damage projectile, but must be reloaded after each use."
+AbilityDescName="magnetic bolt caster"
+
+[PARulers_BoltCaster_BM X2WeaponTemplate]
+FriendlyName="Plasma Bolt Caster"
+FriendlyNamePlural="Plasma Bolt Casters"
+BriefSummary="The introduction of a miniturized Elerium power cell allows the King’s Bolt Caster to generate electromagnetically focused bursts of Plasma with each bolt fired."
+TacticalText="<Bullet/> An Elerium-enhanced launcher makes this the deadliest version of the Bolt Caster.\n<Bullet/> Each attack has a chance to stun the target, and cannot be dodged.\n<Bullet/> Genetically-empowered aliens are highly susceptible to being stunned.\n<Bullet/> Launches a single, high-damage projectile, but must be reloaded after each use."
+AbilityDescName="plasma bolt caster"
+
 
 [ViperBoss_Tongue_WPN X2WeaponTemplate]
 FriendlyName="Viper King's tongue"
@@ -161,24 +176,24 @@ DescriptionEntry="Date : --classified--\n Object : Transcript from --classified-
 ; Archon King
 [Playable-Rulers-ArchonKing X2EncyclopediaTemplate]
 ListTitle="Archon King"
-DescriptionTitle="Some information about the Archon King"
-DescriptionEntry="WIP"
+DescriptionTitle="Report from --classified-- about the Archon King"
+DescriptionEntry="Date : --classified--\n Object : Transcript from --classified-- with the Archon King. First Report"
 
 ; Archon King N°2
 [Playable-Rulers-ArchonKing2 X2EncyclopediaTemplate]
 ListTitle="Archon King"
-DescriptionTitle="Report from \*classified\* about the Archon King"
-DescriptionEntry="Date : --classified--\n Object : Transcript from \*classified\* with the Archon King\n\n  There was a certain fascination when Tygan \'\'reactivate\'\' the Archon King from its slumber, he looked everywhere shock, there was fear in his face. After a few minutes, he let go a sigh of relief. The King glance at us, like he somehow could see behind the polarized window.\n Tygan had warned us to be careful about dealing with the ruler. We had to proceed one way or another, so I volunteer myself. \n When the door open, I step inside the room with a plate full of food, the Archon \'\'Stand up\'\' alongside an ominous stare. We saw each other on silence, until I decided to finally speak. He responded, and I quickly state the purpose of me visit and our intentions.\n He was quite doubtful, but he still took the food. The other rest of the team and I were spending hours and even days, to make sure he recovers from all the physical and mental trauma.\n After one day, I hold a conversation about their species history and past. He said that there was none, Archon and floaters were once in a time, organic beings that failed the Ethereals evolutionary test. \n They were not the weakest nor the strongest, so its species sought for ways to make up this shortcoming. In their resistance desperation, cybernetic implants were used and tested; technology was heavily augmented into their body. \n When the Elders took over, they aggressively incrusted and replace many organic parts to \'\'improve\'\' their strengths and eliminate the weaknesses. Including systems and mechanism that make them suffer in constant pain if them disobey, explaining why they fight with such ferocity and psychotic will in battle.\n That’s how the floaters were created, and then upgraded to better suit the integration of humanity.\n The revelation shock me, to think an alien race of sociopathic begins can be willing to cross certain lines just to prove a point. And to see the future that can await humanity if we don’t win this war, spark my motivation to accelerate the peace talks.\n He agrees that what the Elders doing is wrong, and has to be stop. So, an alliance was set. From now on, the Archon King and his people will aid humanity and stand by our side if we help them regain their lost freedom.\n The demonic like aspect may intimidate and scare the rest of the crew, but I think that with time, they will get used to him and learn to know him.\n \n\n -Anonymous Soldier."
+DescriptionTitle="Report from --classified-- about the Archon King"
+DescriptionEntry="Date : --classified--\n Object : Transcript from --classified-- with the Archon King. Second Report"
 
 
 ; Berserker Queen
 [Playable-Rulers-BerserkerQueen X2EncyclopediaTemplate]
 ListTitle="Berserker Queen"
 DescriptionTitle="Report from Bradford about the Berserker Queen"
-DescriptionEntry="Date : --classified--\n Object : Transcrpt from John Bradford with Berserker Queen\n\n The Berserker Queen is known to be the strongest among its ruler\'s peers. And this not for less, thought appearances can be deceiving. The Berserker Queen has both, an appreciation to her people traditions and human culture, giving her socially high standing between her brethren and hybrids alike.\n This is due to Vahlen focus on giving her knowledge, along with the physical prowess bestow and develop during her infancy time during the lab.\n Until she reached the point in that her body could not provide chemically enough for herself and needing of external assistance, resulting in drastically detrimental changes to her behavior and physic wellbeing. \n This obligated Vahlen to supply her with enchase heavy non-lethal equipment and filtering systems, to prevent the ruler from going in a rampage and prevent the misidentification of friend from foe. \n Thought this worked for some period, the lack of time and the splinted recourses due to the escape of the Viper King resulted on a lesser focus to this individual subject. As the Dr. Vahlen had to increase security and watch for the situation, in case the queen escapes too on that state.\n When the Viper King assault the Lab, the doctor liberated them once the situation got critical. Despite not knowing the reasons why to this moment, both subject Alpha and Beta were free at chaos unfolding before them.\n And from all the things that the Berserker Queen could do, she decided to fled. Her very first reacting to her first combat experience was fear, as she saw the Archon King get frozen, poison and then sent into an unconscious state by a whole group of vipers and stun lancers.\n After the event, she wondered alone for a few weeks, in which she meets an odd sectoid called verge. Who reunite her to rogue members and mutons clans, that taught her how to stand by her own capabilities.\n One day, a retaliation occurred in one of those rogue sections and the assassin chosen attempted capture her. The Berserker Queen stood up for the first time, defended the heaven and defeated the chosen on a close combat encounter. \n This set the alarm even higher to the Elders, and from what we know, they obligated and sent all three chosen just to capture her. Despite her superior strength and endurance, she fell into the Ethereal hands and then into ADVENT torture and subsequent indoctrination.\n She served as a brutal juggernaut, devastating resistance after resistance. Until her final defeat to XCOM and eventual liberation. To this date, the Berserker Queen has sworn loyalty to you, commander. For as I quote: \'\'Giving me a last chance, to atone for my transgressions and mistakes...\'\'\n Nonetheless, the final decision to trust the Queen as always, is yours Commander.\n\n -Central Bradford."
+DescriptionEntry="Date : --classified--\n Object : Transcrpt from John Bradford with the Berserker Queen."
 
 ; Berserker Queen N°2
 [Playable-Rulers-BerserkerQueen2 X2EncyclopediaTemplate]
 ListTitle="Berserker Queen"
-DescriptionTitle="Report from \*classified\* about the Berserker Queen"
-DescriptionEntry=When the Berserker Queen \'\'revival\'\', it took some time until we manage to make her trust us. You should had seen it Commander, there was a mix of fear and anger, but she did not attack us. The Skirmisher on board helped us greatly with their knowledge of Advent, making sure to let her know our peaceful intentions. \n She hesitates and refuse to talk in a human language. I could have taken this initial reaction as a failure, like some of my comrades thought. But I insisted, and try different friendly methods.\n We fed her, use the linguistic to establish friendly \'\'small\'\' talks and let the contracted templar assist in meditation. It was difficult, but we manage to get her to at least not feel \’treatened\’ here.\n Once we got her trust, everything got easy from there. She was excited, as we spoke and explained the whole situation, she grew more incline in the alliance and peace offering.  She decided to engage in the conversation, bellow is the transcript to send to the Commander.\n\n \'\'Your Commander, is a brave being committed itself to an action that many would consider crazy.\'\'\n\n \'\'Their methods can be questionable at times. Nonetheless, the Commander is the only one I know that can manage to transform ragtag group, into a full military effort force.\'\'\n\n \'\'Then, I am eager to meet him\'\'.\n\n \'\'I sure you will the commander a quite interesting ally.\'\'\n\n \'\'If he had undergone all of this, just for a small chance to recruit me, then I pledge my loyalty to your Commander.\'\'\n\n \'\'Why would you swear loyalty to someone you don’t know so quickly?\'\'\n\n \'\'Mutons used to be honorary warriors, and as such, we are loyal to those who are kind to us. Your people can also take it, as a gift. For giving me one las chance, to atone for my transgressions and mistakes to your people.\'\' \n\n There were many more conversation, Commander, but those were the most important. I know is going to be a challenge for the crew to accept an alien as singular as the Berserker Queen. Nonetheless, I am sure that with time, we may one day coexist with those who has lose as much as we do. \n\n -Anonymous Soldier."
+DescriptionTitle="Report from --classified-- about the Berserker Queen"
+DescriptionEntry="Date : --classified--\n Object : Transcript from --classified-- with the Berserker Queen. Second Report"
