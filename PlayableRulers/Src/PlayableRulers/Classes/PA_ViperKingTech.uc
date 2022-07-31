@@ -26,7 +26,7 @@ static function X2DataTemplate CreatePA_ViperKing_TechTemplate()
 	`CREATE_X2TEMPLATE(class'X2TechTemplate', Template, 'PA_ViperKing_Tech');
 	Template.bProvingGround = true;
 	Template.bRepeatable = false;
-	Template.strImage = "img:///UILibrary_DLC2Images.IC_AutopsyViperKing";
+	Template.strImage = "img:///UILibrary_DLC2Images.LOOT_ViperKing";
 	Template.SortingTier = 1;
 	Template.ResearchCompletedFn = ResearchCompleted;
 	Template.PointsToComplete = class'X2StrategyElement_DefaultTechs'.static.StafferXDays(1, default.ViperKingTech_Days);

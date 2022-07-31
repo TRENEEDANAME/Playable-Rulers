@@ -21,6 +21,12 @@
     <Folder Include="Src\PlayableRulers\Classes\PlayableRulers\Src\" />
     <Folder Include="Src\PlayableRulers\Classes\PlayableRulers\Src\PlayableRulers\" />
     <Folder Include="Src\PlayableRulers\Classes\PlayableRulers\Src\PlayableRulers\Classes\" />
+    <Content Include="Content\PARulers_Tongue_Item.upk">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Content\UILibrary_PlayableAdvent.upk">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="ModPreview.jpg" />
     <Content Include="Config\XComClassData.ini" />
     <Content Include="Config\XComEditor.ini" />

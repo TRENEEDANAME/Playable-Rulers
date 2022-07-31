@@ -26,7 +26,7 @@ static function X2DataTemplate CreatePA_ArchonKing_TechTemplate()
 	`CREATE_X2TEMPLATE(class'X2TechTemplate', Template, 'PA_ArchonKing_Tech');
 	Template.bProvingGround = true;
 	Template.bRepeatable = false;
-	Template.strImage = "img:///UILibrary_DLC2Images.IC_AutopsyArchonKing";
+	Template.strImage = "img:///UILibrary_DLC2Images.LOOT_ArchonKingv";
 	Template.SortingTier = 1;
 	Template.ResearchCompletedFn = ResearchCompleted;
 	Template.PointsToComplete = class'X2StrategyElement_DefaultTechs'.static.StafferXDays(1, default.ArchonKingTech_Days);

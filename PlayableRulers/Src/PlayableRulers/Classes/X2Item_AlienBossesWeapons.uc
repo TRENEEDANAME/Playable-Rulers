@@ -11,6 +11,10 @@ var config WeaponDamageValue ARCHONBOSS_BLAZINGPINIONS_BASEDAMAGE;
 var config WeaponDamageValue ARCHONBOSS_ICARUS_DROP_BASEDAMAGE;
 
 var config int VIPERBOSS_IDEALRANGE;
+var config int PARulers_FrostGlobRange;
+var config int PARulers_FrostGlobRadius;
+var config int PARulers_FrostGlobClipSize;
+var config int PARulers_FrostGlobDamage;
 
 var config int ARCHONBOSS_IDEALRANGE;
 var config int ARCHONBOSS_BLAZINGPINIONS_ENVDAMAGE;
@@ -82,7 +86,7 @@ static function X2DataTemplate CreateTemplate_ViperBoss_Tongue_WPN()
 	Template.ItemCat = 'weapon';
 	Template.WeaponCat = 'PA_ViperKingTongueCat';
 	Template.WeaponTech = 'magnetic';
-	Template.strImage = "img:///UILibrary_Common.AlienWeapons.ViperRifle";
+	Template.strImage = "img:///PARulers_Tongue_Item.ViperTongue";
 	Template.RemoveTemplateAvailablility(Template.BITFIELD_GAMEAREA_Multiplayer); //invalidates multiplayer availability
 
 	Template.Aim = 20;
@@ -96,6 +100,7 @@ static function X2DataTemplate CreateTemplate_ViperBoss_Tongue_WPN()
 
 	Template.InventorySlot = eInvSlot_SecondaryWeapon;
 
+
 	// This all the resources; sounds, animations, models, physics, the works.
 	Template.GameArchetype = "WP_Viper_Strangle_and_Pull.WP_Viper_Strangle_and_Pull";
 	
@@ -103,6 +108,44 @@ static function X2DataTemplate CreateTemplate_ViperBoss_Tongue_WPN()
 
 	Template.CanBeBuilt = false;
 	Template.TradingPostValue = 30;
+	Template.StartingItem = true;
+
+	Template.PairedTemplateName = 'PARulers_FrostbiteGlob';
+	return Template;
+}
+
+static function X2DataTemplate CreatePARulers_FrostbiteGlob()
+{
+	local X2WeaponTemplate Template;
+
+	`CREATE_X2TEMPLATE(class'X2WeaponTemplate', Template, 'PARulers_FrostbiteGlob');
+
+	Template.ItemCat = 'weapon';
+	Template.WeaponCat = 'grenade';
+	Template.strImage = "img:///UILibrary_StrategyImages.InventoryIcons.Inv_Frost_Bomb";
+	Template.EquipSound = "StrategyUI_Grenade_Equip";
+	Template.GameArchetype = "DLC_60_WP_Viper_Frost_Spit.WP_Viper_Frost_Spit";
+	Template.CanBeBuilt = false;	
+
+	Template.iRange = default.PARulers_FrostGlobRange;
+	Template.iRadius = default.PARulers_FrostGlobRadius;
+	Template.iClipSize = default.PARulers_FrostGlobClipSize;
+	Template.InfiniteAmmo = true;
+
+	Template.iSoundRange = 6;
+	Template.bSoundOriginatesFromOwnerLocation = true;
+
+	Template.BaseDamage.DamageType = 'Frost';
+	Template.BaseDamage = default.PARulers_FrostGlobDamage;
+
+	Template.InventorySlot = eInvSlot_Utility;
+	Template.StowedLocation = eSlot_None;
+	Template.Abilities.AddItem('Frostbite');
+
+	// This controls how much arc this projectile may have and how many times it may bounce
+	Template.WeaponPrecomputedPathData.InitialPathTime = 0.5;
+	Template.WeaponPrecomputedPathData.MaxPathTime = 1.0;
+	Template.WeaponPrecomputedPathData.MaxNumberOfBounces = 0;
 
 	return Template;
 }
