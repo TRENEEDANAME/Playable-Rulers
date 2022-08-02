@@ -65,7 +65,6 @@ static function array<X2DataTemplate> CreateTemplates()
 }
 
 
-
 static function X2DataTemplate CreateTemplate_PARulers_BoltCaster_CV()
 {
 	local X2WeaponTemplate Template;
@@ -102,15 +101,15 @@ static function X2DataTemplate CreateTemplate_PARulers_BoltCaster_CV()
 	Template.Abilities.AddItem('HotLoadAmmo');
 
 	// This all the resources; sounds, animations, models, physics, the works.
-	Template.GameArchetype = "DLC_60_ProxyWeapons.WP_ViperKing_BoltCaster";
+	Template.GameArchetype = "DLC_60_WP_BoltCaster_CV.WP_BoltCaster_CV";
 	
-	Template.BonusWeaponEffects.AddItem(BoltCasterStunEffect());
+	Template.BonusWeaponEffects.AddItem(PA_BoltCasterStunEffect());
 
 	Template.iPhysicsImpulse = 5;
 
-	 Template.CreatorTemplateName = "PARulers_BoltCaster_CV";
+	Template.CreatorTemplateName = 'HunterRifle_CV_Schematic';
 
-	Template.StartingItem = false;
+	Template.StartingItem = true;
 	Template.CanBeBuilt = false;
 	Template.bInfiniteItem = false;
 	
@@ -165,10 +164,10 @@ static function X2DataTemplate CreateTemplate_PARulers_BoltCaster_MG()
 
 	Template.iPhysicsImpulse = 5;
 
-	Template.CreatorTemplateName = 'HunterRifle_MG_Schematic';
-	Template.BaseItem = 'AlienHunterRifle_CV';
+	Template.CreatorTemplateName = 'PARulers_BoltCaster_MG_Schematic';
+	Template.BaseItem = 'PARulers_BoltCaster_CV';
 
-	Template.StartingItem = false;
+	Template.StartingItem = true;
 	Template.CanBeBuilt = false;
 	Template.bInfiniteItem = false;
 
@@ -216,14 +215,14 @@ static function X2DataTemplate CreateTemplate_PARulers_BoltCaster_BM()
 
 	Template.GameArchetype = "DLC_60_WP_BoltCaster_BM.WP_BoltCaster_BM";
 	
-	Template.BonusWeaponEffects.AddItem(BoltCasterStunEffect());
+	Template.BonusWeaponEffects.AddItem(PA_BoltCasterStunEffect());
 
 	Template.iPhysicsImpulse = 5;
 
-	Template.CreatorTemplateName = 'HunterRifle_BM_Schematic';
-	Template.BaseItem = 'AlienHunterRifle_MG';
+	Template.CreatorTemplateName = 'PARulers_BoltCaster_BM_Schematic';
+	Template.BaseItem = 'PARulers_BoltCaster_MG';
 
-	Template.StartingItem = false;
+	Template.StartingItem = true;
 	Template.CanBeBuilt = false;
 	Template.bInfiniteItem = false;
 
@@ -234,7 +233,7 @@ static function X2DataTemplate CreateTemplate_PARulers_BoltCaster_BM()
 	return Template;
 }
 
-static function X2Effect_Stunned BoltCasterStunEffect()
+static function X2Effect_Stunned PA_BoltCasterStunEffect()
 {
 	local X2Effect_Stunned StunEffect;
 
@@ -267,27 +266,6 @@ function name PA_BoltCasterStunChance(const out EffectAppliedData ApplyEffectPar
 	}
 	return 'AA_EffectChanceFailed';
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 static function X2DataTemplate CreateTemplate_ViperBoss_Tongue_WPN()
 {
@@ -468,7 +446,7 @@ static function X2DataTemplate CreateTemplate_ArchonBoss_MeleeAttack()
 	Template.iEnvironmentDamage = 10;
 
 	//Build Data
-	Template.StartingItem = false;
+	Template.StartingItem = true;
 	Template.CanBeBuilt = false;
 
 	Template.Abilities.AddItem('StandardMelee_NoEnd');

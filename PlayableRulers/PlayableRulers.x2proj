@@ -11,6 +11,12 @@
   </PropertyGroup>
   <Import Project="$(MSBuildLocalExtensionPath)\XCOM2.targets" />
   <ItemGroup>
+    <Content Include="Config\XcomGameData_SchematicCost.ini">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Src\PlayableRulers\Classes\X2Item_AlienBossesWeapons_Schematics.uc">
+      <SubType>Content</SubType>
+    </Content>
     <Folder Include="Config\" />
     <Folder Include="Content\" />
     <Folder Include="Localization\" />
