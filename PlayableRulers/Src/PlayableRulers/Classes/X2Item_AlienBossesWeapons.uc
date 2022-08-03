@@ -54,7 +54,7 @@ static function array<X2DataTemplate> CreateTemplates()
 	// Alien Rulers
 
 	Weapons.AddItem(CreateTemplate_PARulers_Tongue_WPN());
-	Weapons.AddItem(CreateTemplatesPARulers_FrostbiteGlob());
+	Weapons.AddItem(CreateTemplate_PARulers_FrostbiteGlob());
 
 	Weapons.AddItem(CreateTemplate_PARulers_BoltCaster_CV());
 	Weapons.AddItem(CreateTemplate_PARulers_BoltCaster_MG());
@@ -307,7 +307,7 @@ static function X2DataTemplate CreateTemplate_PARulers_Tongue_WPN()
 	return Template;
 }
 
-static function X2DataTemplate CreateTemplatesPARulers_FrostbiteGlob()
+static function X2DataTemplate CreateTemplate_PARulers_FrostbiteGlob()
 {
 	local X2WeaponTemplate Template;
 
