@@ -53,7 +53,7 @@ static function array<X2DataTemplate> CreateTemplates()
 
 	// Alien Rulers
 
-	Weapons.AddItem(CreateTemplate_ViperBoss_Tongue_WPN());
+	Weapons.AddItem(CreateTemplate_PARulers_Tongue_WPN());
 	Weapons.AddItem(CreatePARulers_FrostbiteGlob());
 
 	Weapons.AddItem(CreateTemplate_PARulers_BoltCaster_CV());
@@ -270,11 +270,11 @@ function name PA_BoltCasterStunChance(const out EffectAppliedData ApplyEffectPar
 	return 'AA_EffectChanceFailed';
 }
 
-static function X2DataTemplate CreateTemplate_ViperBoss_Tongue_WPN()
+static function X2DataTemplate CreateTemplate_PARulers_Tongue_WPN()
 {
 	local X2WeaponTemplate Template;
 
-	`CREATE_X2TEMPLATE(class'X2WeaponTemplate', Template, 'ViperBoss_Tongue_WPN');
+	`CREATE_X2TEMPLATE(class'X2WeaponTemplate', Template, 'PARulers_Tongue_WPN');
 
 	Template.WeaponPanelImage = "_ConventionalRifle";                       // used by the UI. Probably determines iconview of the weapon.
 	Template.ItemCat = 'weapon';
