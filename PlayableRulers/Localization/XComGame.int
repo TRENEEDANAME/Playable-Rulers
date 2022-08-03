@@ -117,25 +117,32 @@ LocLongDescription="From what we learn of all the previous rulers, was that they
 FriendlyName="Vipers King Boltcaster"
 BriefSummary="The Viper's king boltcaster, even more powerful than our own"
 TacticalText="<Bullet/> The Viper's king boltcaster<Bullet/>"
-AbilityDescName="bolt caster"
+AbilityDescName="Conventional Bolt caster"
 
 [PARulers_BoltCaster_MG X2WeaponTemplate]
 FriendlyName="Viper King Magnetic Bolt Caster"
 BriefSummary="By modifying the armature and permanently affixing a series of magnets along its stock, we were able to substantially increase the damage output of the King’s Bolt Caster through electromagnetic propulsion."
 TacticalText="<Bullet/> The addition of a magnetic coil increases the damage of each individual bolt.\n<Bullet/> Each attack has a chance to stun the target, and cannot be dodged.\n<Bullet/> Genetically-empowered aliens are highly susceptible to being stunned.\n<Bullet/> Launches a single, high-damage projectile, but must be reloaded after each use."
-AbilityDescName="magnetic bolt caster"
+AbilityDescName="Magnetic bolt caster"
 
 [PARulers_BoltCaster_BM X2WeaponTemplate]
-FriendlyName="Plasma Bolt Caster"
+FriendlyName="Viper King's Plasma Bolt Caster"
 FriendlyNamePlural="Plasma Bolt Casters"
 BriefSummary="The introduction of a miniturized Elerium power cell allows the King’s Bolt Caster to generate electromagnetically focused bursts of Plasma with each bolt fired."
 TacticalText="<Bullet/> An Elerium-enhanced launcher makes this the deadliest version of the Bolt Caster.\n<Bullet/> Each attack has a chance to stun the target, and cannot be dodged.\n<Bullet/> Genetically-empowered aliens are highly susceptible to being stunned.\n<Bullet/> Launches a single, high-damage projectile, but must be reloaded after each use."
-AbilityDescName="plasma bolt caster"
+AbilityDescName="Plasma bolt caster"
 
 [PARulers_Tongue_WPN X2WeaponTemplate]
 FriendlyName="Viper King's tongue"
 BriefSummary="This muscle is unbelievably strong, it can crush any humanoid creatures given enough time"
 TacticalText="<Bullet/> The Viper King's tongue<Bullet/>"
+AbilityDescName="Viper King's Tongue"
+
+[PARulers_FrostbiteGlob X2WeaponTemplate]
+FriendlyName="Frostbite Glob"
+BriefSummary="A glob of ice that can be used to freeze any humanoid creature in place"
+TacticalText="<Bullet/>The Viper King's internal temperature is so low that he can shoot out a glob of ice that will freeze any target in it's radius<Bullet/>"
+AbilityDescName="Frostbite glob"
 
 ; -----------------------------
 ; ARCHON KING
