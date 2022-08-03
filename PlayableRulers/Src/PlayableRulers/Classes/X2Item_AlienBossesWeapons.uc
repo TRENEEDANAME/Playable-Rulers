@@ -53,6 +53,9 @@ static function array<X2DataTemplate> CreateTemplates()
 
 	// Alien Rulers
 
+	Weapons.AddItem(CreateTemplate_ViperBoss_Tongue_WPN());
+	Weapons.AddItem(CreatePARulers_FrostbiteGlob());
+
 	Weapons.AddItem(CreateTemplate_PARulers_BoltCaster_CV());
 	Weapons.AddItem(CreateTemplate_PARulers_BoltCaster_MG());
 	Weapons.AddItem(CreateTemplate_PARulers_BoltCaster_BM());
