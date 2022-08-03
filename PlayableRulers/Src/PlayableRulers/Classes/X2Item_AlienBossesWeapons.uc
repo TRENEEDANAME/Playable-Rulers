@@ -112,7 +112,7 @@ static function X2DataTemplate CreateTemplate_PARulers_BoltCaster_CV()
 
 	Template.CreatorTemplateName = 'HunterRifle_CV_Schematic';
 
-	Template.StartingItem = true;
+	Template.StartingItem = false;
 	Template.CanBeBuilt = false;
 	Template.bInfiniteItem = false;
 	
@@ -170,7 +170,7 @@ static function X2DataTemplate CreateTemplate_PARulers_BoltCaster_MG()
 	Template.CreatorTemplateName = 'PARulers_BoltCaster_MG_Schematic';
 	Template.BaseItem = 'PARulers_BoltCaster_CV';
 
-	Template.StartingItem = true;
+	Template.StartingItem = false;
 	Template.CanBeBuilt = false;
 	Template.bInfiniteItem = false;
 
@@ -225,7 +225,7 @@ static function X2DataTemplate CreateTemplate_PARulers_BoltCaster_BM()
 	Template.CreatorTemplateName = 'PARulers_BoltCaster_BM_Schematic';
 	Template.BaseItem = 'PARulers_BoltCaster_MG';
 
-	Template.StartingItem = true;
+	Template.StartingItem = false;
 	Template.CanBeBuilt = false;
 	Template.bInfiniteItem = false;
 
