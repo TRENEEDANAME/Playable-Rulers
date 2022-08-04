@@ -1,58 +1,89 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Default" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <Guid>fa1193bc-d0f8-439f-b4ec-b1e2b067a544</Guid>
+    <Guid>cfdd5564-289f-490e-b858-f5148a477546</Guid>
     <Name>PlayableRulers</Name>
     <Description>Description of My XCOM 2 Mod.</Description>
     <SteamPublishID>0</SteamPublishID>
     <AssemblyName>PlayableRulers</AssemblyName>
     <RootNamespace>PlayableRulers</RootNamespace>
-    <ProjectGuid>{edb4dedb-f974-4d6c-aaf6-200881fc14af}</ProjectGuid>
+    <ProjectGuid>{f882e1c2-b997-41ba-ad60-75dc2d091bbe}</ProjectGuid>
   </PropertyGroup>
   <Import Project="$(MSBuildLocalExtensionPath)\XCOM2.targets" />
   <ItemGroup>
-    <Content Include="Config\XcomGameData_SchematicCost.ini">
-      <SubType>Content</SubType>
-    </Content>
-    <Content Include="Src\PlayableRulers\Classes\X2Item_AlienBossesWeapons_Schematics.uc">
-      <SubType>Content</SubType>
-    </Content>
     <Folder Include="Config\" />
-    <Folder Include="Content\" />
     <Folder Include="Localization\" />
+    <Folder Include="Content" />
     <Folder Include="Src\" />
     <Folder Include="Src\PlayableRulers\" />
     <Folder Include="Src\PlayableRulers\Classes\" />
-    <Folder Include="Src\PlayableRulers\Classes\PlayableRulers\" />
-    <Folder Include="Src\PlayableRulers\Classes\PlayableRulers\Src\" />
-    <Folder Include="Src\PlayableRulers\Classes\PlayableRulers\Src\PlayableRulers\" />
-    <Folder Include="Src\PlayableRulers\Classes\PlayableRulers\Src\PlayableRulers\Classes\" />
+    <Folder Include="Content\" />
+    <Content Include="Config\XComClassData.ini">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Config\XComEncyclopedia.ini">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Config\XComGameData.ini">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Config\XComGameData_CharacterStats.ini">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Config\XcomGameData_SchematicCost.ini">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Config\XComGameData_WeaponData.ini">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Config\XComPlayableAdvent.ini">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Config\XComUFOpedia.ini">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="Content\PARulers_Tongue_Item.upk">
       <SubType>Content</SubType>
     </Content>
+    <Content Include="Content\PlayableRulers_ModShaderCache.upk">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Content\WOTCClonedAlienRulers_ModShaderCache.upk">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Localization\WOTC_UFOpedia.int">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="ModPreview.jpg" />
-    <Content Include="Config\XComClassData.ini" />
     <Content Include="Config\XComEditor.ini" />
     <Content Include="Config\XComEngine.ini" />
     <Content Include="Config\XComGame.ini" />
-    <Content Include="Config\XComGameData.ini" />
-    <Content Include="Config\XComGameData_CharacterStats.ini" />
-    <Content Include="Config\XComGameData_WeaponData.ini" />
-    <Content Include="Config\XComPlayableAdvent.ini" />
-    <Content Include="Content\PlayableRulers_ModShaderCache.upk" />
-    <Content Include="Content\WOTCClonedAlienRulers_ModShaderCache.upk" />
     <Content Include="Localization\XComGame.int" />
-    <Content Include="Src\PlayableRulers\Classes\PA_ArchonKingTech.uc" />
-    <Content Include="Src\PlayableRulers\Classes\PA_BerserkerQueenTech.uc" />
-    <Content Include="Src\PlayableRulers\Classes\PA_ViperKingTech.uc" />
-    <Content Include="Src\PlayableRulers\Classes\X2Abilities_PlayableRulers.uc" />
-    <Content Include="Src\PlayableRulers\Classes\X2Character_playableRulers.uc" />
-    <Content Include="Src\PlayableRulers\Classes\X2DownloadableContentInfo_PlayableRulers.uc" />
-    <Content Include="Src\PlayableRulers\Classes\X2Item_AlienBossesWeapons.uc" />
+    <Content Include="Src\PlayableRulers\Classes\PA_ArchonKingTech.uc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Src\PlayableRulers\Classes\PA_BerserkerQueenTech.uc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Src\PlayableRulers\Classes\PA_ViperKingTech.uc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Src\PlayableRulers\Classes\X2Item_PARulersGrenades.uc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Src\PlayableRulers\Classes\X2Abilities_PlayableRulers.uc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Src\PlayableRulers\Classes\X2Character_PlayableRulers.uc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Src\PlayableRulers\Classes\X2DownloadableContentInfo_PlayableRulers.uc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Src\PlayableRulers\Classes\X2Item_AlienBossesWeapons.uc">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="PublishedFileId.ID" />
-    <Content Include="Config\XComEncyclopedia.ini" />
-    <Content Include="Config\XComUFOpedia.ini" />
-    <Content Include="Localization\WOTC_UFOpedia.int" />
     <Content Include="ReadMe.md" />
   </ItemGroup>
 </Project>

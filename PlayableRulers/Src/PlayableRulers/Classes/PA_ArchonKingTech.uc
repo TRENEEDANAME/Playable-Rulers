@@ -12,6 +12,8 @@ static function array<X2DataTemplate> CreateTemplates()
 	local array<X2DataTemplate> Techs;
 
 	Techs.AddItem(CreatePA_ArchonKing_TechTemplate());
+	Techs.AddItem(CreateArchonKingReanimationResearch());
+
 	
 	return Techs;
 }
@@ -58,7 +60,6 @@ function ResearchCompleted(XComGameState NewGameState, XComGameState_Tech TechSt
 	XComHQ.AddToCrew(NewGameState, UnitState);
 	UnitState.SetHQLocation(eSoldierLoc_Barracks);
 	XcomHQ.HandlePowerOrStaffingChange(NewGameState);
-	`log(" return ");
 }
 
 

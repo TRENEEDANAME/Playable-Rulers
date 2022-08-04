@@ -12,11 +12,13 @@ static function array<X2DataTemplate> CreateTemplates()
 	local array<X2DataTemplate> Techs;
 
 	Techs.AddItem(CreatePA_BerserkerQueen_TechTemplate());
-	
+		Techs.AddItem(CreateBerserkerQueenReanimationResearch());
+
 	return Techs;
 }
 
 static function X2DataTemplate CreatePA_BerserkerQueen_TechTemplate()
+
 {
 
 	local X2TechTemplate Template;
@@ -57,7 +59,6 @@ function ResearchCompleted(XComGameState NewGameState, XComGameState_Tech TechSt
 	XComHQ.AddToCrew(NewGameState, UnitState);
 	UnitState.SetHQLocation(eSoldierLoc_Barracks);
 	XcomHQ.HandlePowerOrStaffingChange(NewGameState);
-	`log(" return ");
 }
 
 

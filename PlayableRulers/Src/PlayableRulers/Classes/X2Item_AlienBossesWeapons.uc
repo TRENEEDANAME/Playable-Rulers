@@ -6,11 +6,6 @@ var config WeaponDamageValue ARCHONBOSS_WPN_BASEDAMAGE;
 var config WeaponDamageValue ARCHONBOSS_BLAZINGPINIONS_BASEDAMAGE;
 var config WeaponDamageValue ARCHONBOSS_ICARUS_DROP_BASEDAMAGE;
 
-var config int VIPERBOSS_IDEALRANGE;
-var config int PARulers_FrostGlobRange;
-var config int PARulers_FrostGlobRadius;
-var config int PARulers_FrostGlobClipSize;
-
 var config int ARCHONBOSS_IDEALRANGE;
 var config int ARCHONBOSS_BLAZINGPINIONS_ENVDAMAGE;
 
@@ -54,7 +49,6 @@ static function array<X2DataTemplate> CreateTemplates()
 	// Alien Rulers
 
 	Weapons.AddItem(CreateTemplate_PARulers_Tongue_WPN());
-	Weapons.AddItem(CreateTemplate_PARulers_FrostbiteGlob());
 
 	Weapons.AddItem(CreateTemplate_PARulers_BoltCaster_CV());
 	Weapons.AddItem(CreateTemplate_PARulers_BoltCaster_MG());
@@ -110,14 +104,15 @@ static function X2DataTemplate CreateTemplate_PARulers_BoltCaster_CV()
 
 	Template.iPhysicsImpulse = 5;
 
-	Template.CreatorTemplateName = 'HunterRifle_CV_Schematic';
-
-	Template.StartingItem = false;
-	Template.CanBeBuilt = false;
+	Template.StartingItem = true;
+	Template.CanBeBuilt = true;
 	Template.bInfiniteItem = false;
 	
 	Template.fKnockbackDamageAmount = 5.0f;
 	Template.fKnockbackDamageRadius = 0.0f;
+
+	Template.RequiredItems.AddItem('HunterRifle_CV_Schematic');
+    Template.RequiredEquipment.AddItem('AlienHunterRifle_CV');
 
 	Template.DamageTypeTemplateName = 'Projectile_Conventional';
 
@@ -167,11 +162,11 @@ static function X2DataTemplate CreateTemplate_PARulers_BoltCaster_MG()
 
 	Template.iPhysicsImpulse = 5;
 
-	Template.CreatorTemplateName = 'PARulers_BoltCaster_MG_Schematic';
+	Template.CreatorTemplateName = 'HunterRifle_MG_Schematic';
 	Template.BaseItem = 'PARulers_BoltCaster_CV';
 
 	Template.StartingItem = false;
-	Template.CanBeBuilt = false;
+	Template.CanBeBuilt = true;
 	Template.bInfiniteItem = false;
 
 	Template.DamageTypeTemplateName = 'Projectile_MagXCom';
@@ -222,11 +217,11 @@ static function X2DataTemplate CreateTemplate_PARulers_BoltCaster_BM()
 
 	Template.iPhysicsImpulse = 5;
 
-	Template.CreatorTemplateName = 'PARulers_BoltCaster_BM_Schematic';
+	Template.CreatorTemplateName = 'HunterRifle_BM_Schematic';
 	Template.BaseItem = 'PARulers_BoltCaster_MG';
 
 	Template.StartingItem = false;
-	Template.CanBeBuilt = false;
+	Template.CanBeBuilt = true;
 	Template.bInfiniteItem = false;
 
 	Template.DamageTypeTemplateName = 'Projectile_BeamXCom';
@@ -303,42 +298,6 @@ static function X2DataTemplate CreateTemplate_PARulers_Tongue_WPN()
 	Template.CanBeBuilt = false;
 	Template.TradingPostValue = 30;
 	Template.StartingItem = true;
-
-	return Template;
-}
-
-static function X2DataTemplate CreateTemplate_PARulers_FrostbiteGlob()
-{
-	local X2WeaponTemplate Template;
-
-	`CREATE_X2TEMPLATE(class'X2WeaponTemplate', Template, 'PARulers_FrostbiteGlob');
-
-	Template.ItemCat = 'weapon';
-	Template.WeaponCat = 'grenade';
-	Template.strImage = "img:///UILibrary_StrategyImages.InventoryIcons.Inv_Frost_Bomb";
-	Template.EquipSound = "StrategyUI_Grenade_Equip";
-	Template.GameArchetype = "DLC_60_WP_Viper_Frost_Spit.WP_Viper_Frost_Spit";
-	Template.CanBeBuilt = false;	
-
-	Template.iRange = default.PARulers_FrostGlobRange;
-	Template.iRadius = default.PARulers_FrostGlobRadius;
-	Template.iClipSize = default.PARulers_FrostGlobClipSize;
-	Template.InfiniteAmmo = true;
-
-	Template.iSoundRange = 6;
-	Template.bSoundOriginatesFromOwnerLocation = true;
-
-	Template.BaseDamage.DamageType = 'Frost';
-
-
-	Template.InventorySlot = eInvSlot_Utility;
-	Template.StowedLocation = eSlot_None;
-	Template.Abilities.AddItem('Frostbite');
-
-	// This controls how much arc this projectile may have and how many times it may bounce
-	Template.WeaponPrecomputedPathData.InitialPathTime = 0.5;
-	Template.WeaponPrecomputedPathData.MaxPathTime = 1.0;
-	Template.WeaponPrecomputedPathData.MaxNumberOfBounces = 0;
 
 	return Template;
 }

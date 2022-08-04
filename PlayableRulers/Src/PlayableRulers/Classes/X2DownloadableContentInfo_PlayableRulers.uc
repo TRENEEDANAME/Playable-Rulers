@@ -174,12 +174,16 @@ static function AddTechGameStates()
     History = `XCOMHISTORY;    
 
     //Create a pending game state change
-    NewGameState = class'XComGameStateContext_ChangeContainer'.static.CreateChangeState("Adding New Techs");
+    NewGameState = class'XComGameStateContext_ChangeContainer'.static.CreateChangeState("Adding Playable Aliens Techs");
 
     //Find tech templates
-    CheckForTech(StratMgr, NewGameState, 'PA_ArchonKing_Tech');
-    CheckForTech(StratMgr, NewGameState, 'PA_BerserkerQueen_Tech');
     CheckForTech(StratMgr, NewGameState, 'PA_ViperKing_Tech');
+    CheckForTech(StratMgr, NewGameState, 'PA_BerserkerQueen_Tech');
+    CheckForTech(StratMgr, NewGameState, 'PA_ArchonKing_Tech');
+
+	CheckForTech(StratMgr, NewGameState, 'ViperKingReanimationResearch');
+	CheckForTech(StratMgr, NewGameState, 'BerserkerQueenReanimationResearch');
+	CheckForTech(StratMgr, NewGameState, 'ArchonKingReanimationResearch');
     
     if( NewGameState.GetNumGameStateObjects() > 0 )
     {
@@ -219,4 +223,107 @@ static function bool IsResearchInHistory(name ResearchName)
         }
     }
     return false;
+}
+
+static function bool CanAddItemToInventory_CH_Improved(
+    out int bCanAddItem,                   // out value for XComGameState_Unit
+    const EInventorySlot Slot,             // Inventory Slot you're trying to equip the Item into
+    const X2ItemTemplate ItemTemplate,     // Item Template of the Item you're trying to equip
+    int Quantity, 
+    XComGameState_Unit UnitState,          // Unit State of the Unit you're trying to equip the Item on
+    optional XComGameState CheckGameState, 
+    optional out string DisabledReason,    // out value for the UIArmory_Loadout
+    optional XComGameState_Item ItemState) // Item State of the Item we're trying to equip
+{
+    local X2ArmorTemplate               ArmorTemplate;
+    local XGParamTag                    LocTag;
+    local name                          ClassName;
+    local X2SoldierClassTemplateManager          Manager;
+ 
+    local bool OverrideNormalBehavior;
+    local bool DoNotOverrideNormalBehavior;
+ 
+    // Prepare return values to make it easier for us to read the code.
+    OverrideNormalBehavior = CheckGameState != none;
+    DoNotOverrideNormalBehavior = CheckGameState == none;
+ 
+    // If there already is a Disabled Reason, it means another mod has already disallowed equipping this item.
+    // In this case, we do not interfere with that mod's functions for better compatibility.
+    if(DisabledReason != "")
+        return DoNotOverrideNormalBehavior; 
+ 
+    // Try to cast the Item Template to Armor Template. This will let us check whether the player is trying to equip armor or something else.
+    ArmorTemplate = X2ArmorTemplate(ItemTemplate);
+ 
+    //  The function will proceed past this point only if the player is trying to equip armor.
+    if(ArmorTemplate != none)
+    {
+        //  Grab the soldier class template manager. We will use it later.
+        Manager = class'X2SoldierClassTemplateManager'.static.GetSoldierClassTemplateManager();
+ 
+        //  Check if this soldier's class is allowed to equip this armor.
+        //  If this soldier class cannot equip this armor anyway (like Spark Armor), then we do not interfere with the game.
+        if (!Manager.FindSoldierClassTemplate(UnitState.GetSoldierClassTemplateName()).IsArmorAllowedByClass(ArmorTemplate))
+            return DoNotOverrideNormalBehavior;     
+ 
+        //  If we got this far, it means the player is trying to equip armor on a soldier, and that soldier's class is normally allowed to equip it.
+        //  Let's take a look at the armor's category.
+        switch (ArmorTemplate.ArmorCat)
+        {
+            //  If this is Spartan Mjolnir armor
+            case 'MJOLNIR':
+                //  And the soldier has the required perk to unlock this armor (Spartan Training Program), then we simply don't interfere with the game.
+                //  remember, this armor is already allowed for this soldier class, so we don't need to do anything else.
+                if (UnitState.HasSoldierAbility('SpartanIIProgram')) return DoNotOverrideNormalBehavior;
+                else ClassName = 'SPARTAN-II_SS'; // if the soldier is normally allowed to use this armor, but doesn't have the necessary perk
+                //  then we write down the name of the Super Soldier class that SHOULD be able to equip this armor
+                //  this is basically the best way we can communicate to the player that their soldier is missing the required abiltiy - Spartan Training.
+                break;
+            case 'NANOSUIT':    //  go through the same logic for other Super Soldier armor classes.
+                if (UnitState.HasSoldierAbility('NanosuitRaptorTraining')) return DoNotOverrideNormalBehavior;
+                else ClassName = 'Nanosuit_SS';
+                break;
+            case 'GHOSTSUIT':
+                if (UnitState.HasSoldierAbility('GhostProgram')) return DoNotOverrideNormalBehavior;
+                else ClassName = 'Ghost_SS';
+                break;
+            case 'NINJASUIT':
+                if (UnitState.HasSoldierAbility('NinjaTheWayOfTheNinja')) return DoNotOverrideNormalBehavior;
+                else ClassName = 'Ninja_SS';
+                break; 
+            case 'CYBORG':
+                if (UnitState.HasSoldierAbility('CyborgCyberneticConversion')) return DoNotOverrideNormalBehavior;
+                else ClassName = 'Cyborg_SS';
+                break;
+            default:
+                // if we got this far, it means the soldier is trying to equip an armor that doesn't belong to one of the Super Soldier classes, 
+                // so we don't need to do anything.
+                return DoNotOverrideNormalBehavior;
+                break;
+        }
+ 
+        //  if we got this far, it means the soldier is trying to equip one of the Super Soldier armors, 
+        //  but the soldier doesn't have the required ability.
+        //  so we build a message that will be shown in the Armory UI. This message will be displayed in big red letters, 
+        //  letting the player know that this armor is available
+        //  only to a particular super soldier class.
+ 
+        LocTag = XGParamTag(`XEXPANDCONTEXT.FindTag("XGParam"));
+ 
+        //  use the Soldier Class Template Manager to find the Template for this soldier's class, and get its localized name (e.g. "Ninja")
+        LocTag.StrValue0 = Manager.FindSoldierClassTemplate(ClassName).DisplayName;
+ 
+        //  build the message letting the player know only that Super Soldier class is able to equip this armor (e.g. "NINJA ONLY")
+        //  set that message to the out value for UI Armory
+        DisabledReason = class'UIUtilities_Text'.static.CapsCheckForGermanScharfesS(`XEXPAND.ExpandString(class'UIArmory_Loadout'.default.m_strNeedsSoldierClass));
+ 
+        //  set the out value for XComGameState_Unit, letting the game know that this armor CANNOT be equipped on this soldier
+        bCanAddItem = 0;
+ 
+        //  return the override value. This will force the game to actually use our out values we have just set.
+        return OverrideNormalBehavior;
+ 
+    }
+ 
+    return DoNotOverrideNormalBehavior; //the item is not Armor, so we don't interfere with the game.
 }
