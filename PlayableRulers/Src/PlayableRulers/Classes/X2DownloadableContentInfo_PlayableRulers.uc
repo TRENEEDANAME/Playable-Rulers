@@ -327,3 +327,29 @@ static function bool CanAddItemToInventory_CH_Improved(
  
     return DoNotOverrideNormalBehavior; //the item is not Armor, so we don't interfere with the game.
 }
+
+static function bool AbilityTagExpandHandler(string InString, out string OutString)
+{
+    local name TagText;
+
+    TagText = name(InString);
+
+    switch (TagText)
+    {
+    case 'PARulers_BC_MG_ClipSize_Tag':
+        OutString = string(class'X2Item_AlienBossesWeapons'.default.PARulers_BC_MG_ClipSize);
+        return true;
+
+    case 'PARulers_BC_BM_ClipSize_Tag':
+        OutString = string(class'X2Item_AlienBossesWeapons'.default.PARulers_BC_BM_ClipSize);
+        return true;
+
+    case 'StillAnotherTag':
+        OutString = string(default.StillAnotherAbilityBonus);
+        return true;
+    }
+
+    default:
+            return false;
+    }  
+}
