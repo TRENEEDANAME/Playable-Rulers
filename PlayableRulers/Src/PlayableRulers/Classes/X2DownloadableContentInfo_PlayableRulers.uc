@@ -344,11 +344,6 @@ static function bool AbilityTagExpandHandler(string InString, out string OutStri
         OutString = string(class'X2Item_AlienBossesWeapons'.default.PARulers_BC_BM_ClipSize);
         return true;
 
-    case 'StillAnotherTag':
-        OutString = string(default.StillAnotherAbilityBonus);
-        return true;
-    }
-
     default:
             return false;
     }  
