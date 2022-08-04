@@ -111,9 +111,6 @@ static function X2DataTemplate CreateTemplate_PARulers_BoltCaster_CV()
 	Template.fKnockbackDamageAmount = 5.0f;
 	Template.fKnockbackDamageRadius = 0.0f;
 
-	Template.RequiredItems.AddItem('HunterRifle_CV_Schematic');
-    Template.RequiredEquipment.AddItem('AlienHunterRifle_CV');
-
 	Template.DamageTypeTemplateName = 'Projectile_Conventional';
 
 	Template.SetUIStatMarkup(class'XLocalizedData'.default.StunChanceLabel, , default.PARulers_BC_StunChance, , , "%");
