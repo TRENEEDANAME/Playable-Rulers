@@ -348,3 +348,78 @@ static function bool AbilityTagExpandHandler(string InString, out string OutStri
             return false;
     }  
 }
+
+static function bool CanAddItemToInventory_CH(out int bCanAddItem, const EInventorySlot Slot, const X2ItemTemplate ItemTemplate, int Quantity, XComGameState_Unit UnitState, optional XComGameState CheckGameState, optional out string DisabledReason)
+{
+	local name CurrentClass;
+	local bool IsRightClass;
+	local XGParamTag LocTag;
+	local X2PairedWeaponTemplate WeaponTemplate;
+	local int i;
+	local XComGameState_Item kItem;
+	local X2ItemTemplate UniqueItemTemplate;
+
+	WeaponTemplate = X2PairedWeaponTemplate(ItemTemplate);
+	AlreadyHasLauncher = false;
+	IsRightClass = false;
+
+	if(CheckGameState != none)
+		return CanAddItemToInventory(bCanAddItem, Slot, ItemTemplate, Quantity, UnitState, CheckGameState);
+
+
+	if(CheckGameState == none && WeaponTemplate != none && WeaponTemplate.WeaponCat == 'shoulder_launcher') //only do this check for our shoulder launchers
+	{
+		if(DisabledReason != "") //if this is already set, assume we shouldn't be changing this.
+			return true;
+
+		foreach default.AllowedCharacters(CurrentClass)
+		{
+			if(UnitState.GetMyTemplateName() == CurrentClass)
+			{
+				IsRightClass = true;
+				break;
+			}
+		}
+
+		if(IsRightClass)
+		{
+			for (i = 0; i < UnitState.InventoryItems.Length; ++i)
+			{
+				kItem = UnitState.GetItemGameState(UnitState.InventoryItems[i], CheckGameState);
+				if (kItem != none)
+				{
+					UniqueItemTemplate = kItem.GetMyTemplate();
+
+					if(UniqueItemTemplate.ItemCat == 'shoulder_launcher')
+					{
+						AlreadyHasLauncher = true;
+						break;
+					}
+				}
+			}
+			if(!AlreadyHasLauncher)
+			{
+				return true;
+			}
+		}
+		else if (!IsRightClass)//invalid class, so give Unavailable to Class reason
+		{
+			LocTag = XGParamTag(`XEXPANDCONTEXT.FindTag("XGParam"));
+			LocTag.StrValue0 = class'X2SoldierClassTemplateManager'.static.GetSoldierClassTemplateManager().FindSoldierClassTemplate('Spark').DisplayName;
+			DisabledReason = class'UIUtilities_Text'.static.CapsCheckForGermanScharfesS(`XEXPAND.ExpandString(class'UIArmory_Loadout'.default.m_strNeedsSoldierClass));
+
+			return false; //if we get this far, we gave a disabled reason for being an invalid class.
+		}
+		else if(AlreadyHasLauncher) // no duplicates
+		{
+			LocTag = XGParamTag(`XEXPANDCONTEXT.FindTag("XGParam"));
+			LocTag.StrValue0 = "SHOULDER LAUNCHER";
+			DisabledReason = class'UIUtilities_Text'.static.CapsCheckForGermanScharfesS(`XEXPAND.ExpandString(class'UIArmory_Loadout'.default.m_strCategoryRestricted));
+
+			return false; //if we get this far, we gave a disabled reason for being an invalid class.
+		}
+	}
+
+	return true; ///was not a spark launcher or otherwise we had no reason to change it
+
+}

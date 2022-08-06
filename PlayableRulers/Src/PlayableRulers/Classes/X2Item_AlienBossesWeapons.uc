@@ -105,7 +105,7 @@ static function X2DataTemplate CreateTemplate_PARulers_BoltCaster_CV()
 	Template.iPhysicsImpulse = 5;
 
 	Template.StartingItem = true;
-	Template.CanBeBuilt = true;
+	Template.CanBeBuilt = false;
 	Template.bInfiniteItem = false;
 	
 	Template.fKnockbackDamageAmount = 5.0f;

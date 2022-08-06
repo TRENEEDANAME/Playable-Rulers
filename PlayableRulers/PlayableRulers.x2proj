@@ -68,6 +68,9 @@
     <Content Include="Src\PlayableRulers\Classes\PA_ViperKingTech.uc">
       <SubType>Content</SubType>
     </Content>
+    <Content Include="Src\PlayableRulers\Classes\X2Item_AlienBossWeaponsSchematics.uc">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="Src\PlayableRulers\Classes\X2Item_PARulersGrenades.uc">
       <SubType>Content</SubType>
     </Content>
