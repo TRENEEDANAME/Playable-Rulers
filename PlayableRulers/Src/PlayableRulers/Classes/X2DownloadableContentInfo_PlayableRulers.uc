@@ -219,6 +219,7 @@ static function bool CanAddItemToInventory(out int bCanAddItem, const EInventory
 	local X2GrenadeTemplate WeaponTemplate;
 	local X2ItemTemplate UniqueItemTemplate;
 	local name CurrentClass;
+	local int i;
 
 	//ENSURE INPUT WEAPON IS A GRENADE
 	WeaponTemplate = X2GrenadeTemplate(ItemTemplate);
