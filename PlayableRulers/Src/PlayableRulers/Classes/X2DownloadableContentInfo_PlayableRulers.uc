@@ -1,177 +1,65 @@
+// ===============================================================================================================
+//	X2DownloadableContentInfo_PlayableRulers BY TRNEEDANAME AND RUSTYDIOS
+//
+//	CREATED ON 09/08/22	21:00	LAST UPDATED 09/08/22	21:45
+//
+//	DLC2INFO FOR PLAYABLE RULERS WORKSHOP VERSION
+//
+// ===============================================================================================================
+
 class X2DownloadableContentInfo_PlayableRulers extends X2DownloadableContentInfo config(Game);
 
-var config array<name> IncludedAlienClasses;
-var config array<name> IncludedAlienTemplates;
-var config int NumberOfAlienUtilitySlots;
-//var config name DominationAbility;
+var config array<name> AllowedCharacters, IncludedAlienClasses, IncludedAlienTemplates;
 
-exec function AddViperKingRecruit()
-{
-	local XComGameState_Unit NewSoldierState;
-	local XComOnlineProfileSettings ProfileSettings;
-	local X2CharacterTemplate CharTemplate;
-	local X2CharacterTemplateManager    CharTemplateMgr;
-	local XComGameState NewGameState;
-	local XComGameState_HeadquartersXCom XComHQ;
-	NewGameState = class'XComGameStateContext_ChangeContainer'.static.CreateChangeState("Adding Allies Unknown State Objects");
-
-	XComHQ = XComGameState_HeadquartersXCom(class'XComGameStateHistory'.static.GetGameStateHistory().GetSingleGameStateObjectForClass(class'XComGameState_HeadquartersXCom'));
-
-
-		//assert(NewGameState != none);
-		ProfileSettings = `XPROFILESETTINGS;
-
-		CharTemplateMgr = class'X2CharacterTemplateManager'.static.GetCharacterTemplateManager();
-		//Tuple = TupleMgr.GetRandomTuple();
-
-		CharTemplate = CharTemplateMgr.FindCharacterTemplate('PA_ViperKing');
-		if(CharTemplate == none)
-		{
-			return; //if we don't get any valid templates, that means the user has yet to install any species mods
-		}
-
-		NewSoldierState = `CHARACTERPOOLMGR.CreateCharacter(NewGameState, ProfileSettings.Data.m_eCharPoolUsage, CharTemplate.DataName);
-		if(!NewSoldierState.HasBackground())
-			NewSoldierState.GenerateBackground();
-		NewSoldierState.GiveRandomPersonality();
-		NewSoldierState.ApplyInventoryLoadout(NewGameState);
-		NewSoldierState.SetHQLocation(eSoldierLoc_Barracks);
-		XComHQ = XComGameState_HeadquartersXCom(NewGameState.ModifyStateObject(class'XComGameState_HeadquartersXCom', XComHQ.ObjectID));
-		XComHQ.AddToCrew(NewGameState, NewSoldierState);
-
-	if(NewGameState.GetNumGameStateObjects() > 0)
-	{
-		`XCOMGAME.GameRuleset.SubmitGameState(NewGameState);
-	}
-	else
-	{
-		`XCOMHistory.CleanupPendingGameState(NewGameState);
-	}
-}
-
-exec function AddBerserkerQueenRecruit()
-{
-	local XComGameState_Unit NewSoldierState;
-	local XComOnlineProfileSettings ProfileSettings;
-	local X2CharacterTemplate CharTemplate;
-	local X2CharacterTemplateManager    CharTemplateMgr;
-	local XComGameState NewGameState;
-	local XComGameState_HeadquartersXCom XComHQ;
-	NewGameState = class'XComGameStateContext_ChangeContainer'.static.CreateChangeState("Adding Allies Unknown State Objects");
-
-	XComHQ = XComGameState_HeadquartersXCom(class'XComGameStateHistory'.static.GetGameStateHistory().GetSingleGameStateObjectForClass(class'XComGameState_HeadquartersXCom'));
-
-
-		//assert(NewGameState != none);
-		ProfileSettings = `XPROFILESETTINGS;
-
-		CharTemplateMgr = class'X2CharacterTemplateManager'.static.GetCharacterTemplateManager();
-		//Tuple = TupleMgr.GetRandomTuple();
-
-		CharTemplate = CharTemplateMgr.FindCharacterTemplate('PA_BerserkerQueen');
-		if(CharTemplate == none)
-		{
-			return; //if we don't get any valid templates, that means the user has yet to install any species mods
-		}
-
-		NewSoldierState = `CHARACTERPOOLMGR.CreateCharacter(NewGameState, ProfileSettings.Data.m_eCharPoolUsage, CharTemplate.DataName);
-		if(!NewSoldierState.HasBackground())
-			NewSoldierState.GenerateBackground();
-		NewSoldierState.GiveRandomPersonality();
-		NewSoldierState.ApplyInventoryLoadout(NewGameState);
-		NewSoldierState.SetHQLocation(eSoldierLoc_Barracks);
-		XComHQ = XComGameState_HeadquartersXCom(NewGameState.ModifyStateObject(class'XComGameState_HeadquartersXCom', XComHQ.ObjectID));
-		XComHQ.AddToCrew(NewGameState, NewSoldierState);
-
-	if(NewGameState.GetNumGameStateObjects() > 0)
-	{
-		`XCOMGAME.GameRuleset.SubmitGameState(NewGameState);
-	}
-	else
-	{
-		`XCOMHistory.CleanupPendingGameState(NewGameState);
-	}
-}
-
-exec function AddArchonKingRecruit()
-{
-	local XComGameState_Unit NewSoldierState;
-	local XComOnlineProfileSettings ProfileSettings;
-	local X2CharacterTemplate CharTemplate;
-	local X2CharacterTemplateManager    CharTemplateMgr;
-	local XComGameState NewGameState;
-	local XComGameState_HeadquartersXCom XComHQ;
-	NewGameState = class'XComGameStateContext_ChangeContainer'.static.CreateChangeState("Adding Allies Unknown State Objects");
-
-	XComHQ = XComGameState_HeadquartersXCom(class'XComGameStateHistory'.static.GetGameStateHistory().GetSingleGameStateObjectForClass(class'XComGameState_HeadquartersXCom'));
-
-
-		//assert(NewGameState != none);
-		ProfileSettings = `XPROFILESETTINGS;
-
-		CharTemplateMgr = class'X2CharacterTemplateManager'.static.GetCharacterTemplateManager();
-		//Tuple = TupleMgr.GetRandomTuple();
-
-		CharTemplate = CharTemplateMgr.FindCharacterTemplate('PA_ArchonKing');
-		if(CharTemplate == none)
-		{
-			return; //if we don't get any valid templates, that means the user has yet to install any species mods
-		}
-
-		NewSoldierState = `CHARACTERPOOLMGR.CreateCharacter(NewGameState, ProfileSettings.Data.m_eCharPoolUsage, CharTemplate.DataName);
-		if(!NewSoldierState.HasBackground())
-			NewSoldierState.GenerateBackground();
-		NewSoldierState.GiveRandomPersonality();
-		NewSoldierState.ApplyInventoryLoadout(NewGameState);
-		NewSoldierState.SetHQLocation(eSoldierLoc_Barracks);
-		XComHQ = XComGameState_HeadquartersXCom(NewGameState.ModifyStateObject(class'XComGameState_HeadquartersXCom', XComHQ.ObjectID));
-		XComHQ.AddToCrew(NewGameState, NewSoldierState);
-
-	if(NewGameState.GetNumGameStateObjects() > 0)
-	{
-		`XCOMGAME.GameRuleset.SubmitGameState(NewGameState);
-	}
-	else
-	{
-		`XCOMHistory.CleanupPendingGameState(NewGameState);
-	}
-}
-
-static event OnPostTemplatesCreated()
-{
-  local X2AbilityTemplateManager                AllAbilities;        //holder for all abilities
-
-  PatchImages_Ability(AllAbilities.FindAbilityTemplate('AlienRulerCallForEscape'), "UILibrary_PerkIcons.UIPerk_psi_rift");
-  PatchImages_Ability(AllAbilities.FindAbilityTemplate('Faithbreaker'), "UILibrary_DLC2Images.PerkIcons.UIPerk_beserker_faithbreaker");
-  PatchImages_Ability(AllAbilities.FindAbilityTemplate('Quake'), "UILibrary_DLC2Images.PerkIcons.UIPerk_beserker_quake");
-}
-
-static function PatchImages_Ability(X2AbilityTemplate Template, string ImagePath)
-{
-  if (Template != none)
-  {
-    Template.IconImage = "img:///" $ImagePath;
-  }
-}
+// ===============================================================================================================
+//	THINGS TO DO ON LOAD OF A GAMESAVE
+// ===============================================================================================================
 
 static event OnLoadedSavedGame()
 {
     AddTechGameStates();
 }
+
 static event OnLoadedSavedGameToStrategy()
 {
     AddTechGameStates();
 }
 
+// ===============================================================================================================
+//	OPTC CODE -- USED HERE TO SWAP SOME IMAGES FROM DEFAULT
+// ===============================================================================================================
+
+static event OnPostTemplatesCreated()
+{
+  local X2AbilityTemplateManager AllAbilities;
+
+	AllAbilities = class'X2AbilityTemplateManager'.static.GetAbilityTemplateManager();
+
+	PatchImages_Ability(AllAbilities.FindAbilityTemplate('AlienRulerCallForEscape'), "UILibrary_PerkIcons.UIPerk_psi_rift");
+	PatchImages_Ability(AllAbilities.FindAbilityTemplate('Faithbreaker'), "UILibrary_DLC2Images.PerkIcons.UIPerk_beserker_faithbreaker");
+	PatchImages_Ability(AllAbilities.FindAbilityTemplate('Quake'), "UILibrary_DLC2Images.PerkIcons.UIPerk_beserker_quake");
+}
+
+static function PatchImages_Ability(X2AbilityTemplate Template, string ImagePath)
+{
+	//if the template perk exists, set it's icon to the image path
+	if (Template != none)
+	{
+		Template.IconImage = "img:///" $ImagePath;
+	}
+}
+
+// ===============================================================================================================
+//	FUNCTION TO ADD TECHS TO AN ONGOING/MID-CAMPAIGN SAVE
+// ===============================================================================================================
+
 static function AddTechGameStates()
 {
-    local XComGameStateHistory History;
     local XComGameState NewGameState;
-    local X2StrategyElementTemplateManager    StratMgr;
+    local X2StrategyElementTemplateManager StratMgr;
 
     //This adds the techs to games that installed the mod in the middle of a campaign.
     StratMgr = class'X2StrategyElementTemplateManager'.static.GetStrategyElementTemplateManager();
-    History = `XCOMHISTORY;    
 
     //Create a pending game state change
     NewGameState = class'XComGameStateContext_ChangeContainer'.static.CreateChangeState("Adding Playable Aliens Techs");
@@ -188,11 +76,11 @@ static function AddTechGameStates()
     if( NewGameState.GetNumGameStateObjects() > 0 )
     {
         //Commit the state change into the history.
-        History.AddGameStateToHistory(NewGameState);
+        `XCOMHISTORY.AddGameStateToHistory(NewGameState);
     }
     else
     {
-        History.CleanupPendingGameState(NewGameState);
+        `XCOMHISTORY.CleanupPendingGameState(NewGameState);
     }
 }
 
@@ -200,6 +88,7 @@ static function CheckForTech(X2StrategyElementTemplateManager StratMgr, XComGame
 {
     local X2TechTemplate TechTemplate;
 
+	//if it's not in history, add it now
     if ( !IsResearchInHistory(ResearchName) )
     {
         TechTemplate = X2TechTemplate(StratMgr.FindStrategyElementTemplate(ResearchName));
@@ -225,108 +114,9 @@ static function bool IsResearchInHistory(name ResearchName)
     return false;
 }
 
-static function bool CanAddItemToInventory_CH_Improved(
-    out int bCanAddItem,                   // out value for XComGameState_Unit
-    const EInventorySlot Slot,             // Inventory Slot you're trying to equip the Item into
-    const X2ItemTemplate ItemTemplate,     // Item Template of the Item you're trying to equip
-    int Quantity, 
-    XComGameState_Unit UnitState,          // Unit State of the Unit you're trying to equip the Item on
-    optional XComGameState CheckGameState, 
-    optional out string DisabledReason,    // out value for the UIArmory_Loadout
-    optional XComGameState_Item ItemState) // Item State of the Item we're trying to equip
-{
-    local X2ArmorTemplate               ArmorTemplate;
-    local XGParamTag                    LocTag;
-    local name                          ClassName;
-    local X2SoldierClassTemplateManager          Manager;
- 
-    local bool OverrideNormalBehavior;
-    local bool DoNotOverrideNormalBehavior;
- 
-    // Prepare return values to make it easier for us to read the code.
-    OverrideNormalBehavior = CheckGameState != none;
-    DoNotOverrideNormalBehavior = CheckGameState == none;
- 
-    // If there already is a Disabled Reason, it means another mod has already disallowed equipping this item.
-    // In this case, we do not interfere with that mod's functions for better compatibility.
-    if(DisabledReason != "")
-        return DoNotOverrideNormalBehavior; 
- 
-    // Try to cast the Item Template to Armor Template. This will let us check whether the player is trying to equip armor or something else.
-    ArmorTemplate = X2ArmorTemplate(ItemTemplate);
- 
-    //  The function will proceed past this point only if the player is trying to equip armor.
-    if(ArmorTemplate != none)
-    {
-        //  Grab the soldier class template manager. We will use it later.
-        Manager = class'X2SoldierClassTemplateManager'.static.GetSoldierClassTemplateManager();
- 
-        //  Check if this soldier's class is allowed to equip this armor.
-        //  If this soldier class cannot equip this armor anyway (like Spark Armor), then we do not interfere with the game.
-        if (!Manager.FindSoldierClassTemplate(UnitState.GetSoldierClassTemplateName()).IsArmorAllowedByClass(ArmorTemplate))
-            return DoNotOverrideNormalBehavior;     
- 
-        //  If we got this far, it means the player is trying to equip armor on a soldier, and that soldier's class is normally allowed to equip it.
-        //  Let's take a look at the armor's category.
-        switch (ArmorTemplate.ArmorCat)
-        {
-            //  If this is Spartan Mjolnir armor
-            case 'MJOLNIR':
-                //  And the soldier has the required perk to unlock this armor (Spartan Training Program), then we simply don't interfere with the game.
-                //  remember, this armor is already allowed for this soldier class, so we don't need to do anything else.
-                if (UnitState.HasSoldierAbility('SpartanIIProgram')) return DoNotOverrideNormalBehavior;
-                else ClassName = 'SPARTAN-II_SS'; // if the soldier is normally allowed to use this armor, but doesn't have the necessary perk
-                //  then we write down the name of the Super Soldier class that SHOULD be able to equip this armor
-                //  this is basically the best way we can communicate to the player that their soldier is missing the required abiltiy - Spartan Training.
-                break;
-            case 'NANOSUIT':    //  go through the same logic for other Super Soldier armor classes.
-                if (UnitState.HasSoldierAbility('NanosuitRaptorTraining')) return DoNotOverrideNormalBehavior;
-                else ClassName = 'Nanosuit_SS';
-                break;
-            case 'GHOSTSUIT':
-                if (UnitState.HasSoldierAbility('GhostProgram')) return DoNotOverrideNormalBehavior;
-                else ClassName = 'Ghost_SS';
-                break;
-            case 'NINJASUIT':
-                if (UnitState.HasSoldierAbility('NinjaTheWayOfTheNinja')) return DoNotOverrideNormalBehavior;
-                else ClassName = 'Ninja_SS';
-                break; 
-            case 'CYBORG':
-                if (UnitState.HasSoldierAbility('CyborgCyberneticConversion')) return DoNotOverrideNormalBehavior;
-                else ClassName = 'Cyborg_SS';
-                break;
-            default:
-                // if we got this far, it means the soldier is trying to equip an armor that doesn't belong to one of the Super Soldier classes, 
-                // so we don't need to do anything.
-                return DoNotOverrideNormalBehavior;
-                break;
-        }
- 
-        //  if we got this far, it means the soldier is trying to equip one of the Super Soldier armors, 
-        //  but the soldier doesn't have the required ability.
-        //  so we build a message that will be shown in the Armory UI. This message will be displayed in big red letters, 
-        //  letting the player know that this armor is available
-        //  only to a particular super soldier class.
- 
-        LocTag = XGParamTag(`XEXPANDCONTEXT.FindTag("XGParam"));
- 
-        //  use the Soldier Class Template Manager to find the Template for this soldier's class, and get its localized name (e.g. "Ninja")
-        LocTag.StrValue0 = Manager.FindSoldierClassTemplate(ClassName).DisplayName;
- 
-        //  build the message letting the player know only that Super Soldier class is able to equip this armor (e.g. "NINJA ONLY")
-        //  set that message to the out value for UI Armory
-        DisabledReason = class'UIUtilities_Text'.static.CapsCheckForGermanScharfesS(`XEXPAND.ExpandString(class'UIArmory_Loadout'.default.m_strNeedsSoldierClass));
- 
-        //  set the out value for XComGameState_Unit, letting the game know that this armor CANNOT be equipped on this soldier
-        bCanAddItem = 0;
- 
-        //  return the override value. This will force the game to actually use our out values we have just set.
-        return OverrideNormalBehavior;
- 
-    }
- 
-    return DoNotOverrideNormalBehavior; //the item is not Armor, so we don't interfere with the game.
-}
+// ===============================================================================================================
+//	TAG HANDLER TO EXPAND LOCALISATION WITH CONFIG VALUES
+// ===============================================================================================================
 
 static function bool AbilityTagExpandHandler(string InString, out string OutString)
 {
@@ -336,90 +126,211 @@ static function bool AbilityTagExpandHandler(string InString, out string OutStri
 
     switch (TagText)
     {
-    case 'PARulers_BC_MG_ClipSize_Tag':
-        OutString = string(class'X2Item_AlienBossesWeapons'.default.PARulers_BC_MG_ClipSize);
-        return true;
+		//		TAG NAME IN LOCALISATION					STRING		FROM THIS CLASS				CONFIG		VALUE					FOUND STRING
+    	case 'PARulers_BC_MG_ClipSize_Tag':		OutString = string(class'X2Item_AlienBossesWeapons'.default.PARulers_BC_MG_ClipSize);	return true;
+    	case 'PARulers_BC_BM_ClipSize_Tag':		OutString = string(class'X2Item_AlienBossesWeapons'.default.PARulers_BC_BM_ClipSize);	return true;
 
-    case 'PARulers_BC_BM_ClipSize_Tag':
-        OutString = string(class'X2Item_AlienBossesWeapons'.default.PARulers_BC_BM_ClipSize);
-        return true;
-
-    default:
-            return false;
+   		default: return false;
     }  
 }
 
+// ===============================================================================================================
+//	INVENTORY HOOKING CODE TO ALLOW ONLY THE LISTED UNIT (ALIEN RULER) TO USE FROST SPIT/GLOB
+// ===============================================================================================================
+
 static function bool CanAddItemToInventory_CH(out int bCanAddItem, const EInventorySlot Slot, const X2ItemTemplate ItemTemplate, int Quantity, XComGameState_Unit UnitState, optional XComGameState CheckGameState, optional out string DisabledReason)
 {
-	local name CurrentClass;
-	local bool IsRightClass;
 	local XGParamTag LocTag;
-	local X2PairedWeaponTemplate WeaponTemplate;
-	local int i;
-	local XComGameState_Item kItem;
+	local X2GrenadeTemplate WeaponTemplate;
 	local X2ItemTemplate UniqueItemTemplate;
+	local XComGameState_Item kItem;
 
-	WeaponTemplate = X2PairedWeaponTemplate(ItemTemplate);
-	AlreadyHasLauncher = false;
-	IsRightClass = false;
+	local name CurrentClass;
+	local int i;
 
-	if(CheckGameState != none)
-		return CanAddItemToInventory(bCanAddItem, Slot, ItemTemplate, Quantity, UnitState, CheckGameState);
+	//ENSURE INPUT WEAPON IS A GRENADE
+	WeaponTemplate = X2GrenadeTemplate(ItemTemplate);
 
-
-	if(CheckGameState == none && WeaponTemplate != none && WeaponTemplate.WeaponCat == 'shoulder_launcher') //only do this check for our shoulder launchers
+	if (WeaponTemplate == none)
 	{
-		if(DisabledReason != "") //if this is already set, assume we shouldn't be changing this.
-			return true;
+		return true; ///was not a grenade or otherwise we had no reason to change it
+	}
 
+	//if this state use basegame function
+	if(CheckGameState != none)
+	{
+		return CanAddItemToInventory(bCanAddItem, Slot, ItemTemplate, Quantity, UnitState, CheckGameState);
+	}
+
+	//if not continue with this function ... check weapon category for our grenade
+	if(CheckGameState == none && WeaponTemplate != none && WeaponTemplate.WeaponCat == 'PARulers_FrostGlobCat')
+	{
+		//set up localisation to take a unique value
+		LocTag = XGParamTag(`XEXPANDCONTEXT.FindTag("XGParam"));
+		
+		//for every character template on our list in the config
 		foreach default.AllowedCharacters(CurrentClass)
 		{
+			//if THIS unit, matches our config entry
 			if(UnitState.GetMyTemplateName() == CurrentClass)
 			{
-				IsRightClass = true;
-				break;
-			}
-		}
-
-		if(IsRightClass)
-		{
-			for (i = 0; i < UnitState.InventoryItems.Length; ++i)
-			{
-				kItem = UnitState.GetItemGameState(UnitState.InventoryItems[i], CheckGameState);
-				if (kItem != none)
+				//check THIS units equipped items
+				for (i = 0; i < UnitState.InventoryItems.Length; ++i)
 				{
-					UniqueItemTemplate = kItem.GetMyTemplate();
-
-					if(UniqueItemTemplate.ItemCat == 'shoulder_launcher')
+					kItem = UnitState.GetItemGameState(UnitState.InventoryItems[i], CheckGameState);
+					if (kItem != none)
 					{
-						AlreadyHasLauncher = true;
-						break;
+						UniqueItemTemplate = kItem.GetMyTemplate();
+
+						//does it have a grenade?
+						if(UniqueItemTemplate.ItemCat == 'grenade')
+						{
+							LocTag.StrValue0 = WeaponTemplate.GetLocalizedCategory();
+							DisabledReason = class'UIUtilities_Text'.static.CapsCheckForGermanScharfesS(`XEXPAND.ExpandString(class'UIArmory_Loadout'.default.m_strCategoryRestricted));
+							bCanAddItem = 0;
+							return false; // we have another grenade equipped
+						}
 					}
 				}
+
+				//ensure slot is 'empty', thanks again Iridar!
+				if (UnitState.GetItemInSlot(Slot, CheckGameState) == none)
+				{
+					bCanAddItem = 1;
+					return true; // right class and no grenades equipped
+				}
 			}
-			if(!AlreadyHasLauncher)
+			else
 			{
-				return true;
+				LocTag.StrValue0 = class'X2SoldierClassTemplateManager'.static.GetSoldierClassTemplateManager().FindSoldierClassTemplate('ViperKingClass').DisplayName;
+				DisabledReason = class'UIUtilities_Text'.static.CapsCheckForGermanScharfesS(`XEXPAND.ExpandString(class'UIArmory_Loadout'.default.m_strNeedsSoldierClass));
+				bCanAddItem = 0;
+				return false; //if we get this far, we give a disabled reason for being an invalid class.
 			}
-		}
-		else if (!IsRightClass)//invalid class, so give Unavailable to Class reason
-		{
-			LocTag = XGParamTag(`XEXPANDCONTEXT.FindTag("XGParam"));
-			LocTag.StrValue0 = class'X2SoldierClassTemplateManager'.static.GetSoldierClassTemplateManager().FindSoldierClassTemplate('Spark').DisplayName;
-			DisabledReason = class'UIUtilities_Text'.static.CapsCheckForGermanScharfesS(`XEXPAND.ExpandString(class'UIArmory_Loadout'.default.m_strNeedsSoldierClass));
-
-			return false; //if we get this far, we gave a disabled reason for being an invalid class.
-		}
-		else if(AlreadyHasLauncher) // no duplicates
-		{
-			LocTag = XGParamTag(`XEXPANDCONTEXT.FindTag("XGParam"));
-			LocTag.StrValue0 = "SHOULDER LAUNCHER";
-			DisabledReason = class'UIUtilities_Text'.static.CapsCheckForGermanScharfesS(`XEXPAND.ExpandString(class'UIArmory_Loadout'.default.m_strCategoryRestricted));
-
-			return false; //if we get this far, we gave a disabled reason for being an invalid class.
 		}
 	}
 
-	return true; ///was not a spark launcher or otherwise we had no reason to change it
+	return true; ///was not our grenade or otherwise we had no reason to change it
+}
 
+static function bool CanAddItemToInventory(out int bCanAddItem, const EInventorySlot Slot, const X2ItemTemplate ItemTemplate, int Quantity, XComGameState_Unit UnitState, XComGameState CheckGameState)
+{
+	local XComGameState_Item kItem;
+	local X2GrenadeTemplate WeaponTemplate;
+	local X2ItemTemplate UniqueItemTemplate;
+	local name CurrentClass;
+
+	//ENSURE INPUT WEAPON IS A GRENADE
+	WeaponTemplate = X2GrenadeTemplate(ItemTemplate);
+
+	if (WeaponTemplate == none)
+	{
+		return true; ///was not a grenade or otherwise we had no reason to change it
+	}
+
+	// ... check weapon category for our grenade
+    if(WeaponTemplate != none && WeaponTemplate.WeaponCat == 'PARulers_FrostGlobCat') //only do this check for our grenade
+    {
+		//for every character template on our list in the config
+		foreach default.AllowedCharacters(CurrentClass)
+		{
+			//check THIS units equipped items
+			if(UnitState.GetMyTemplateName() == CurrentClass)
+			{
+				for (i = 0; i < UnitState.InventoryItems.Length; ++i)
+				{
+					kItem = UnitState.GetItemGameState(UnitState.InventoryItems[i], CheckGameState);
+					if (kItem != none)
+					{
+						UniqueItemTemplate = kItem.GetMyTemplate();
+
+						//does it have a grenade?
+						if(UniqueItemTemplate.ItemCat == 'grenade')
+						{
+							bCanAddItem = 0;
+							return false; // we have another grenade equipped
+						}
+					}
+				}
+
+				//ensure slot is 'empty', thanks again Iridar!
+				if (UnitState.GetItemInSlot(Slot, CheckGameState) == none)
+				{
+					bCanAddItem = 1;
+					return true; //we set this to true so we can equip the grenade
+				}
+			}
+			else
+			{
+				bCanAddItem = 0;
+				return false; //if we get this far, we give a disabled reason for being an invalid class.
+			}
+		}
+    }
+
+	bCanAddItem = 0;
+    return false; // not our grenade
+}
+
+// ===============================================================================================================
+//	NEW CONSOLE COMMAND TO FORCE ADD A PLAYABLE ALIEN/RULER TO XCOM BARRACKS
+//	PA_ViperKing
+//	PA_BerserkerQueen
+//	PA_ArchonKing
+// ===============================================================================================================
+
+exec function AddPlayableAlien_TRNEED(name TemplateName)
+{
+	local XComGameState NewGameState;
+	local XComGameState_HeadquartersXCom XComHQ;
+	local XComGameState_Unit NewSoldierState;
+
+	local X2CharacterTemplateManager	CharTemplateMgr;
+	local X2CharacterTemplate 			CharTemplate;
+
+	local XComOnlineProfileSettings 	ProfileSettings;
+
+	//Create a new gamestate
+	NewGameState = class'XComGameStateContext_ChangeContainer'.static.CreateChangeState("Adding Playable Alien Recruit");
+
+	//get current HQ
+	XComHQ = XComGameState_HeadquartersXCom(class'XComGameStateHistory'.static.GetGameStateHistory().GetSingleGameStateObjectForClass(class'XComGameState_HeadquartersXCom'));
+
+	//find character from input template
+	ProfileSettings = `XPROFILESETTINGS;
+	CharTemplateMgr = class'X2CharacterTemplateManager'.static.GetCharacterTemplateManager();
+	CharTemplate = CharTemplateMgr.FindCharacterTemplate(TemplateName);
+	if(CharTemplate == none)
+	{
+		class'Helpers'.static.OutputMsg("UNKNOWN TEMPLATE NAME[" @TemplateName @"]");
+		return; //if we don't get any valid templates, that means the user has entered the wrong name
+	}
+
+	//create new character from input template
+	NewSoldierState = `CHARACTERPOOLMGR.CreateCharacter(NewGameState, ProfileSettings.Data.m_eCharPoolUsage, CharTemplate.DataName);
+	
+	if(!NewSoldierState.HasBackground())
+	{
+		NewSoldierState.GenerateBackground();
+	}
+
+	NewSoldierState.GiveRandomPersonality();
+	NewSoldierState.ApplyInventoryLoadout(NewGameState);
+	NewSoldierState.SetHQLocation(eSoldierLoc_Barracks);
+	
+	//add new character to xcom hq
+	XComHQ = XComGameState_HeadquartersXCom(NewGameState.ModifyStateObject(class'XComGameState_HeadquartersXCom', XComHQ.ObjectID));
+	XComHQ.AddToCrew(NewGameState, NewSoldierState);
+
+	class'Helpers'.static.OutputMsg("TEMPLATE NAME[" @TemplateName @"] ADDED TO CREW");
+
+	//save new gamestate and new hq
+	if(NewGameState.GetNumGameStateObjects() > 0)
+	{
+		`XCOMGAME.GameRuleset.SubmitGameState(NewGameState);
+	}
+	else
+	{
+		`XCOMHISTORY.CleanupPendingGameState(NewGameState);
+	}
 }

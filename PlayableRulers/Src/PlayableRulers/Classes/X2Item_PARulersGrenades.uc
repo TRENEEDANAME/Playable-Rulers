@@ -27,7 +27,7 @@ static function X2DataTemplate CreatePARulers_FrostbiteGlob()
 
 	`CREATE_X2TEMPLATE(class'X2GrenadeTemplate', Template, 'PARulers_FrostbiteGlob');
 
-	Template.ItemCat = 'PARulers_FrostGlobCat';
+	Template.ItemCat = 'grenade';
 	Template.WeaponCat = 'PARulers_FrostGlobCat';
 	Template.strImage = "img:///UILibrary_StrategyImages.InventoryIcons.Inv_Frost_Bomb";
 	Template.EquipSound = "StrategyUI_Grenade_Equip";

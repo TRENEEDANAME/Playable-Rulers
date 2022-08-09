@@ -31,6 +31,8 @@ static function X2DataTemplate CreateTemplate_PARulers_BoltCaster_CV_Schematic()
 
 	// Requirements
 	Template.Requirements.SpecialRequirementsFn = PA_Rulers_AreConventionalHunterWeaponsAvailable;
+	Template.Requirements.RequiredTechs.AddItem('PA_ViperKing_Tech');
+
 
 	// Cost
 	Resources.ItemTemplateName = 'Supplies';
@@ -60,13 +62,14 @@ static function X2DataTemplate CreateTemplate_PARulers_BoltCaster_MG_Schematic()
 
 	// Narrative Requirements
 	Template.Requirements.RequiredTechs.AddItem('MagnetizedWeapons');
+	Template.Requirements.RequiredTechs.AddItem('PA_ViperKing_Tech');
 	Template.Requirements.RequiredEquipment.AddItem('PARulers_BoltCaster_CV');
 	Template.Requirements.RequiredEngineeringScore = 10;
 	Template.Requirements.bVisibleIfPersonnelGatesNotMet = true;
 	Template.Requirements.SpecialRequirementsFn = PA_Rulers_IsAlienHuntersNarrativeContentComplete;
 	
 	// Non-Narrative Requirements
-	AltReq.RequiredItems.AddItem('PARulers_BoltCaster_MG_Schematic');
+	AltReq.RequiredItems.AddItem('PARulers_BoltCaster_CV');
 	AltReq.RequiredTechs.AddItem('MagnetizedWeapons');
 	AltReq.RequiredEngineeringScore = 10;
 	AltReq.bVisibleIfPersonnelGatesNotMet = true;
@@ -104,6 +107,7 @@ static function X2DataTemplate CreateTemplate_PARulers_BoltCaster_BM_Schematic()
 
 	// Narrative Requirements
 	Template.Requirements.RequiredTechs.AddItem('PlasmaRifle');
+	Template.Requirements.RequiredTechs.AddItem('PA_ViperKing_Tech');
 	Template.Requirements.RequiredEquipment.AddItem('PARulers_BoltCaster_MG');
 	Template.Requirements.RequiredEngineeringScore = 20;
 	Template.Requirements.bVisibleIfPersonnelGatesNotMet = true;
