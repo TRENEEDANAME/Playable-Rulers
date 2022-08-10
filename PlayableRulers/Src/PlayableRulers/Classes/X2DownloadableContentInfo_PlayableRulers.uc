@@ -208,6 +208,7 @@ static function bool CanAddItemToInventory_CH_Improved(out int bCanAddItem, cons
 
 	return DoNotOverrideNormalBehavior; ///was not our grenade or otherwise we had no reason to change it
 }
+
 /*
 static function bool c(out int bCanAddItem, const EInventorySlot Slot, const X2ItemTemplate ItemTemplate, int Quantity, XComGameState_Unit UnitState, XComGameState CheckGameState)
 {
