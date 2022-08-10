@@ -71,6 +71,7 @@ static function X2DataTemplate CreateTemplate_PARulers_BoltCaster_MG_Schematic()
 	// Non-Narrative Requirements
 	AltReq.RequiredItems.AddItem('PARulers_BoltCaster_CV');
 	AltReq.RequiredTechs.AddItem('MagnetizedWeapons');
+	AltReq.RequiredTechs.AddItem('PA_ViperKing_Tech');
 	AltReq.RequiredEngineeringScore = 10;
 	AltReq.bVisibleIfPersonnelGatesNotMet = true;
 	Template.AlternateRequirements.AddItem(AltReq);
@@ -116,6 +117,7 @@ static function X2DataTemplate CreateTemplate_PARulers_BoltCaster_BM_Schematic()
 	// Non-Narrative Requirements
 	AltReq.RequiredEquipment.AddItem('PARulers_BoltCaster_MG');
 	AltReq.RequiredTechs.AddItem('PlasmaRifle');
+	AltReq.RequiredTechs.AddItem('PA_ViperKing_Tech');
 	AltReq.RequiredEngineeringScore = 20;
 	AltReq.bVisibleIfPersonnelGatesNotMet = true;
 	Template.AlternateRequirements.AddItem(AltReq);
