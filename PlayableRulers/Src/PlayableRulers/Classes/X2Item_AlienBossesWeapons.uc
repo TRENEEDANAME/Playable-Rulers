@@ -104,7 +104,7 @@ static function X2DataTemplate CreateTemplate_PARulers_BoltCaster_CV()
 
 	Template.iPhysicsImpulse = 5;
 
-	Template.StartingItem = true;
+	Template.StartingItem = false;
 	Template.CanBeBuilt = false;
 	Template.bInfiniteItem = false;
 	
