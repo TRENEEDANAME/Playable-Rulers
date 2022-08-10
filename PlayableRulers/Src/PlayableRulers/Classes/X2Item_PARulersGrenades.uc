@@ -9,7 +9,6 @@ var config int PARulers_FrostGlobRange;
 var config int PARulers_FrostGlobRadius;
 var config int PARulers_FrostGlobClipSize;
 var config int PARulers_FrostGlob_SoundRange;
-var config int PARulers_FrostGlobMaxBounces;
 
 static function array<X2DataTemplate> CreateTemplates()
 {
@@ -54,7 +53,7 @@ static function X2DataTemplate CreatePARulers_FrostbiteGlob()
 	// This controls how much arc this projectile may have and how many times it may bounce
 	Template.WeaponPrecomputedPathData.InitialPathTime = 0.5; // 0.5
 	Template.WeaponPrecomputedPathData.MaxPathTime = 1.0; // 1.0
-	Template.WeaponPrecomputedPathData.MaxNumberOfBounces = default.PARulers_FrostGlobMaxBounces; // 0
+	Template.WeaponPrecomputedPathData.MaxNumberOfBounces = 0; // 0
 
 	return Template;
 }
