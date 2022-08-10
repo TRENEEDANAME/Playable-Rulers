@@ -120,17 +120,16 @@ TacticalText="<Bullet/> The Viper's king boltcaster<Bullet/>"
 AbilityDescName="Conventional Bolt caster"
 
 [PARulers_BoltCaster_MG X2WeaponTemplate]
-FriendlyName="Viper King Magnetic Bolt Caster"
+FriendlyName="Viper King's Magnetic Bolt Caster"
 BriefSummary="By modifying the armature and permanently affixing a series of magnets along its stock, we was able to substantially increase the damage output of the King's Bolt Caster through electromagnetic propulsion."
 TacticalText="<Bullet/> The addition of a magnetic coil increases the damage of each individual bolt.\n<Bullet/> Each attack has a chance to stun the target, and cannot be dodged.\n<Bullet/> Genetically-empowered aliens are highly susceptible to being stunned.\n<Bullet/> Our engineer were able to increase the number of usable ammunition before having to reload, which make it have <Ability:PARulers_BC_MG_ClipSize_Tag/> ammo."
-AbilityDescName="Magnetic bolt caster"
+AbilityDescName="Magnetic Bolt caster"
 
 [PARulers_BoltCaster_BM X2WeaponTemplate]
 FriendlyName="Viper King's Plasma Bolt Caster"
-FriendlyNamePlural="Plasma Bolt Casters"
 BriefSummary="The introduction of a miniturized Elerium power cell allows the King's Bolt Caster to generate electromagnetically focused bursts of Plasma with each bolt fired."
 TacticalText="<Bullet/> An Elerium-enhanced launcher makes this the deadliest version of the Bolt Caster.\n<Bullet/> Each attack has a chance to stun the target, and cannot be dodged.\n<Bullet/> Genetically-empowered aliens are highly susceptible to being stunned.\n<Bullet/> Our engineer were able to increase the number of usable ammunition before having to reload, which make it have <Ability:PARulers_BC_BM_ClipSize_Tag/> ammo."
-AbilityDescName="Plasma bolt caster"
+AbilityDescName="Plasma Bolt caster"
 
 [PARulers_Tongue_WPN X2WeaponTemplate]
 FriendlyName="Viper King's tongue"
