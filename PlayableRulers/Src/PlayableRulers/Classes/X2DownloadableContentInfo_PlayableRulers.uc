@@ -1,7 +1,7 @@
 // ===============================================================================================================
 //	X2DownloadableContentInfo_PlayableRulers BY TRNEEDANAME AND RUSTYDIOS
 //
-//	CREATED ON 09/08/22	21:00	LAST UPDATED 09/08/22	21:45
+//	CREATED ON 09/08/22	21:00	LAST UPDATED 10/08/22 15:00
 //
 //	DLC2INFO FOR PLAYABLE RULERS WORKSHOP VERSION
 //
@@ -163,7 +163,7 @@ static function bool CanAddItemToInventory_CH(out int bCanAddItem, const EInvent
 	}
 
 	//if not continue with this function ... check weapon category for our grenade
-	if(CheckGameState == none && WeaponTemplate != none && WeaponTemplate.WeaponCat == 'PARulers_FrostbiteGlobCat')
+	if(CheckGameState == none && WeaponTemplate != none && WeaponTemplate.WeaponCat == 'PARulers_FrostGlobCat')
 	{
 		//set up localisation to take a unique value
 		LocTag = XGParamTag(`XEXPANDCONTEXT.FindTag("XGParam"));
@@ -220,14 +220,14 @@ static function bool CanAddItemToInventory(out int bCanAddItem, const EInventory
 	local X2ItemTemplate UniqueItemTemplate;
 	local name CurrentClass;
 	local int i;
-
+	
 	//ENSURE INPUT WEAPON IS A GRENADE
 	WeaponTemplate = X2GrenadeTemplate(ItemTemplate);
 
-	if (WeaponTemplate == none)
-	{
-		return true; ///was not a grenade or otherwise we had no reason to change it
-	}
+	//if (WeaponTemplate == none)
+	//{
+	//	return false; ///was not a grenade or otherwise we had no reason to change it
+	//}
 
 	// ... check weapon category for our grenade
     if(WeaponTemplate != none && WeaponTemplate.WeaponCat == 'PARulers_FrostGlobCat') //only do this check for our grenade
@@ -269,18 +269,15 @@ static function bool CanAddItemToInventory(out int bCanAddItem, const EInventory
 		}
     }
 
-	bCanAddItem = 0;
     return false; // not our grenade
 }
 
 // ===============================================================================================================
 //	NEW CONSOLE COMMAND TO FORCE ADD A PLAYABLE ALIEN/RULER TO XCOM BARRACKS
-//	PA_ViperKing
-//	PA_BerserkerQueen
-//	PA_ArchonKing
+//	PA_ViperKing	PA_BerserkerQueen	PA_ArchonKing
 // ===============================================================================================================
 
-exec function AddPlayableAlien_TRNEED(name TemplateName)
+exec function AddPlayableRuler_TRNEED(name TemplateName)
 {
 	local XComGameState NewGameState;
 	local XComGameState_HeadquartersXCom XComHQ;
@@ -291,7 +288,7 @@ exec function AddPlayableAlien_TRNEED(name TemplateName)
 
 	local XComOnlineProfileSettings 	ProfileSettings;
 
-	//Create a new gamestate
+	//CReate a new gamestate
 	NewGameState = class'XComGameStateContext_ChangeContainer'.static.CreateChangeState("Adding Playable Alien Recruit");
 
 	//get current HQ
