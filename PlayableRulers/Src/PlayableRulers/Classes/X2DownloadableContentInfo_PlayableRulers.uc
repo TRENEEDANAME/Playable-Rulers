@@ -163,7 +163,7 @@ static function bool CanAddItemToInventory_CH(out int bCanAddItem, const EInvent
 	}
 
 	//if not continue with this function ... check weapon category for our grenade
-	if(CheckGameState == none && WeaponTemplate != none && WeaponTemplate.WeaponCat == 'PARulers_FrostGlobCat')
+	if(CheckGameState == none && WeaponTemplate != none && WeaponTemplate.WeaponCat == 'PARulers_FrostbiteGlobCat')
 	{
 		//set up localisation to take a unique value
 		LocTag = XGParamTag(`XEXPANDCONTEXT.FindTag("XGParam"));
