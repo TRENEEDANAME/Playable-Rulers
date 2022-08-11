@@ -115,7 +115,7 @@ static function bool IsResearchInHistory(name ResearchName)
 }
 
 // ===============================================================================================================
-//	TAG HANDLER TO EXPAND LOCALISATION WITH CONFIG VALUES
+//	TAG HANDLER TO EXPAND LOCALISATION WITH CONFIG VALUES (modified by Iridar. Thanks for the help)
 // ===============================================================================================================
 
 static function bool AbilityTagExpandHandler(string InString, out string OutString)
@@ -140,73 +140,33 @@ static function bool AbilityTagExpandHandler(string InString, out string OutStri
 
 static function bool CanAddItemToInventory_CH_Improved(out int bCanAddItem, const EInventorySlot Slot, const X2ItemTemplate ItemTemplate, int Quantity, XComGameState_Unit UnitState,optional XComGameState CheckGameState, optional out string DisabledReason, optional XComGameState_Item ItemState)
 {
-	local XGParamTag LocTag;
-	local X2GrenadeTemplate WeaponTemplate;
-	local X2ItemTemplate UniqueItemTemplate;
-	local XComGameState_Item kItem;
-
-	local bool OverrideNormalBehavior;
+    local XGParamTag LocTag;
+    local bool OverrideNormalBehavior;
     local bool DoNotOverrideNormalBehavior;
 
-	local int i;
-
-   	// Prepare return values to make it easier for us to read the code.
+       // Prepare return values to make it easier for us to read the code.
     OverrideNormalBehavior = CheckGameState != none;
     DoNotOverrideNormalBehavior = CheckGameState == none;   
 
-	//ENSURE INPUT WEAPON IS A GRENADE
-	WeaponTemplate = X2GrenadeTemplate(ItemTemplate);
+    if(ItemTemplate.DataName == 'PARulers_FrostbiteGlob')
+    {
+        // for every character template on our list in the config and THIS unit, matches our config entry
+        if (default.AllowedCharacters.Find(UnitState.GetMyTemplateName()) != INDEX_NONE)
+        {
+            return DoNotOverrideNormalBehavior;
+        }
+        else
+        {
+            //set up localisation to take a unique value
+            LocTag = XGParamTag(`XEXPANDCONTEXT.FindTag("XGParam"));
+            LocTag.StrValue0 = class'X2SoldierClassTemplateManager'.static.GetSoldierClassTemplateManager().FindSoldierClassTemplate('ViperKingClass').DisplayName;
+            DisabledReason = class'UIUtilities_Text'.static.CapsCheckForGermanScharfesS(`XEXPAND.ExpandString(class'UIArmory_Loadout'.default.m_strNeedsSoldierClass));
+            bCanAddItem = 0;
+            return OverrideNormalBehavior; // if we get this far, we give a disabled reason for being an invalid class.
+        }
+    }
 
-	if (WeaponTemplate == none)
-	{
-		return DoNotOverrideNormalBehavior; ///was not a grenade or otherwise we had no reason to change it
-	}
-
-	//if not continue with this function ... check weapon category for our grenade
-	if(WeaponTemplate != none && WeaponTemplate.WeaponCat == 'PARulers_FrostGlobCat')
-	{
-		//set up localisation to take a unique value
-		LocTag = XGParamTag(`XEXPANDCONTEXT.FindTag("XGParam"));
-		
-		//for every character template on our list in the config and THIS unit, matches our config entry
-		if (default.AllowedCharacters.Find(UnitState.GetMyTemplateName()) != INDEX_NONE)
-		{
-			//check THIS units equipped items
-			for (i = 0; i < UnitState.InventoryItems.Length; ++i)
-			{
-				kItem = UnitState.GetItemGameState(UnitState.InventoryItems[i], CheckGameState);
-				if (kItem != none)
-				{
-					UniqueItemTemplate = kItem.GetMyTemplate();
-
-					//does it have a grenade?
-					if(UniqueItemTemplate.ItemCat == 'grenade')
-					{
-						LocTag.StrValue0 = WeaponTemplate.GetLocalizedCategory();
-						DisabledReason = class'UIUtilities_Text'.static.CapsCheckForGermanScharfesS(`XEXPAND.ExpandString(class'UIArmory_Loadout'.default.m_strCategoryRestricted));
-						bCanAddItem = 0;
-						return OverrideNormalBehavior; // we have another grenade equipped
-					}
-				}
-			}
-
-			//ensure slot is 'empty', thanks again Iridar!
-			if (UnitState.GetItemInSlot(Slot, CheckGameState) == none)
-			{
-				bCanAddItem = 1;
-				return OverrideNormalBehavior; // right class and no grenades equipped
-			}
-		}
-		else
-		{
-			LocTag.StrValue0 = class'X2SoldierClassTemplateManager'.static.GetSoldierClassTemplateManager().FindSoldierClassTemplate('ViperKingClass').DisplayName;
-			DisabledReason = class'UIUtilities_Text'.static.CapsCheckForGermanScharfesS(`XEXPAND.ExpandString(class'UIArmory_Loadout'.default.m_strNeedsSoldierClass));
-			bCanAddItem = 0;
-			return OverrideNormalBehavior; //if we get this far, we give a disabled reason for being an invalid class.
-		}
-	}
-
-	return DoNotOverrideNormalBehavior; ///was not our grenade or otherwise we had no reason to change it
+    return DoNotOverrideNormalBehavior; // was not our grenade or otherwise we had no reason to change it
 }
 
 /*
