@@ -1,7 +1,7 @@
 // ===============================================================================================================
 //	X2DownloadableContentInfo_PlayableRulers BY TRNEEDANAME AND RUSTYDIOS
 //
-//	CREATED ON 09/08/22	21:00	LAST UPDATED 10/08/22 17:42
+//	CREATED ON 09/08/22	21:00	LAST UPDATED 11/08/22 10:00
 //
 //	DLC2INFO FOR PLAYABLE RULERS WORKSHOP VERSION
 //
