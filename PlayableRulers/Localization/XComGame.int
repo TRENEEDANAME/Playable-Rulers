@@ -75,9 +75,9 @@ LongDescript="Commander, I had to admit, despite all my doubts about those decis
 ; RESEARCH (LAB)
 ; ********************
 
-; -----------------------------
+; ========================
 ; VIPER KING
-; -----------------------------
+; =======================
 
 [ViperKingReanimationResearch X2TechTemplate]
 DisplayName="<font color='#4d99c1'>Viper King Reanimation</font>"
@@ -85,9 +85,9 @@ Summary="Commander,\n during one of my examination of the Viper King's corpse an
 CodeName="<font color='#4d99c1'>Regius</font>"
 LongDescription="By conducting a series of operation and removing an ADVENT Chip incrusted in the King's brain. I discovered that Vahlen's original plan was to turn these specially gifted subjects, into a force that would rival the Ethereal Dominion.\n\n When the Gamma subject escape from my predecessor's lab, and immediately resume some of its natural instincts, getting himself into the Elder's eyes. Though he seem unable to dominate its mind psionically, ADVENT manage to capture him and introduce some new kind of chip in his brain,. \n Being similar to the one I find in you, this one was specifically crafted to regulate, indoctrinate and influence him to the point that he fully believe on their lies on their own, it is my belief that ''Gamma'' was some kind of test subject and that, in the hypothesis that this chip was successful, could have been use to ''literally'' brainwash the population. \n Shen and I hope that we could ''heal'' the damage and restore him to a point in which he was never corrupted, giving him one last chance to redeem and fight for a right and mutual cause.\n When you give the order, we will start working in his reconstruction. It won't be easy, nor cheap. We will have to contact the Skirmisher and the Templars, so that he can provide psychological, physical and language assistance to ensure that this new possible ally can be fully trusted.\n\n R. Tygan."
 
-; -----------------------------
+; =======================
 ; BERSERKER QUEEN
-; -----------------------------
+; =======================
 
 [BerserkerQueenReanimationResearch X2TechTemplate]
 DisplayName="<font color='#4d99c1'>Berserker Queen Reanimation</font>"
@@ -95,9 +95,9 @@ Summary="When our troops defeated the Berserker Queen, I had serious thoughts of
 CodeName="<font color='#4d99c1'>Behemoth</font>"
 LongDescription="During the scanning procedures, I expected a highly brain activity and simple thoughts due to the various biochemicals changes that this subject endures through its augmentation. But I was surprise when I noticed several odd signals, unusual emotions like peace, fear and... regret.\n After taking off the ADVENT chip, one of the many similar I found in others subjects like the Viper King, a few images of a beautiful earth landscapes and what it seems like ''artisanal'' alien artifacts appear in the results.\n I talk about these with Shen and central, and she agree to continue on more deep tests to specifics parts of the brain. Allowing us to see a constant thought that seems to repeat itself overtime, which was a memory of Dr. Vahlen, apparently talking to her while showing off some alien flora when she was on a more docile stage.\n Then, a spike of activity flooded the hippocampus. Despite our best efforts to get as much as we could, we you just manage to recreate a few parts. And what we saw leave me intrigue.\n During the Viper King assault, The Berserker Queen was liberated. Not by the returning king, but by Dr. Vahlen herself. After that, we saw ice shards and then an ADVENT officer, follow by series of experiments, brutal torture and intrusive surgery. That seem to introduce a new chemical in the supply transport that changed her behavior towards a more aggressive one.\n At the moment, I had to stop the procedure due to errors and high levels of stress that seem to overtake the subject psyche. I even had to reconnect some of hers equipment back to prevent a disequilibrium resulting in the depending hormones and the endocrine system, that her augmented body needed to sustain itself.\n I must admit, that although our equipment is somewhat ''rudimentary'' and still lacks a more profound development, as the memories recreation has not told us anything in particular as of now. We start to see glimpses of what happen and what went wrong. \n The Berserker Queen was apparently capture by the Viper King, then put into ADVENT custody and eventually brought to their side unwillingly. This process has severely damage and probably traumatize her to the point, that there is only rage in her.\n Commander, though the task at hand is one that's far from my control, I still believe that there is a chance that we can brought her back to a stable mental state, without sacrificing the equipment and enchase physical strength of her.\n This won't be easy, nor cheap, as we will require the help of various resistance contacts and the time to develop a new chemical substance. That will prevent the Queen from going berserk, at the same time it maintains hormonal and many biological processes in equilibrium.\n We may not be able to erase the psychological scars endure by this subject this time around, as the damage has got into a deeper state that would be dangerous to try at the moment. Nonetheless, we can try to help heal those using old working methods. That would not only improving her mental state, but ensure a path for us to convince her to join our efforts towards a new dawn.\n\n -R. Tygan.
 
-; -----------------------------
+; =======================
 ; ARCHON KING
-; -----------------------------
+; =======================
 
 [ArchonKingReanimationResearch X2TechTemplate]
 DisplayName="<font color='#4d99c1'>Archon King Reanimation</font>"
@@ -109,9 +109,9 @@ LongDescription="From what we learn of all the previous rulers, was that he was 
 ; WEAPON NAME IN GAME
 ; *****************************
 
-; -----------------------------
+; =======================
 ; VIPER KING
-; -----------------------------
+; =======================
 
 [PARulers_BoltCaster_CV X2WeaponTemplate]
 FriendlyName="Vipers King Boltcaster"
@@ -127,7 +127,7 @@ AbilityDescName="Magnetic Bolt caster"
 
 [PARulers_BoltCaster_BM X2WeaponTemplate]
 FriendlyName="Viper King's Plasma Bolt Caster"
-BriefSummary="The introduction of a miniturized Elerium power cell allows the King's Bolt Caster to generate electromagnetically focused bursts of Plasma with each bolt fired."
+BriefSummary="The introduction of a miniaturized Elerium power cell allows the King's Bolt Caster to generate electromagnetically focused bursts of Plasma with each bolt fired."
 TacticalText="<Bullet/> An Elerium-enhanced launcher makes this the deadliest version of the Bolt Caster.\n<Bullet/> Each attack has a chance to stun the target, and cannot be dodged.\n<Bullet/> Genetically-empowered aliens are highly susceptible to being stunned.\n<Bullet/> Our engineer were able to increase the number of usable ammunition before having to reload, which make it have <Ability:PARulers_BC_BM_ClipSize_Tag/> ammo."
 AbilityDescName="Plasma Bolt caster"
 
@@ -143,9 +143,9 @@ BriefSummary="A glob of ice that can be used to freeze any humanoid creature in 
 TacticalText="<Bullet/>The Viper King's internal temperature is so low that he can shoot out a glob of ice that will freeze any target in it's radius<Bullet/>"
 AbilityDescName="Frostbite glob"
 
-; -----------------------------
+; =======================
 ; ARCHON KING
-; -----------------------------
+; =======================
 
 [ARCHONBOSS_WPN X2WeaponTemplate]
 FriendlyName="Archon Kings Staff"
@@ -173,33 +173,50 @@ ListTitle="PLAYABLE RULERS"
 DescriptionTitle="It's story time !"
 DescriptionEntry="The first page will have a report soldier or Shen / Tygan / Bradford. Maybe an 'interview'. The second page will have a lot more lore."
 
+; =======================
+; Viper King
+; =======================
+
 ; Viper King
 [Playable_Rulers_ViperKing X2EncyclopediaTemplate]
-ListTitle="Viper King"
-DescriptionTitle="Report from --classified-- about the Viper King"
-DescriptionEntry="Date : --classified--\n Object : Transcript from --classified-- with Viper King \n\n After the Viper King has emerged from the dead, I personally decided to take a small 'conversation' to the alien Ruler. Though I distrust this being, he maintained a friendly behavior and did not try to escape, even when we prepared a fake and controlled opportunity to do so, he remained compose and prefered to stay and answer my questions. \n What we know about his true intention are unclear. Nonetheless, he expressed that he wants to see the Elders fall for what he have done to him and his people. He also offered an alliance, a peace offering and the opportunity to assist our soldiers in the field, if we allow him to lead his people in the avenger. \n It's difficult for me and many other to still trust him, but he sounded sincere. Maybe one day, after all this conflict has ended, we might see the start of a new era and future for earth. \n\n -Anonymous Soldier. "
+ListTitle="Viper King -- First Report"
+DescriptionTitle="Report from --classified-- about the Viper King : First Report"
+DescriptionEntry="Date : --classified--\n Object : Transcript from --classified-- with Viper King."
+
+; Viper King N°2
+[Playable_Rulers_ViperKing_2 X2EncyclopediaTemplate]
+ListTitle="Viper King -- Second Report"
+DescriptionTitle="Report from --classified-- about the Viper King : Second Report"
+DescriptionEntry="Date : --classified--\n Object : Transcript from --classified-- with the Viper King."
+
+; =======================
+; Archon King
+; =======================
 
 ; Archon King
 [Playable_Rulers_ArchonKing X2EncyclopediaTemplate]
 ListTitle="Archon King -- First report"
-DescriptionTitle="Report from --classified-- about the Archon King"
-DescriptionEntry="Date : --classified--\n Object : Transcript from --classified-- with the Archon King. First Report"
+DescriptionTitle="Report from --classified-- about the Archon King : First Report"
+DescriptionEntry="Date : --classified--\n Object : Transcript from John Bradford with the Archon King."
 
 ; Archon King N°2
 [Playable_Rulers_ArchonKing_2 X2EncyclopediaTemplate]
 ListTitle="Archon King -- Second report"
-DescriptionTitle="Report from --classified-- about the Archon King"
-DescriptionEntry="Date : --classified--\n Object : Transcript from --classified-- with the Archon King. Second Report"
+DescriptionTitle="Report from --classified-- about the Archon King : Second Report"
+DescriptionEntry="Date : --classified--\n Object : Transcript from --classified-- with the Archon King."
 
+; =======================
+; Berserker Queen
+; =======================
 
 ; Berserker Queen
 [Playable_Rulers_BerserkerQueen X2EncyclopediaTemplate]
 ListTitle="Berserker Queen -- First report"
-DescriptionTitle="Report from Bradford about the Berserker Queen"
-DescriptionEntry="Date : --classified--\n Object : Transcrpt from John Bradford with the Berserker Queen."
+DescriptionTitle="Report from Bradford about the Berserker Queen : First Report"
+DescriptionEntry="Date : --classified--\n Object : Transcript from John Bradford with the Berserker Queen."
 
 ; Berserker Queen N°2
 [Playable_Rulers_BerserkerQueen_2 X2EncyclopediaTemplate]
 ListTitle="Berserker Queen -- Second report"
-DescriptionTitle="Report from --classified-- about the Berserker Queen"
-DescriptionEntry="Date : --classified--\n Object : Transcript from --classified-- with the Berserker Queen. Second Report"
+DescriptionTitle="Report from --classified-- about the Berserker Queen : Second Report"
+DescriptionEntry="Date : --classified--\n Object : Transcript from --classified-- with the Berserker Queen."
