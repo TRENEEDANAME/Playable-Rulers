@@ -72,7 +72,7 @@ static function X2CharacterTemplate CreateTemplate_ViperBoss()
 	CharTemplate.bAppearInBase = true;
 	CharTemplate.bWearArmorInBase = true;
 	CharTemplate.bAllowSpawnFromATT = false;
-	CharTemplate.bUsesWillSystem = true;
+	CharTemplate.bUsesWillSystem = false;
 	CharTemplate.bIsTooBigForArmory = true;
 
 	CharTemplate.DefaultSoldierClass = 'ViperKingClass';
@@ -169,7 +169,7 @@ static function X2CharacterTemplate CreateTemplate_ArchonBoss()
 	CharTemplate.bAppearInBase = true;
 	CharTemplate.bWearArmorInBase = true;
 	CharTemplate.bAllowSpawnFromATT = false;
-	CharTemplate.bUsesWillSystem = true;
+	CharTemplate.bUsesWillSystem = false;
 	CharTemplate.bIsTooBigForArmory = true;
 
 	CharTemplate.DefaultSoldierClass = 'ArchonKingClass';
@@ -266,7 +266,7 @@ static function X2CharacterTemplate CreateTemplate_BerserkerBoss()
 	CharTemplate.bAppearInBase = true;
 	CharTemplate.bWearArmorInBase = true;
 	CharTemplate.bAllowSpawnFromATT = false;
-	CharTemplate.bUsesWillSystem = true;
+	CharTemplate.bUsesWillSystem = false;
 	CharTemplate.bIsTooBigForArmory = true;
 
 	CharTemplate.DefaultSoldierClass = 'BerserkerQueenClass';

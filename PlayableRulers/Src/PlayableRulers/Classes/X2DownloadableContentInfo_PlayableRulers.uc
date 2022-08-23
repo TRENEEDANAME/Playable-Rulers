@@ -230,7 +230,7 @@ static function bool c(out int bCanAddItem, const EInventorySlot Slot, const X2I
 //	PA_ViperKing	PA_BerserkerQueen	PA_ArchonKing
 // ===============================================================================================================
 
-exec function AddPlayableRuler_TRNEED(name TemplateName)
+exec function AddPlayableRuler(name TemplateName)
 {
 	local XComGameState NewGameState;
 	local XComGameState_HeadquartersXCom XComHQ;
