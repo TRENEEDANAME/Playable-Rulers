@@ -1,4 +1,4 @@
-class X2Abilities_PlayableRulers extends X2Ability config(GameData_SoldierSkills);
+class X2Ability_PlayableRulers extends X2Ability config(GameData_SoldierSkills);
 
 //* Bind ability
 
@@ -11,7 +11,6 @@ var config bool PA_ViperKing_DoesBind_ConsumeAllActionPointCost;
 var config bool ViperKing_DoesBindExcludeRobot;
 var config bool ViperKing_DoesBindExcludeAlien;
 var config bool ViperKing_DoesBindExcludeFriendly;
-var config bool PA_Does_GetOverHere_ExcludeFriendly;
 
 var config int PA_ViperKing_Bind_ActionPointCost;
 var config int PA_ViperKing_Bind_Cooldown;
@@ -31,7 +30,6 @@ var config int PA_KingBindSustained_UnconsciousPercent;
 //* Bind end
 
 var config bool PA_ViperKing_DontDisplay_EndBind_InSummary;
-var config bool PA_ViperKing_DoesBind_ConsumeAllActionPointCost;
 
 var config int PA_ViperKing_EndBind_ActionPointCost;
 
@@ -41,6 +39,7 @@ var config bool PA_ViperKing_DontDisplay_GetOverHere_InSummary;
 
 var config bool PA_Does_GetOverHere_ExcludeRobot; // true
 var config bool PA_Does_GetOverHere_ExcludeDead; // true
+var config bool PA_Does_GetOverHere_ExcludeFriendly; // true
 
 var config int PA_ViperKing_GetOverHere_MinRange;
 var config int PA_ViperKing_GetOverHere_MaxRange;
