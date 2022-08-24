@@ -89,6 +89,9 @@ static function X2CharacterTemplate CreateTemplate_ViperBoss()
 	CharTemplate.Abilities.AddItem('KnockoutSelf');
 	CharTemplate.Abilities.AddItem('Interact_MarkSupplyCrate');
 
+	CharTemplate.Abilities.AddItem('PA_KingBind');
+	CharTemplate.Abilities.AddItem('PA_BindSustained');
+	CharTemplate.Abilities.AddItem('PA_EndBind');
 
 	CharTemplate.ImmuneTypes.AddItem('Panicked');
 	CharTemplate.ImmuneTypes.AddItem('Berserk');
