@@ -48,15 +48,11 @@ var config int PA_ViperKing_GetOverHere_MaxRange;
 var config int PA_ViperKing_GetOverHere_Cooldown;
 var config int PA_ViperKing_GetOverHere_ActionPointAdded; // 1
 
-var name PA_KingGetOverHereAbilityName;
-var name PA_KingBindSustainedEffectName;
-var name PA_KingBindAbilityName;
-
 static function array<X2DataTemplate> CreateTemplates()
 {
 	local array<X2DataTemplate> Templates;
 
-	Templates.AddItem(Create_RulersReactions_Ability());
+	Templates.AddItem(Create_PA_RulersReactions_Ability());
 	Templates.AddItem(Create_PA_GetOverHereAbility());
 	Templates.AddItem(Create_PA_BindAbility());
 	Templates.AddItem(CreatePA_BindSustainedAbility());
@@ -67,7 +63,7 @@ static function array<X2DataTemplate> CreateTemplates()
 }
 
 
-static function X2AbilityTemplate Create_RulersReactions_Ability()
+static function X2AbilityTemplate Create_PA_RulersReactions_Ability()
 {
 	local X2AbilityTemplate Template;
 	local X2AbilityTrigger_EventListener Trigger;
@@ -76,7 +72,7 @@ static function X2AbilityTemplate Create_RulersReactions_Ability()
 	local array<name> SkipExclusions;
 	local X2Condition_UnitProperty UnitPropertyCondition;
 
-	`CREATE_X2ABILITY_TEMPLATE(Template, 'RulersReactions');
+	`CREATE_X2ABILITY_TEMPLATE(Template, 'PA_RulersReactions');
 
 	Template.AbilitySourceName = 'eAbilitySource_Standard';
 	Template.eAbilityIconBehaviorHUD = eAbilityIconBehavior_NeverShow;
@@ -144,7 +140,7 @@ static function X2AbilityTemplate Create_PA_GetOverHereAbility()
 	local X2Effect_GrantActionPoints        ActionPointsEffect;
 	local array<name> SkipExclusions;
 
-	`CREATE_X2ABILITY_TEMPLATE(Template, default.PA_KingGetOverHereAbilityName);
+	`CREATE_X2ABILITY_TEMPLATE(Template, 'PA_KingGetOverHere');
 	Template.IconImage = "img:///UILibrary_PerkIcons.UIPerk_viper_getoverhere";
 
 	Template.AbilitySourceName = 'eAbilitySource_Standard';
@@ -259,7 +255,7 @@ static function X2AbilityTemplate Create_PA_BindAbility()
 	local X2Effect_ApplyDirectionalWorldDamage EnvironmentDamageEffect;
 	local array<name> SkipExclusions;
 
-	`CREATE_X2ABILITY_TEMPLATE(Template, default.PA_KingBindAbilityName);
+	`CREATE_X2ABILITY_TEMPLATE(Template, 'PA_KingBind');
 	Template.IconImage = "img:///UILibrary_DLC2Images.PerkIcons.UIPerk_viper_choke";
 
 	Template.AbilitySourceName = 'eAbilitySource_Standard';
@@ -393,7 +389,7 @@ static function X2AbilityTemplate CreatePA_BindSustainedAbility()
 	local X2Condition_UnitEffects           UnconsciousEffectsCondition;
 	local X2Effect_RemoveEffects            RemoveEffects;
 
-	`CREATE_X2ABILITY_TEMPLATE(Template, 'KingBindSustained');
+	`CREATE_X2ABILITY_TEMPLATE(Template, 'PA_KingBindSustained');
 	Template.IconImage = "img:///UILibrary_PerkIcons.UIPerk_viper_bind";
 
 	Template.bDontDisplayInAbilitySummary = default.PA_ViperKing_DontDisplay_BindSustain_InSummary;
@@ -667,11 +663,4 @@ simulated function PA_BindEnd_BuildVisualization(XComGameState VisualizeGameStat
 
 	PA_BindEndTarget_BuildVisualization(VisualizeGameState, ActionMetadata, 'AA_Success');
 		//****************************************************************************************
-}
-
-DefaultProperties
-{
-	PA_KingBindSustainedEffectName="KingBindSustainedEffect"
-	PA_KingGetOverHereAbilityName="KingGetOverHere"
-	PA_KingBindAbilityName="KingBind"
 }
