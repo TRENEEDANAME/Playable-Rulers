@@ -49,6 +49,7 @@ var config int PA_ViperKing_GetOverHere_Cooldown;
 var config int PA_ViperKing_GetOverHere_ActionPointAdded; // 1
 
 var name PA_KingBindSustainedEffectName;
+var name PA_KingBindAbilityName;
 
 static function array<X2DataTemplate> CreateTemplates()
 {
@@ -670,4 +671,5 @@ simulated function PA_BindEnd_BuildVisualization(XComGameState VisualizeGameStat
 DefaultProperties
 {
 	PA_KingBindSustainedEffectName="KingBindSustainedEffect"
+	PA_KingBindAbilityName="KingBind"
 }
