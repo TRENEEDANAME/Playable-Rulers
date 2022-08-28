@@ -43,11 +43,36 @@
 ; RULER CUSTOM ABILITY
 ; *****************************
 
-[RulersReactions X2AbilityTemplate]
+[PA_RulersReactions X2AbilityTemplate]
 LocFriendlyName="Ruler Reaction"
 LocLongDescription="The rulers are able to adapt to situation faster than even our best soldier."
 LocHelpText="Rapid reactions."
 LocFlyOverText="Ruler Reaction"
+
+[PA_KingGetOverHere X2AbilityTemplate]
+LocFriendlyName="Tongue Pull"
+LocLongDescription="A Viper's tongue and neck are immensely strong, and can yank an adult human into its coils from far away."
+LocHelpText="Grab a target with your tongue and pull them to melee range. Only humanoid targets can be pulled."
+LocFlyOverText="Tongue Grab"
+LocMissMessage="Grab Failed!"
+
+[PA_KingBind X2AbilityTemplate]
+LocFriendlyName="Choke"
+LocLongDescription="The coils of a Viper are inhumanly strong, and can bind and crush an adjacent humanoid enemy."
+LocHelpText="Choke an adjacent humanoid enemy."
+LocFlyOverText="Choke"
+LocMissMessage="Choke Failed!"
+
+[PA_EndBind X2AbilityTemplate]
+LocFriendlyName="Release Bind"
+LocLongDescription="In the event the tactical situation changes, the Viper can release the target in its coils before killing it."
+LocHelpText="Release the target in the Viper's coils"
+LocFlyOverText="Release"
+
+[PA_KingBindSustained X2AbilityTemplate]
+LocFriendlyName="Choke"
+LocLongDescription="The coils of a Viper are inhumanly strong, and can bind and crush an adjacent humanoid enemy."
+LocHelpText="Choke an adjacent humanoid enemy."
 
 ; *****************************
 ; UNLOCK RULER TECH (PROVING GROUNDS)
