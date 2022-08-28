@@ -74,6 +74,12 @@ LocFriendlyName="Choke"
 LocLongDescription="The coils of a Viper are inhumanly strong, and can bind and crush an adjacent humanoid enemy."
 LocHelpText="Choke an adjacent humanoid enemy."
 
+[PA_ArchonKingBlazingPinionsStage1 X2AbilityTemplate]
+LocFriendlyName="Devastate"
+LocLongDescription="The Archon King flies in the sky, and unleashes a barrage of energy missiles from his wings. The targeting lasers that guide the missiles give a momentary warning of where they will strike."
+LocHelpText="Delayed missile barrage fired at multiple enemy targets."
+LocFlyOverText="Devastate"
+
 ; *****************************
 ; UNLOCK RULER TECH (PROVING GROUNDS)
 ; *****************************

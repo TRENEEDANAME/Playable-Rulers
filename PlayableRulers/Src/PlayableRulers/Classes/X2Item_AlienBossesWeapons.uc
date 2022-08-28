@@ -55,7 +55,6 @@ static function array<X2DataTemplate> CreateTemplates()
 	Weapons.AddItem(CreateTemplate_PARulers_BoltCaster_BM());
 
 	Weapons.AddItem(CreateTemplate_ArchonBoss_WPN());
-	Weapons.AddItem(CreateTemplate_ArchonBoss_Blazing_Pinions_WPN());
 	Weapons.AddItem(CreateTemplate_ArchonBoss_MeleeAttack());
 
 	return Weapons;
@@ -337,39 +336,6 @@ static function X2DataTemplate CreateTemplate_ArchonBoss_WPN()
 
 	Template.CanBeBuilt = false;
 	Template.TradingPostValue = 30;
-
-	return Template;
-}
-
-static function X2DataTemplate CreateTemplate_ArchonBoss_Blazing_Pinions_WPN()
-{
-	local X2WeaponTemplate Template;
-
-	`CREATE_X2TEMPLATE(class'X2WeaponTemplate', Template, 'ArchonBoss_Blazing_Pinions_WPN');
-	
-	Template.WeaponPanelImage = "_ConventionalRifle";                       // used by the UI. Probably determines iconview of the weapon.
-	Template.ItemCat = 'weapon';
-	Template.WeaponCat = 'rifle';
-	Template.WeaponTech = 'magnetic';
-	Template.strImage = "img:///UILibrary_Common.AlienWeapons.ArchonStaff";
-
-	Template.RangeAccuracy = class'X2Item_DefaultWeapons'.default.FLAT_CONVENTIONAL_RANGE;
-	Template.BaseDamage = default.ARCHONBOSS_BLAZINGPINIONS_BASEDAMAGE;
-	Template.iClipSize = 0;
-	Template.iSoundRange = 0;
-	Template.iEnvironmentDamage = default.ARCHONBOSS_BLAZINGPINIONS_ENVDAMAGE;
-	Template.iIdealRange = 0;
-	Template.iPhysicsImpulse = 5;
-	Template.DamageTypeTemplateName = 'BlazingPinions';
-
-	Template.InventorySlot = eInvSlot_Utility;
-	Template.Abilities.AddItem('ArchonKingBlazingPinionsStage2');
-
-	// This all the resources; sounds, animations, models, physics, the works.
-	Template.GameArchetype = "DLC_60_WP_Archon_Devastate.WP_Devastate_CV";
-
-	Template.CanBeBuilt = false;
-	Template.TradingPostValue = 0;
 
 	return Template;
 }
