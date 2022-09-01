@@ -1033,9 +1033,9 @@ static function X2DataTemplate Create_PA_BlazingPinionsStage2Ability()
 	DamageEffect.bApplyWorldEffectsForEachTargetLocation = true;
 	Template.AddMultiTargetEffect(DamageEffect);
 
-	Template.ModifyNewContextFn = BlazingPinionsStage2_ModifyActivatedAbilityContext;
-	Template.BuildNewGameStateFn = BlazingPinionsStage2_BuildGameState;
-	Template.BuildVisualizationFn = BlazingPinionsStage2_BuildVisualization;
+	Template.ModifyNewContextFn = PA_BlazingPinionsStage2_ModifyActivatedAbilityContext;
+	Template.BuildNewGameStateFn = PA_BlazingPinionsStage2_BuildGameState;
+	Template.BuildVisualizationFn = PA_BlazingPinionsStage2_BuildVisualization;
 	Template.CinescriptCameraType = "Archon_BlazingPinions_Stage2";
 
 	Template.LostSpawnIncreasePerUse = class'X2AbilityTemplateManager'.default.HeavyWeaponLostSpawnIncreasePerUse;

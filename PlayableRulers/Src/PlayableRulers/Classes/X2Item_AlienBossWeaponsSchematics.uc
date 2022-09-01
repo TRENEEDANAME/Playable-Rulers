@@ -1,5 +1,10 @@
 class X2Item_AlienBossWeaponsSchematics extends X2Item config(StrategyTuning);
 
+var config(AlienGearCosts) array<name> BEAM_ALIEN_SHOTGUN_REQUIRED_TECHS;
+var config(AlienGearCosts) array<name> BEAM_ALIEN_SHOTGUN_BUILD_COST_TYPE;
+var config(AlienGearCosts) array<int> BEAM_ALIEN_SHOTGUN_BUILD_COST_QUANTITY;
+var config(AlienGearCosts) int BEAM_ALIEN_SHOTGUN_ENGINEERING_SCORE;
+
 static function array<X2DataTemplate> CreateTemplates()
 {
 	local array<X2DataTemplate> Schematics;
@@ -31,13 +36,6 @@ static function X2DataTemplate CreateTemplate_PARulers_BoltCaster_CV_Schematic()
 
 	// Requirements
 	Template.Requirements.SpecialRequirementsFn = PA_Rulers_AreConventionalHunterWeaponsAvailable;
-	Template.Requirements.RequiredTechs.AddItem('PA_ViperKing_Tech');
-
-
-	// Cost
-	Resources.ItemTemplateName = 'Supplies';
-	Resources.Quantity = 35;
-	Template.Cost.ResourceCosts.AddItem(Resources);
 
 	return Template;
 }
@@ -46,7 +44,6 @@ static function X2DataTemplate CreateTemplate_PARulers_BoltCaster_MG_Schematic()
 {
 	local X2SchematicTemplate Template;
 	local StrategyRequirement AltReq;
-	local ArtifactCost Resources;
 
 	`CREATE_X2TEMPLATE(class'X2SchematicTemplate', Template, 'PARulers_BoltCaster_MG_Schematic');
 
@@ -61,29 +58,12 @@ static function X2DataTemplate CreateTemplate_PARulers_BoltCaster_MG_Schematic()
 	Template.ReferenceItemTemplate = 'PARulers_BoltCaster_MG';
 
 	// Narrative Requirements
-	Template.Requirements.RequiredTechs.AddItem('MagnetizedWeapons');
-	Template.Requirements.RequiredTechs.AddItem('PA_ViperKing_Tech');
 	Template.Requirements.RequiredEquipment.AddItem('PARulers_BoltCaster_CV');
-	Template.Requirements.RequiredEngineeringScore = 10;
-	Template.Requirements.bVisibleIfPersonnelGatesNotMet = true;
 	Template.Requirements.SpecialRequirementsFn = PA_Rulers_IsAlienHuntersNarrativeContentComplete;
 	
 	// Non-Narrative Requirements
 	AltReq.RequiredItems.AddItem('PARulers_BoltCaster_CV');
-	AltReq.RequiredTechs.AddItem('MagnetizedWeapons');
-	AltReq.RequiredTechs.AddItem('PA_ViperKing_Tech');
-	AltReq.RequiredEngineeringScore = 10;
-	AltReq.bVisibleIfPersonnelGatesNotMet = true;
 	Template.AlternateRequirements.AddItem(AltReq);
-
-	// Cost
-	Resources.ItemTemplateName = 'Supplies';
-	Resources.Quantity = 60;
-	Template.Cost.ResourceCosts.AddItem(Resources);
-
-	Resources.ItemTemplateName = 'AlienAlloy';
-	Resources.Quantity = 5;
-	Template.Cost.ResourceCosts.AddItem(Resources);
 
 	return Template;
 }
@@ -92,8 +72,7 @@ static function X2DataTemplate CreateTemplate_PARulers_BoltCaster_BM_Schematic()
 {
 	local X2SchematicTemplate Template;
 	local StrategyRequirement AltReq;
-	local ArtifactCost Resources;
-
+	
 	`CREATE_X2TEMPLATE(class'X2SchematicTemplate', Template, 'PARulers_BoltCaster_BM_Schematic');
 
 	Template.ItemCat = 'weapon';
@@ -107,33 +86,11 @@ static function X2DataTemplate CreateTemplate_PARulers_BoltCaster_BM_Schematic()
 	Template.ReferenceItemTemplate = 'PARulers_BoltCaster_BM';
 
 	// Narrative Requirements
-	Template.Requirements.RequiredTechs.AddItem('PlasmaRifle');
-	Template.Requirements.RequiredTechs.AddItem('PA_ViperKing_Tech');
 	Template.Requirements.RequiredEquipment.AddItem('PARulers_BoltCaster_MG');
-	Template.Requirements.RequiredEngineeringScore = 20;
-	Template.Requirements.bVisibleIfPersonnelGatesNotMet = true;
 	Template.Requirements.SpecialRequirementsFn = PA_Rulers_IsAlienHuntersNarrativeContentComplete;
 
 	// Non-Narrative Requirements
 	AltReq.RequiredEquipment.AddItem('PARulers_BoltCaster_MG');
-	AltReq.RequiredTechs.AddItem('PlasmaRifle');
-	AltReq.RequiredTechs.AddItem('PA_ViperKing_Tech');
-	AltReq.RequiredEngineeringScore = 20;
-	AltReq.bVisibleIfPersonnelGatesNotMet = true;
-	Template.AlternateRequirements.AddItem(AltReq);
-
-	// Cost
-	Resources.ItemTemplateName = 'Supplies';
-	Resources.Quantity = 125;
-	Template.Cost.ResourceCosts.AddItem(Resources);
-
-	Resources.ItemTemplateName = 'AlienAlloy';
-	Resources.Quantity = 15;
-	Template.Cost.ResourceCosts.AddItem(Resources);
-
-	Resources.ItemTemplateName = 'EleriumDust';
-	Resources.Quantity = 5;
-	Template.Cost.ResourceCosts.AddItem(Resources);
 
 	return Template;
 }
