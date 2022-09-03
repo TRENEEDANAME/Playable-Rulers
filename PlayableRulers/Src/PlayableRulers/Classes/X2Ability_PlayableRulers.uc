@@ -54,16 +54,19 @@ var privatewrite name PA_KingBlazingPinionsStage2AbilityName;
 
 //* Blazing Pinions
 
-var config int KING_BLAZING_PINIONS_COOLDOWN;
-var config int KING_BLAZING_PINIONS_TARGETING_AREA_RADIUS;
-var config int KING_BLAZING_PINIONS_SELECTION_RANGE;
-var config int KING_BLAZING_PINIONS_NUM_TARGETS;
-var config float KING_BLAZING_PINIONS_IMPACT_RADIUS_METERS;
+var config bool PA_ArchonKing_DoesBlazingPinions_ConsumeAllActionPointCost; // false
+
+var config int PA_ArchonKing_BlazingPinions_AbilityPointCost; // 1
+var config int PA_ArchonKing_BlazingPinions_Cooldown;
+var config int PA_ArchonKing_BlazingPinions_TargetRadius;
+var config int PA_ArchonKing_BlazingPinions_Range;
+var config int PA_ArchonKing_BlazingPinions_NumberOfTargets;
+var config float PA_ArchonKing_BlazingPinions_ImpactRadius;
 var config int KING_BLAZING_PINIONS_ENVIRONMENT_DAMAGE_AMOUNT;
-var config string KING_BLAZING_PINIONS_TARGET_PARTICLE_SYSTEM;
-var const config int KING_BLAZING_DISORIENTED_MAX_ALLOWED;
-var const config int KING_BLAZING_STUNNED_MAX_ALLOWED;
-var const config int KING_BLAZING_UNCONSCIOUS_MAX_ALLOWED;
+var config string PA_ArchonKing_BlazingPinions_TargetParticleSystem;
+var const config int PA_ArchonKing_BlazingPinions_MaxNumberOfDesorient;
+var const config int PA_ArchonKing_BlazingPinions_MaxNumberOfStun;
+var const config int PA_ArchonKing_BlazingPinions_MaxNumberOfUnconscious;
 
 static function array<X2DataTemplate> CreateTemplates()
 {
@@ -709,13 +712,13 @@ static function X2DataTemplate Create_PA_BlazingPinionsStage1Ability()
 	Template.TwoTurnAttackAbility = default.PA_KingBlazingPinionsStage2AbilityName;
 
 	ActionPointCost = new class'X2AbilityCost_ActionPoints';
-	ActionPointCost.iNumPoints = 1;
-	ActionPointCost.bConsumeAllPoints = false;
+	ActionPointCost.iNumPoints = default.PA_ArchonKing_BlazingPinions_AbilityPointCost;
+	ActionPointCost.bConsumeAllPoints = PA_ArchonKing_DoesBlazingPinions_ConsumeAllActionPointCost;
 	Template.AbilityCosts.AddItem(ActionPointCost);
 
 	// Cooldown on the ability
 	Cooldown = new class'X2AbilityCooldown';
-	Cooldown.iNumTurns = default.KING_BLAZING_PINIONS_COOLDOWN;
+	Cooldown.iNumTurns = default.PA_ArchonKing_BlazingPinions_Cooldown;
 	Template.AbilityCooldown = Cooldown;
 
 	UnitProperty = new class'X2Condition_UnitProperty';
@@ -738,12 +741,12 @@ static function X2DataTemplate Create_PA_BlazingPinionsStage1Ability()
 	Template.AbilityMultiTargetConditions.AddItem(UnitProperty);
 
 	BlazingPinionsMultiTarget = new class'X2AbilityMultiTarget_BlazingPinions';
-	BlazingPinionsMultiTarget.fTargetRadius = default.KING_BLAZING_PINIONS_TARGETING_AREA_RADIUS;
-	BlazingPinionsMultiTarget.NumTargetsRequired = default.KING_BLAZING_PINIONS_NUM_TARGETS;
+	BlazingPinionsMultiTarget.fTargetRadius = default.PA_ArchonKing_BlazingPinions_TargetRadius;
+	BlazingPinionsMultiTarget.NumTargetsRequired = default.PA_ArchonKing_BlazingPinions_NumberOfTargets;
 	Template.AbilityMultiTargetStyle = BlazingPinionsMultiTarget;
 
 	CursorTarget = new class'X2AbilityTarget_Cursor';
-	CursorTarget.FixedAbilityRange = default.KING_BLAZING_PINIONS_SELECTION_RANGE;
+	CursorTarget.FixedAbilityRange = default.PA_ArchonKing_BlazingPinions_Range;
 	Template.AbilityTargetStyle = CursorTarget;
 
 	//Delayed Effect to cause the second Blazing Pinions stage to occur
@@ -764,7 +767,7 @@ static function X2DataTemplate Create_PA_BlazingPinionsStage1Ability()
 
 	//  The target FX goes in target array as there will be no single target hit and no side effects of this touching a unit
 	BlazingPinionsTargetEffect = new class'X2Effect_ApplyBlazingPinionsTargetToWorld';
-	BlazingPinionsTargetEffect.OverrideParticleSystemFill_Name = default.KING_BLAZING_PINIONS_TARGET_PARTICLE_SYSTEM;
+	BlazingPinionsTargetEffect.OverrideParticleSystemFill_Name = default.PA_ArchonKing_BlazingPinions_TargetParticleSystem;
 	Template.AddShooterEffect(BlazingPinionsTargetEffect);
 
 	Template.ModifyNewContextFn = PA_BlazingPinionsStage1_ModifyActivatedAbilityContext;
@@ -992,7 +995,7 @@ static function X2DataTemplate Create_PA_BlazingPinionsStage2Ability()
 	Template.AddShooterEffect(RemoveEffects);
 
 	RadMultiTarget = new class'X2AbilityMultiTarget_Radius';
-	RadMultiTarget.fTargetRadius = default.KING_BLAZING_PINIONS_IMPACT_RADIUS_METERS;
+	RadMultiTarget.fTargetRadius = default.PA_ArchonKing_BlazingPinions_ImpactRadius;
 
 	Template.AbilityMultiTargetStyle = RadMultiTarget;
 
@@ -1006,7 +1009,7 @@ static function X2DataTemplate Create_PA_BlazingPinionsStage2Ability()
 	DisorientedEffect = class'X2StatusEffects'.static.CreateDisorientedStatusEffect(, , false);
 	DisorientedEffect.MinStatContestResult = 1;
 	DisorientedEffect.MaxStatContestResult = 2;
-	DisorientedEffect.MultiTargetStatContestInfo.MaxNumberAllowed = default.KING_BLAZING_DISORIENTED_MAX_ALLOWED;
+	DisorientedEffect.MultiTargetStatContestInfo.MaxNumberAllowed = default.PA_ArchonKing_BlazingPinions_MaxNumberOfDesorient;
 	DisorientedEffect.bRemoveWhenSourceDies = false;
 	Template.AddMultiTargetEffect(DisorientedEffect);
 
@@ -1014,7 +1017,7 @@ static function X2DataTemplate Create_PA_BlazingPinionsStage2Ability()
 	StunnedEffect = class'X2StatusEffects'.static.CreateStunnedStatusEffect(1, 100, false);
 	StunnedEffect.MinStatContestResult = 3;
 	StunnedEffect.MaxStatContestResult = 4;
-	StunnedEffect.MultiTargetStatContestInfo.MaxNumberAllowed = default.KING_BLAZING_STUNNED_MAX_ALLOWED;  // Max number of stunned units allowed from this ability
+	StunnedEffect.MultiTargetStatContestInfo.MaxNumberAllowed = default.PA_ArchonKing_BlazingPinions_MaxNumberOfStun;  // Max number of stunned units allowed from this ability
 	StunnedEffect.MultiTargetStatContestInfo.EffectIdxToApplyOnMaxExceeded = 0;    // After the max allowed, targets become disoriented
 	StunnedEffect.bRemoveWhenSourceDies = false;
 	Template.AddMultiTargetEffect(StunnedEffect);
@@ -1023,7 +1026,7 @@ static function X2DataTemplate Create_PA_BlazingPinionsStage2Ability()
 	UnconsciousEffect = class'X2StatusEffects'.static.CreateUnconsciousStatusEffect();
 	UnconsciousEffect.MinStatContestResult = 5;
 	UnconsciousEffect.MaxStatContestResult = 0;
-	UnconsciousEffect.MultiTargetStatContestInfo.MaxNumberAllowed = default.KING_BLAZING_UNCONSCIOUS_MAX_ALLOWED;  // Max number of the multitargets that may become unconscious
+	UnconsciousEffect.MultiTargetStatContestInfo.MaxNumberAllowed = default.PA_ArchonKing_BlazingPinions_MaxNumberOfUnconscious;  // Max number of the multitargets that may become unconscious
 	UnconsciousEffect.MultiTargetStatContestInfo.EffectIdxToApplyOnMaxExceeded = 1;    // After the max allowed, targets become stunned
 	UnconsciousEffect.bRemoveWhenSourceDies = false;
 	Template.AddMultiTargetEffect(UnconsciousEffect);
@@ -1083,7 +1086,7 @@ simulated function PA_BlazingPinionsStage2_ModifyActivatedAbilityContext(XComGam
 	{
 		// The selected tile is no longer valid. A new landing position
 		// must be found. TODO: Decide what to do when FoundFloorPositions is false.
-		World.GetFloorTilePositions(TargetLocation, World.WORLD_StepSize * default.KING_BLAZING_PINIONS_TARGETING_AREA_RADIUS, World.WORLD_StepSize, FloorPoints, true);
+		World.GetFloorTilePositions(TargetLocation, World.WORLD_StepSize * default.PA_ArchonKing_BlazingPinions_TargetRadius, World.WORLD_StepSize, FloorPoints, true);
 
 		i = 0;
 		while( i < FloorPoints.Length )
