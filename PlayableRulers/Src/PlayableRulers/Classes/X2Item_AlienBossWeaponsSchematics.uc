@@ -1,10 +1,5 @@
 class X2Item_AlienBossWeaponsSchematics extends X2Item config(StrategyTuning);
 
-var config(AlienGearCosts) array<name> BEAM_ALIEN_SHOTGUN_REQUIRED_TECHS;
-var config(AlienGearCosts) array<name> BEAM_ALIEN_SHOTGUN_BUILD_COST_TYPE;
-var config(AlienGearCosts) array<int> BEAM_ALIEN_SHOTGUN_BUILD_COST_QUANTITY;
-var config(AlienGearCosts) int BEAM_ALIEN_SHOTGUN_ENGINEERING_SCORE;
-
 static function array<X2DataTemplate> CreateTemplates()
 {
 	local array<X2DataTemplate> Schematics;
@@ -36,6 +31,7 @@ static function X2DataTemplate CreateTemplate_PARulers_BoltCaster_CV_Schematic()
 
 	// Requirements
 	Template.Requirements.SpecialRequirementsFn = PA_Rulers_AreConventionalHunterWeaponsAvailable;
+	Template.Requirements.RequiredEquipment.AddItem('AlienBoltCasterCV');
 
 	return Template;
 }
@@ -65,7 +61,14 @@ static function X2DataTemplate CreateTemplate_PARulers_BoltCaster_MG_Schematic()
 	// Non-Narrative Requirements
 	AltReq.RequiredItems.AddItem('PARulers_BoltCaster_CV');
 	Template.AlternateRequirements.AddItem(AltReq);
+<<<<<<< HEAD
 	AltReq.RequiredTechs.AddItem('MagnetizedWeapons');
+=======
+
+	Template.Requirements.RequiredEquipment.AddTech('MagnetizeWeapons');
+
+
+>>>>>>> 9f7b3b00ad2eaa189dd25c112f278288b46cf52e
 	return Template;
 }
 
@@ -93,7 +96,14 @@ static function X2DataTemplate CreateTemplate_PARulers_BoltCaster_BM_Schematic()
 
 	// Non-Narrative Requirements
 	AltReq.RequiredEquipment.AddItem('PARulers_BoltCaster_MG');
+<<<<<<< HEAD
 	AltReq.RequiredTechs.AddItem('PlasmaRifle');
+=======
+
+	Template.Requirements.RequiredEquipment.AddTech('BeamWeapons');
+
+
+>>>>>>> 9f7b3b00ad2eaa189dd25c112f278288b46cf52e
 	return Template;
 }
 
