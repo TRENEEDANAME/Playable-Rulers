@@ -1,10 +1,5 @@
 class X2Item_AlienBossWeaponsSchematics extends X2Item config(StrategyTuning);
 
-var config(AlienGearCosts) array<name> BEAM_ALIEN_SHOTGUN_REQUIRED_TECHS;
-var config(AlienGearCosts) array<name> BEAM_ALIEN_SHOTGUN_BUILD_COST_TYPE;
-var config(AlienGearCosts) array<int> BEAM_ALIEN_SHOTGUN_BUILD_COST_QUANTITY;
-var config(AlienGearCosts) int BEAM_ALIEN_SHOTGUN_ENGINEERING_SCORE;
-
 static function array<X2DataTemplate> CreateTemplates()
 {
 	local array<X2DataTemplate> Schematics;
