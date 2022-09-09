@@ -16,6 +16,7 @@ var config int PA_ViperKing_Bind_ActionPointCost;
 var config int PA_ViperKing_Bind_Cooldown;
 var config int PA_ViperKing_Bind_Range;
 var config int PA_ViperKing_Bind_FragileAmount;
+var config int PA_ViperKing_Bind_UnconsciousChance;
 
 //* Bind Sustain
 
@@ -293,7 +294,7 @@ static function X2AbilityTemplate Create_PA_BindSustainedAbility()
 
 	// This ability is only valid if this unit is currently binding the target
 	UnitEffectsCondition = new class'X2Condition_UnitEffectsWithAbilitySource';
-	UnitEffectsCondition.AddRequireEffect(default.KingBindSustainedEffectName, 'AA_UnitIsBound');
+	UnitEffectsCondition.AddRequireEffect(default.PA_KingBindSustainedEffectName, 'AA_UnitIsBound');
 	Template.AbilityTargetConditions.AddItem(UnitEffectsCondition);
 
 	// May only target a single unit
@@ -306,7 +307,7 @@ static function X2AbilityTemplate Create_PA_BindSustainedAbility()
 	// Chance the target becomes unconscious. If the target becomes unconscious then don't do the damage
 	// but remove the sustained effect
 	UnconsciousEffect = class'X2StatusEffects'.static.CreateUnconsciousStatusEffect();
-	UnconsciousEffect.ApplyChance = default.KING_BIND_UNCONSCIOUS_PERCENT;
+	UnconsciousEffect.ApplyChance = default.PA_ViperKing_Bind_UnconsciousChance;
 	Template.AddTargetEffect(UnconsciousEffect);
 
 	UnconsciousEffectsCondition = new class'X2Condition_UnitEffects';
@@ -314,7 +315,7 @@ static function X2AbilityTemplate Create_PA_BindSustainedAbility()
 
 	// Remove the bind/bound effects from the Target
 	RemoveEffects = new class'X2Effect_RemoveEffects';
-	RemoveEffects.EffectNamesToRemove.AddItem(default.KingBindSustainedEffectName);
+	RemoveEffects.EffectNamesToRemove.AddItem(default.PA_KingBindSustainedEffectName);
 	RemoveEffects.TargetConditions.AddItem(UnconsciousEffectsCondition);
 	Template.AddTargetEffect(RemoveEffects);
 
@@ -395,7 +396,7 @@ simulated function PA_BindSustained_BuildVisualization(XComGameState VisualizeGa
 		if( bTargetIsUnconscious )
 		{
 			// The target is unconscious so the End Bind for source needs to happen
-			BindEndSource_BuildVisualization(VisualizeGameState, ActionMetadata, 'AA_Success');
+			PA_BindEndSource_BuildVisualization(VisualizeGameState, ActionMetadata, 'AA_Success');
 		}
 	}
 	//****************************************************************************************
@@ -466,7 +467,7 @@ simulated function PA_BindEndSource_BuildVisualization(XComGameState VisualizeGa
 		Context = VisualizeGameState.GetContext( );
 
 		OldUnitState = XComGameState_Unit(ActionMetadata.StateObject_OldState);
-		BindSustainedEffectState = OldUnitState.GetUnitApplyingEffectState(default.KingBindSustainedEffectName);
+		BindSustainedEffectState = OldUnitState.GetUnitApplyingEffectState(default.PA_KingBindSustainedEffectName);
 		`assert(BindSustainedEffectState != none);
 		BindTarget = XComGameState_Unit(History.GetGameStateForObjectID(BindSustainedEffectState.ApplyEffectParameters.TargetStateObjectRef.ObjectID));
 		`assert(BindTarget != none);
@@ -503,7 +504,7 @@ simulated function PA_BindEndTarget_BuildVisualization(XComGameState VisualizeGa
 		   XComGameState_Unit(ActionMetadata.StateObject_NewState).IsUnconscious() )
 		{
 			OldUnitState = XComGameState_Unit(ActionMetadata.StateObject_OldState);
-			BindSustainedEffectState = OldUnitState.GetUnitAffectedByEffectState(default.KingBindSustainedEffectName);
+			BindSustainedEffectState = OldUnitState.GetUnitAffectedByEffectState(default.PA_KingBindSustainedEffectName);
 			`assert(BindSustainedEffectState != none);
 
 			BindEnd = X2Action_ViperBindEnd(class'X2Action_ViperBindEnd'.static.AddToVisualizationTree(ActionMetadata, Context, false, ActionMetadata.LastActionAdded));
@@ -538,7 +539,7 @@ simulated function PA_BindEnd_BuildVisualization(XComGameState VisualizeGameStat
 	ActionMetadata.StateObject_OldState = History.GetGameStateForObjectID(InteractingUnitRef.ObjectID, eReturnType_Reference, VisualizeGameState.HistoryIndex - 1);
 	ActionMetadata.StateObject_NewState = VisualizeGameState.GetGameStateForObjectID(InteractingUnitRef.ObjectID);
 
-	BindEndSource_BuildVisualization(VisualizeGameState, ActionMetadata, 'AA_Success');
+	PA_BindEndSource_BuildVisualization(VisualizeGameState, ActionMetadata, 'AA_Success');
 		//****************************************************************************************
 
 	//Configure the visualization track for the target
@@ -549,7 +550,7 @@ simulated function PA_BindEnd_BuildVisualization(XComGameState VisualizeGameStat
 	ActionMetadata.StateObject_NewState = VisualizeGameState.GetGameStateForObjectID(InteractingUnitRef.ObjectID);
 	ActionMetadata.VisualizeActor = History.GetVisualizer(InteractingUnitRef.ObjectID);
 
-	BindEndTarget_BuildVisualization(VisualizeGameState, ActionMetadata, 'AA_Success');
+	PA_BindEndTarget_BuildVisualization(VisualizeGameState, ActionMetadata, 'AA_Success');
 		//****************************************************************************************
 }
 
@@ -770,218 +771,6 @@ static function X2AbilityTemplate CreatePA_BindSustainedAbility()
 	return Template;
 }
 
-simulated function PA_BindSustained_BuildVisualization(XComGameState VisualizeGameState)
-{
-	local XComGameStateHistory			History;
-	local XComGameStateContext_Ability  Context;
-	local StateObjectReference          InteractingUnitRef;
-	local bool                          bTargetIsDead, bTargetIsUnconscious;
-	local int                           i;
-
-	local VisualizationActionMetadata        EmptyTrack;
-	local VisualizationActionMetadata        ActionMetadata;
-
-	History = `XCOMHISTORY;
-
-	Context = XComGameStateContext_Ability(VisualizeGameState.GetContext());
-
-	//Configure the visualization track for the target
-	//****************************************************************************************
-	ActionMetadata = EmptyTrack;
-	InteractingUnitRef = Context.InputContext.PrimaryTarget;
-	ActionMetadata.StateObject_OldState = History.GetGameStateForObjectID(InteractingUnitRef.ObjectID, eReturnType_Reference, VisualizeGameState.HistoryIndex - 1);
-	ActionMetadata.StateObject_NewState = VisualizeGameState.GetGameStateForObjectID(InteractingUnitRef.ObjectID);
-	ActionMetadata.VisualizeActor = History.GetVisualizer(InteractingUnitRef.ObjectID);
-
-	bTargetIsDead = XComGameState_Unit(ActionMetadata.StateObject_NewState).IsDead() ||
-					XComGameState_Unit(ActionMetadata.StateObject_NewState).IsBleedingOut();
-
-	bTargetIsUnconscious = XComGameState_Unit(ActionMetadata.StateObject_NewState).IsUnconscious();
-
-	if( bTargetIsDead || bTargetIsUnconscious )
-	{
-		class'X2Action_WaitForAbilityEffect'.static.AddToVisualizationTree(ActionMetadata, Context, false, ActionMetadata.LastActionAdded);
-		class'X2Action_Death'.static.AddToVisualizationTree(ActionMetadata, Context, false, ActionMetadata.LastActionAdded);
-	}
-
-	for( i = 0; i < Context.ResultContext.TargetEffectResults.Effects.Length; ++i )
-	{
-		Context.ResultContext.TargetEffectResults.Effects[i].AddX2ActionsForVisualization(VisualizeGameState, ActionMetadata, Context.ResultContext.TargetEffectResults.ApplyResults[i]);
-	}
-
-		//****************************************************************************************
-
-	//Configure the visualization track for the shooter
-	//****************************************************************************************
-	if( bTargetIsDead || bTargetIsUnconscious )
-	{
-		ActionMetadata = EmptyTrack;
-		InteractingUnitRef = Context.InputContext.SourceObject;
-		ActionMetadata.VisualizeActor = History.GetVisualizer(InteractingUnitRef.ObjectID);
-		ActionMetadata.StateObject_OldState = History.GetGameStateForObjectID(InteractingUnitRef.ObjectID, eReturnType_Reference, VisualizeGameState.HistoryIndex - 1);
-		ActionMetadata.StateObject_NewState = VisualizeGameState.GetGameStateForObjectID(InteractingUnitRef.ObjectID);
-
-		if( bTargetIsUnconscious )
-		{
-			// The target is unconscious so the End Bind for source needs to happen
-			PA_BindEndSource_BuildVisualization(VisualizeGameState, ActionMetadata, 'AA_Success');
-		}
-	}
-	//****************************************************************************************
-}
-
-// Ability only exists for player-controlled Vipers to end their bind ability.  Not actually used by the AI.
-static function X2AbilityTemplate Create_PA_EndBindAbility()
-{
-	local X2AbilityTemplate                 Template;
-	local X2AbilityCost_ActionPoints        ActionPointCost;
-	local X2Condition_UnitEffectsWithAbilitySource UnitEffectsCondition;
-	local X2AbilityTrigger_PlayerInput      InputTrigger;
-	local X2AbilityTarget_Single            SingleTarget;
-	local X2Effect_RemoveEffects            RemoveEffects;
-
-	`CREATE_X2ABILITY_TEMPLATE(Template, 'PA_KingEndBind');
-	Template.IconImage = "img:///UILibrary_PerkIcons.UIPerk_viper_bind";
-
-	Template.AbilitySourceName = 'eAbilitySource_Standard';
-	Template.eAbilityIconBehaviorHUD = eAbilityIconBehavior_ShowIfAvailable;
-	Template.bDontDisplayInAbilitySummary = default.PA_ViperKing_DontDisplay_EndBind_InSummary;
-
-	ActionPointCost = new class'X2AbilityCost_ActionPoints';
-	ActionPointCost.AllowedTypes.Length = 0;        //  clear default allowances
-	ActionPointCost.AllowedTypes.AddItem(class'X2CharacterTemplateManager'.default.EndBindActionPoint);
-	ActionPointCost.iNumPoints = default.PA_ViperKing_EndBind_ActionPointCost;
-	Template.AbilityCosts.AddItem(ActionPointCost);
-
-	Template.AbilityToHitCalc = default.DeadEye;
-
-	// This ability is only valid if this unit is currently binding the target
-	UnitEffectsCondition = new class'X2Condition_UnitEffectsWithAbilitySource';
-	UnitEffectsCondition.AddRequireEffect(default.PA_KingBindSustainedEffectName, 'AA_UnitIsBound');
-	Template.AbilityTargetConditions.AddItem(UnitEffectsCondition);
-
-	SingleTarget = new class'X2AbilityTarget_Single';
-	Template.AbilityTargetStyle = SingleTarget;
-
-	InputTrigger = new class'X2AbilityTrigger_PlayerInput';
-	Template.AbilityTriggers.AddItem(InputTrigger);
-
-	// Remove the bind/bound effects from the Target
-	RemoveEffects = new class'X2Effect_RemoveEffects';
-	RemoveEffects.EffectNamesToRemove.AddItem(default.PA_KingBindSustainedEffectName);
-	Template.AddTargetEffect(RemoveEffects);
-
-	Template.BuildNewGameStateFn = TypicalAbility_BuildGameState;
-	Template.BuildVisualizationFn = PA_BindEnd_BuildVisualization;
-//BEGIN AUTOGENERATED CODE: Template Overrides 'KingEndBind'
-	Template.bFrameEvenWhenUnitIsHidden = true;
-//END AUTOGENERATED CODE: Template Overrides 'KingEndBind'
-
-	return Template;
-}
-
-simulated function PA_BindEndSource_BuildVisualization(XComGameState VisualizeGameState, out VisualizationActionMetadata ActionMetadata, const name EffectApplyResult)
-{
-	local XComGameStateHistory			History;
-	local XComGameState_Effect          BindSustainedEffectState;
-	local XComGameState_Unit            OldUnitState, BindTarget;
-	local X2Action_ViperBindEnd         BindEnd;
-	local XComGameStateContext			Context;
-
-	History = `XCOMHISTORY;
-
-	if (ActionMetadata.VisualizeActor != None)
-	{
-		Context = VisualizeGameState.GetContext( );
-
-		OldUnitState = XComGameState_Unit(ActionMetadata.StateObject_OldState);
-		BindSustainedEffectState = OldUnitState.GetUnitApplyingEffectState(default.PA_KingBindSustainedEffectName);
-		`assert(BindSustainedEffectState != none);
-		BindTarget = XComGameState_Unit(History.GetGameStateForObjectID(BindSustainedEffectState.ApplyEffectParameters.TargetStateObjectRef.ObjectID));
-		`assert(BindTarget != none);
-
-		if( BindTarget.IsDead() ||
-			BindTarget.IsBleedingOut() ||
-			BindTarget.IsUnconscious() )
-		{
-			// The target is dead, wait for it to die and inform the source
-			class'X2Action_WaitForAbilityEffect'.static.AddToVisualizationTree(ActionMetadata, Context, false, ActionMetadata.LastActionAdded);
-		}
-		else
-		{
-
-			BindEnd = X2Action_ViperBindEnd(class'X2Action_ViperBindEnd'.static.AddToVisualizationTree(ActionMetadata, Context, false, ActionMetadata.LastActionAdded));
-			BindEnd.PartnerUnitRef = BindSustainedEffectState.ApplyEffectParameters.TargetStateObjectRef;
-		}
-	}
-}
-
-simulated function PA_BindEndTarget_BuildVisualization(XComGameState VisualizeGameState, out VisualizationActionMetadata ActionMetadata, const name EffectApplyResult)
-{	
-	local XComGameState_Effect          BindSustainedEffectState;
-	local XComGameState_Unit            OldUnitState;
-	local X2Action_ViperBindEnd         BindEnd;
-	local XComGameStateContext			Context;
-
-	if(ActionMetadata.VisualizeActor != None)
-	{
-		Context = VisualizeGameState.GetContext();
-
-		if( XComGameState_Unit(ActionMetadata.StateObject_NewState).IsDead() ||
-		   XComGameState_Unit(ActionMetadata.StateObject_NewState).IsBleedingOut() ||
-		   XComGameState_Unit(ActionMetadata.StateObject_NewState).IsUnconscious() )
-		{
-			OldUnitState = XComGameState_Unit(ActionMetadata.StateObject_OldState);
-			BindSustainedEffectState = OldUnitState.GetUnitAffectedByEffectState(default.PA_KingBindSustainedEffectName);
-			`assert(BindSustainedEffectState != none);
-
-			BindEnd = X2Action_ViperBindEnd(class'X2Action_ViperBindEnd'.static.AddToVisualizationTree(ActionMetadata, Context, false, ActionMetadata.LastActionAdded));
-			BindEnd.PartnerUnitRef = BindSustainedEffectState.ApplyEffectParameters.SourceStateObjectRef;
-		}
-		else
-		{
-			class'X2Action_WaitForAbilityEffect'.static.AddToVisualizationTree(ActionMetadata, Context, false, ActionMetadata.LastActionAdded);
-		}
-	}
-}
-
-simulated function PA_BindEnd_BuildVisualization(XComGameState VisualizeGameState)
-{
-	local XComGameStateHistory			History;
-	local XComGameStateContext_Ability  Context;
-	local StateObjectReference          InteractingUnitRef;
-	
-
-	local VisualizationActionMetadata        EmptyTrack;
-	local VisualizationActionMetadata        ActionMetadata;
-
-	History = `XCOMHISTORY;
-
-	Context = XComGameStateContext_Ability(VisualizeGameState.GetContext());
-
-	//Configure the visualization track for the shooter
-	//****************************************************************************************
-	ActionMetadata = EmptyTrack;
-	InteractingUnitRef = Context.InputContext.SourceObject;
-	ActionMetadata.VisualizeActor = History.GetVisualizer(InteractingUnitRef.ObjectID);
-	ActionMetadata.StateObject_OldState = History.GetGameStateForObjectID(InteractingUnitRef.ObjectID, eReturnType_Reference, VisualizeGameState.HistoryIndex - 1);
-	ActionMetadata.StateObject_NewState = VisualizeGameState.GetGameStateForObjectID(InteractingUnitRef.ObjectID);
-
-	PA_BindEndSource_BuildVisualization(VisualizeGameState, ActionMetadata, 'AA_Success');
-		//****************************************************************************************
-
-	//Configure the visualization track for the target
-	//****************************************************************************************
-	ActionMetadata = EmptyTrack;
-	InteractingUnitRef = Context.InputContext.PrimaryTarget;
-	ActionMetadata.StateObject_OldState = History.GetGameStateForObjectID(InteractingUnitRef.ObjectID, eReturnType_Reference, VisualizeGameState.HistoryIndex - 1);
-	ActionMetadata.StateObject_NewState = VisualizeGameState.GetGameStateForObjectID(InteractingUnitRef.ObjectID);
-	ActionMetadata.VisualizeActor = History.GetVisualizer(InteractingUnitRef.ObjectID);
-
-	PA_BindEndTarget_BuildVisualization(VisualizeGameState, ActionMetadata, 'AA_Success');
-		//****************************************************************************************
-}
-
 //* =================================================================
 //* Archon Ruler Ability
 //* =================================================================
@@ -1008,7 +797,7 @@ static function X2DataTemplate Create_PA_BlazingPinionsStage1Ability()
 
 	ActionPointCost = new class'X2AbilityCost_ActionPoints';
 	ActionPointCost.iNumPoints = default.PA_ArchonKing_BlazingPinions_AbilityPointCost;
-	ActionPointCost.bConsumeAllPoints = PA_ArchonKing_DoesBlazingPinions_ConsumeAllActionPointCost;
+	ActionPointCost.bConsumeAllPoints = default.PA_ArchonKing_DoesBlazingPinions_ConsumeAllActionPointCost;
 	Template.AbilityCosts.AddItem(ActionPointCost);
 
 	// Cooldown on the ability
