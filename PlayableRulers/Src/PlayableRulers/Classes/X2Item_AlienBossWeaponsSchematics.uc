@@ -61,14 +61,8 @@ static function X2DataTemplate CreateTemplate_PARulers_BoltCaster_MG_Schematic()
 	// Non-Narrative Requirements
 	AltReq.RequiredItems.AddItem('PARulers_BoltCaster_CV');
 	Template.AlternateRequirements.AddItem(AltReq);
-<<<<<<< HEAD
 	AltReq.RequiredTechs.AddItem('MagnetizedWeapons');
-=======
 
-	Template.Requirements.RequiredEquipment.AddTech('MagnetizeWeapons');
-
-
->>>>>>> 9f7b3b00ad2eaa189dd25c112f278288b46cf52e
 	return Template;
 }
 
@@ -96,14 +90,8 @@ static function X2DataTemplate CreateTemplate_PARulers_BoltCaster_BM_Schematic()
 
 	// Non-Narrative Requirements
 	AltReq.RequiredEquipment.AddItem('PARulers_BoltCaster_MG');
-<<<<<<< HEAD
 	AltReq.RequiredTechs.AddItem('PlasmaRifle');
-=======
 
-	Template.Requirements.RequiredEquipment.AddTech('BeamWeapons');
-
-
->>>>>>> 9f7b3b00ad2eaa189dd25c112f278288b46cf52e
 	return Template;
 }
 
