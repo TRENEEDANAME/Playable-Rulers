@@ -60,11 +60,12 @@ static function X2DataTemplate CreateTemplate_PARulers_BoltCaster_MG_Schematic()
 	// Narrative Requirements
 	Template.Requirements.RequiredEquipment.AddItem('PARulers_BoltCaster_CV');
 	Template.Requirements.SpecialRequirementsFn = PA_Rulers_IsAlienHuntersNarrativeContentComplete;
-	
+	Template.Requirements.RequiredTechs.AddItem('MagnetizedWeapons');
+
 	// Non-Narrative Requirements
 	AltReq.RequiredItems.AddItem('PARulers_BoltCaster_CV');
 	Template.AlternateRequirements.AddItem(AltReq);
-
+	AltReq.RequiredTechs.AddItem('MagnetizedWeapons');
 	return Template;
 }
 
@@ -88,10 +89,11 @@ static function X2DataTemplate CreateTemplate_PARulers_BoltCaster_BM_Schematic()
 	// Narrative Requirements
 	Template.Requirements.RequiredEquipment.AddItem('PARulers_BoltCaster_MG');
 	Template.Requirements.SpecialRequirementsFn = PA_Rulers_IsAlienHuntersNarrativeContentComplete;
+	Template.Requirements.RequiredTechs.AddItem('PlasmaRifle');
 
 	// Non-Narrative Requirements
 	AltReq.RequiredEquipment.AddItem('PARulers_BoltCaster_MG');
-
+	AltReq.RequiredTechs.AddItem('PlasmaRifle');
 	return Template;
 }
 
