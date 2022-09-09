@@ -36,6 +36,7 @@ static function X2DataTemplate CreateTemplate_PARulers_BoltCaster_CV_Schematic()
 
 	// Requirements
 	Template.Requirements.SpecialRequirementsFn = PA_Rulers_AreConventionalHunterWeaponsAvailable;
+	Template.Requirements.RequiredEquipment.AddItem('AlienBoltCasterCV');
 
 	return Template;
 }
@@ -65,6 +66,9 @@ static function X2DataTemplate CreateTemplate_PARulers_BoltCaster_MG_Schematic()
 	AltReq.RequiredItems.AddItem('PARulers_BoltCaster_CV');
 	Template.AlternateRequirements.AddItem(AltReq);
 
+	Template.Requirements.RequiredEquipment.AddTech('MagnetizeWeapons');
+
+
 	return Template;
 }
 
@@ -91,6 +95,9 @@ static function X2DataTemplate CreateTemplate_PARulers_BoltCaster_BM_Schematic()
 
 	// Non-Narrative Requirements
 	AltReq.RequiredEquipment.AddItem('PARulers_BoltCaster_MG');
+
+	Template.Requirements.RequiredEquipment.AddTech('BeamWeapons');
+
 
 	return Template;
 }
