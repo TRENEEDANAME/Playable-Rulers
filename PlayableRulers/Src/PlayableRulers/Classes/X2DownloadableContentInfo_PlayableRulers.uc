@@ -1,7 +1,7 @@
 // ===============================================================================================================
 //	X2DownloadableContentInfo_PlayableRulers BY TRNEEDANAME AND RUSTYDIOS
 //
-//	CREATED ON 09/08/22	21:00	LAST UPDATED 11/08/22 10:00
+//	CREATED ON 09/08/22	21:00	LAST UPDATED 11/09/22 18:00
 //
 //	DLC2INFO FOR PLAYABLE RULERS WORKSHOP VERSION
 //
@@ -135,7 +135,7 @@ static function bool AbilityTagExpandHandler(string InString, out string OutStri
 }
 
 // ===============================================================================================================
-//	INVENTORY HOOKING CODE TO ALLOW ONLY THE LISTED UNIT (ALIEN RULER) TO USE FROST SPIT/GLOB
+//	INVENTORY HOOKING CODE TO ALLOW ONLY THE LISTED UNIT (ALIEN RULER) TO USE FROST SPIT/GLOB (thanks to RustyDios)
 // ===============================================================================================================
 
 static function bool CanAddItemToInventory_CH_Improved(out int bCanAddItem, const EInventorySlot Slot, const X2ItemTemplate ItemTemplate, int Quantity, XComGameState_Unit UnitState,optional XComGameState CheckGameState, optional out string DisabledReason, optional XComGameState_Item ItemState)
