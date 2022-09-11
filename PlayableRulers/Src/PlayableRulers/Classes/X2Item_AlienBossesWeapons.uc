@@ -360,7 +360,7 @@ static function X2DataTemplate CreateTemplate_ArchonBoss_MeleeAttack()
 
 	Template.iRange = 0;
 	Template.iRadius = 1;
-	Template.NumUpgradeSlots = 2;
+	Template.NumUpgradeSlots = 0;
 	Template.InfiniteAmmo = true;
 	Template.iPhysicsImpulse = 5;
 	Template.iIdealRange = 1;
@@ -380,9 +380,38 @@ static function X2DataTemplate CreateTemplate_ArchonBoss_MeleeAttack()
 	return Template;
 }
 
-defaultproperties
+static function X2DataTemplate CreateTemplate_BerserkerBoss_MeleeAttack()
 {
-	bShouldCreateDifficultyVariants = true
+	local X2WeaponTemplate Template;
+
+	`CREATE_X2TEMPLATE(class'X2WeaponTemplate', Template, 'BerserkerBoss');
+
+	Template.ItemCat = 'weapon';
+	Template.WeaponCat = 'PA_BerserkerQueenFistCat';
+	Template.WeaponTech = 'magnetic';
+	Template.strImage = "img:///UILibrary_StrategyImages.X2InventoryIcons.Inv_Sword";
+	Template.InventorySlot = eInvSlot_PrimaryWeapon;
+	// This all the resources; sounds, animations, models, physics, the works.
+	Template.GameArchetype = "WP_Archon_Staff.WP_ArchonStaff";
+	Template.RemoveTemplateAvailablility(Template.BITFIELD_GAMEAREA_Multiplayer); //invalidates multiplayer availability
+
+	Template.Aim = class'X2Item_DefaultWeapons'.default.GENERIC_MELEE_ACCURACY; // DLC60 also has a GENERIC_MELEE_ACCURACY, but it is not being used, and not set in the config file.
+
+	Template.iRange = 0;
+	Template.iRadius = 1;
+	Template.NumUpgradeSlots = 0;
+	Template.InfiniteAmmo = true;
+	Template.iPhysicsImpulse = 5;
+	Template.iIdealRange = 1;
+
+	Template.BaseDamage = class'X2Item_DefaultWeapons'.default.ARCHON_MELEEATTACK_BASEDAMAGE;
+	Template.BaseDamage.DamageType = 'Melee';
+	Template.iSoundRange = 2;
+	Template.iEnvironmentDamage = 10;
+
+	//Build Data
+	Template.StartingItem = true;
+	Template.CanBeBuilt = false;
+
+	return Template;
 }
-
-
