@@ -56,6 +56,7 @@ static function array<X2DataTemplate> CreateTemplates()
 
 	Weapons.AddItem(CreateTemplate_ArchonBoss_WPN());
 	Weapons.AddItem(CreateTemplate_ArchonBoss_MeleeAttack());
+	Weapons.AddItem(CreateTemplate_BerserkerBoss_MeleeAttack());
 
 	return Weapons;
 }
@@ -384,7 +385,7 @@ static function X2DataTemplate CreateTemplate_BerserkerBoss_MeleeAttack()
 {
 	local X2WeaponTemplate Template;
 
-	`CREATE_X2TEMPLATE(class'X2WeaponTemplate', Template, 'BerserkerBoss');
+	`CREATE_X2TEMPLATE(class'X2WeaponTemplate', Template, 'BerserkerFistWeapon');
 
 	Template.ItemCat = 'weapon';
 	Template.WeaponCat = 'PA_BerserkerQueenFistCat';

@@ -188,11 +188,14 @@ FriendlyName="Archon King's Staff"
 BriefSummary="This weapon is similar to the standard Archon staff, but it has been upgraded by the King for increased damage"
 TacticalText="<Bullet/> The Archon King weapon\n<Bullet/>"
 
-[ArchonBoss_Blazing_Pinions_WPN X2WeaponTemplate]
-FriendlyName="Archon King's Pinions"
-BriefSummary="The Archon King can rain explosives on it's ennemy"
-TacticalText="<Bullet/> The Archon King's Pinions<Bullet/>"
+; =======================
+; BERSERKER QUEEN
+; =======================
 
+[BerserkerFistWeapon X2WeaponTemplate]
+FriendlyName="Berserker Queen First"
+BriefSummary="The Berserk Queen doesn't use weapons, instead, she uses her bare hand to kill"
+TacticalText="<Bullet/> The Berserker Queen Fist\n<Bullet/>"
 
 ; ********************
 ; UFOPEDIA SECTION
