@@ -5,6 +5,7 @@ var config int GENERIC_MELEE_ACCURACY;
 var config WeaponDamageValue ARCHONBOSS_WPN_BASEDAMAGE;
 var config WeaponDamageValue ARCHONBOSS_BLAZINGPINIONS_BASEDAMAGE;
 var config WeaponDamageValue ARCHONBOSS_ICARUS_DROP_BASEDAMAGE;
+var config WeaponDamageValue PARulers_BQF_BaseDamage;
 
 var config int ARCHONBOSS_IDEALRANGE;
 var config int ARCHONBOSS_BLAZINGPINIONS_ENVDAMAGE;
@@ -56,6 +57,7 @@ static function array<X2DataTemplate> CreateTemplates()
 
 	Weapons.AddItem(CreateTemplate_ArchonBoss_WPN());
 	Weapons.AddItem(CreateTemplate_ArchonBoss_MeleeAttack());
+	
 	Weapons.AddItem(CreateTemplate_BerserkerBoss_MeleeAttack());
 
 	return Weapons;
@@ -405,7 +407,7 @@ static function X2DataTemplate CreateTemplate_BerserkerBoss_MeleeAttack()
 	Template.iPhysicsImpulse = 5;
 	Template.iIdealRange = 1;
 
-	Template.BaseDamage = class'X2Item_DefaultWeapons'.default.ARCHON_MELEEATTACK_BASEDAMAGE;
+	Template.BaseDamage = default.PARulers_BQF_BaseDamage;
 	Template.BaseDamage.DamageType = 'Melee';
 	Template.iSoundRange = 2;
 	Template.iEnvironmentDamage = 10;
