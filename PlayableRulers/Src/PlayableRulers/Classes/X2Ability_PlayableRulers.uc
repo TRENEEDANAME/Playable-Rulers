@@ -1,5 +1,9 @@
 class X2Ability_PlayableRulers extends X2Ability config(GameData_SoldierSkills);
 
+//* =================================
+//* Viper King
+//* =================================
+
 //* Bind ability
 
 var config WeaponDamageValue PA_ViperKing_Bind_BaseDamage;
@@ -53,6 +57,10 @@ var name PA_KingBindSustainedEffectName;
 var name PA_KingBindAbilityName;
 var privatewrite name PA_KingBlazingPinionsStage2AbilityName;
 
+//* =================================
+//* Archon King
+//* =================================
+
 //* Blazing Pinions
 
 var config bool PA_ArchonKing_DoesBlazingPinions_ConsumeAllActionPointCost; // false
@@ -69,6 +77,41 @@ var const config int PA_ArchonKing_BlazingPinions_MaxNumberOfDesorient;
 var const config int PA_ArchonKing_BlazingPinions_MaxNumberOfStun;
 var const config int PA_ArchonKing_BlazingPinions_MaxNumberOfUnconscious;
 
+//* =================================
+//* Mind control 
+//* =================================
+
+//* Viper King
+
+var name PA_Viper_MC_Test;
+
+
+var config int PA_Viper_MC_Chance;
+var config int PA_Viper_MC_Per_Pod;
+
+var config bool PA_ViperKing_MC_DisplayIn_UI_Tooltip;
+var config bool PA_ViperKing_MC_DisplayIn_TacText;
+
+//* Archon King
+
+var name PA_Archon_MC_Test;
+
+var config int PA_Archon_MC_Chance;
+var config int PA_Archon_MC_Per_Pod;
+
+var config bool PA_ArchonKing_MC_DisplayIn_UI_Tooltip;
+var config bool PA_ArchonKing_MC_DisplayIn_TacText;
+
+//* Berserker Queen
+
+var name PA_Muton_MC_Test;
+
+var config bool PA_BerserkerQueen_MC_DisplayIn_UI_Tooltip;
+var config bool PA_BerserkerQueen_MC_DisplayIn_TacText;
+
+var config int PA_Muton_MC_Chance;
+var config int PA_Muton_MC_Per_Pod;
+
 static function array<X2DataTemplate> CreateTemplates()
 {
 	local array<X2DataTemplate> Templates;
@@ -76,10 +119,13 @@ static function array<X2DataTemplate> CreateTemplates()
 	Templates.AddItem(Create_PA_RulersReactions_Ability());
 	Templates.AddItem(Create_PA_GetOverHereAbility());
 	Templates.AddItem(Create_PA_BindAbility());
-	Templates.AddItem(CreatePA_BindSustainedAbility());
+	Templates.AddItem(Create_PA_BindSustainedAbility());
 	Templates.AddItem(Create_PA_EndBindAbility());
 	Templates.AddItem(Create_PA_BlazingPinionsStage1Ability());
 	Templates.AddItem(Create_PA_BlazingPinionsStage2Ability());
+	Templates.AddItem(Create_PA_Muton_MC_Ability());
+	Templates.AddItem(Create_PA_Archon_MC_Ability());
+	Templates.AddItem(Create_PA_Viper_MC_Ability());
 
 
 	return Templates;
@@ -695,7 +741,7 @@ static function X2AbilityTemplate Create_PA_BindAbility()
 	return Template;
 }
 
-static function X2AbilityTemplate CreatePA_BindSustainedAbility()
+static function X2AbilityTemplate Create_PA_BindSustainedAbility()
 {
 	local X2AbilityTemplate                 Template;
 	local X2AbilityCost_ActionPoints        ActionPointCost;
@@ -1415,6 +1461,317 @@ simulated function PA_BlazingPinionsStage2_BuildVisualization(XComGameState Visu
 	}
 
 	TypicalAbility_AddEffectRedirects(VisualizeGameState, ArchonTrack);
+}
+
+
+//* ========================================================
+//* Ultimate ability : mind control
+//* ========================================================
+
+static function X2AbilityTemplate Create_PA_Muton_MC_Ability()
+{
+	local X2AbilityTemplate                 Template;
+	local X2Condition_UnitValue				TargetAlreadyTestedCondition;
+	local X2Condition_UnitType				UnitTypeCondition;
+	local X2Condition_PanicOnPod            PanicOnPodCondition;
+	local X2Effect_SetUnitValue				SetUnitValEffect;
+	local X2Condition_UnitProperty          ShooterCondition;
+	local X2AbilityTarget_Single            SingleTarget;
+	local X2AbilityTrigger_EventListener	Trigger;
+	local X2Effect_Panicked					PanickedEffect;
+	local X2Effect_MindControl 				MindControlEffect;
+	local X2AbilityToHitCalc_PercentChance	PercentChanceToHit;
+
+	`CREATE_X2ABILITY_TEMPLATE(Template, 'Muton_MC');
+
+	Template.bDontDisplayInAbilitySummary = true;
+
+	PercentChanceToHit = new class'X2AbilityToHitCalc_PercentChance';
+	PercentChanceToHit.PercentToHit = default.PA_Muton_MC_Chance;
+	Template.AbilityToHitCalc = PercentChanceToHit;
+
+	Template.AbilityTargetConditions.AddItem(default.LivingHostileUnitDisallowMindControlProperty);
+
+	TargetAlreadyTestedCondition = new class'X2Condition_UnitValue';
+	TargetAlreadyTestedCondition.AddCheckValue(default.PA_Muton_MC_Test, 0, eCheck_Exact);
+	Template.AbilityTargetConditions.AddItem(TargetAlreadyTestedCondition);
+
+	UnitTypeCondition = new class'X2Condition_UnitType';
+	UnitTypeCondition.IncludeTypes.AddItem('Muton');
+	UnitTypeCondition.IncludeTypes.AddItem('Berserker');
+	Template.AbilityTargetConditions.AddItem(UnitTypeCondition);
+
+	PanicOnPodCondition = new class'X2Condition_PanicOnPod';
+	PanicOnPodCondition.MaxPanicUnitsPerPod = default.PA_Muton_MC_Per_Pod;
+	Template.AbilityTargetConditions.AddItem(PanicOnPodCondition);
+
+	Template.AbilityShooterConditions.AddItem(default.LivingShooterProperty);
+	ShooterCondition = new class'X2Condition_UnitProperty';
+	ShooterCondition.ExcludeConcealed = true;
+	Template.AbilityShooterConditions.AddItem(ShooterCondition);
+
+	SingleTarget = new class'X2AbilityTarget_Single';
+	SingleTarget.OnlyIncludeTargetsInsideWeaponRange = false;
+	Template.AbilityTargetStyle = SingleTarget;
+
+	Trigger = new class'X2AbilityTrigger_EventListener';
+	Trigger.ListenerData.Deferral = ELD_OnStateSubmitted;
+	Trigger.ListenerData.EventFn = class'XComGameState_Ability'.static.AbilityTriggerEventListener_UnitSeesUnit;
+	Trigger.ListenerData.EventID = 'UnitSeesUnit';
+	Template.AbilityTriggers.AddItem(Trigger);
+
+	Template.AbilitySourceName = 'eAbilitySource_Item';
+	Template.eAbilityIconBehaviorHUD = EAbilityIconBehavior_NeverShow;
+	Template.IconImage = "img:///UILibrary_PerkIcons.UIPerk_overwatch";
+	Template.ShotHUDPriority = class'UIUtilities_Tactical'.const.ARMOR_ACTIVE_PRIORITY;
+	Template.bDisplayInUITooltip = default.PA_BerserkerQueen_MC_DisplayIn_UI_Tooltip;
+	Template.bDisplayInUITacticalText = default.PA_BerserkerQueen_MC_DisplayIn_TacText;
+	Template.DisplayTargetHitChance = false;
+
+	Template.BuildNewGameStateFn = TypicalAbility_BuildGameState;
+
+	Template.bAllowFreeFireWeaponUpgrade = false;
+	Template.bAllowAmmoEffects = false;
+
+	// Damage Effect
+	//
+	PanickedEffect = class'X2StatusEffects'.static.CreatePanickedStatusEffect();
+	PanickedEffect.VisualizationFn = ArmorPanickedVisualization; // Overwriting Default Panic
+	Template.AddTargetEffect(PanickedEffect);
+
+	MindControlEffect = class'X2StatusEffects'.static.CreateMindControlStatusEffect();
+	MindControlEffect.VisualizationFn = ArmorPanickedVisualization; // Overwriting Default Panic
+	Template.AddTargetEffect(MindControlEffect);
+
+	SetUnitValEffect = new class'X2Effect_SetUnitValue';
+	SetUnitValEffect.UnitName = default.PA_Muton_MC_Test;
+	SetUnitValEffect.NewValueToSet = 1;
+	SetUnitValEffect.CleanupType = eCleanup_BeginTactical;
+	SetUnitValEffect.bApplyOnHit = true;
+	SetUnitValEffect.bApplyOnMiss = true;
+	Template.AddTargetEffect(SetUnitValEffect);
+
+	Template.BuildVisualizationFn = TypicalAbility_BuildVisualization;
+	Template.bSkipFireAction = true;
+//BEGIN AUTOGENERATED CODE: Template Overrides 'RagePanic'
+	Template.bFrameEvenWhenUnitIsHidden = true;
+//END AUTOGENERATED CODE: Template Overrides 'RagePanic'
+
+	return Template;
+}
+
+static function X2AbilityTemplate Create_PA_Archon_MC_Ability()
+{
+	local X2AbilityTemplate                 Template;
+	local X2Condition_UnitValue				TargetAlreadyTestedCondition;
+	local X2Condition_UnitType				UnitTypeCondition;
+	local X2Condition_PanicOnPod            PanicOnPodCondition;
+	local X2Effect_SetUnitValue				SetUnitValEffect;
+	local X2Condition_UnitProperty          ShooterCondition;
+	local X2AbilityTarget_Single            SingleTarget;
+	local X2AbilityTrigger_EventListener	Trigger;
+	local X2Effect_Panicked					PanickedEffect;
+	local X2Effect_MindControl 				MindControlEffect;
+	local X2AbilityToHitCalc_PercentChance	PercentChanceToHit;
+
+	`CREATE_X2ABILITY_TEMPLATE(Template, 'Archon_MC');
+
+	Template.bDontDisplayInAbilitySummary = true;
+
+	PercentChanceToHit = new class'X2AbilityToHitCalc_PercentChance';
+	PercentChanceToHit.PercentToHit = default.PA_Archon_MC_Chance;
+	Template.AbilityToHitCalc = PercentChanceToHit;
+
+	Template.AbilityTargetConditions.AddItem(default.LivingHostileUnitDisallowMindControlProperty);
+
+	TargetAlreadyTestedCondition = new class'X2Condition_UnitValue';
+	TargetAlreadyTestedCondition.AddCheckValue(default.PA_Archon_MC_Test, 0, eCheck_Exact);
+	Template.AbilityTargetConditions.AddItem(TargetAlreadyTestedCondition);
+
+	UnitTypeCondition = new class'X2Condition_UnitType';
+	UnitTypeCondition.IncludeTypes.AddItem('Archon');
+	Template.AbilityTargetConditions.AddItem(UnitTypeCondition);
+
+	PanicOnPodCondition = new class'X2Condition_PanicOnPod';
+	PanicOnPodCondition.MaxPanicUnitsPerPod = default.PA_Archon_MC_Per_Pod;
+	Template.AbilityTargetConditions.AddItem(PanicOnPodCondition);
+
+	Template.AbilityShooterConditions.AddItem(default.LivingShooterProperty);
+	ShooterCondition = new class'X2Condition_UnitProperty';
+	ShooterCondition.ExcludeConcealed = true;
+	Template.AbilityShooterConditions.AddItem(ShooterCondition);
+
+	SingleTarget = new class'X2AbilityTarget_Single';
+	SingleTarget.OnlyIncludeTargetsInsideWeaponRange = false;
+	Template.AbilityTargetStyle = SingleTarget;
+
+	Trigger = new class'X2AbilityTrigger_EventListener';
+	Trigger.ListenerData.Deferral = ELD_OnStateSubmitted;
+	Trigger.ListenerData.EventFn = class'XComGameState_Ability'.static.AbilityTriggerEventListener_UnitSeesUnit;
+	Trigger.ListenerData.EventID = 'UnitSeesUnit';
+	Template.AbilityTriggers.AddItem(Trigger);
+
+	Template.AbilitySourceName = 'eAbilitySource_Item';
+	Template.eAbilityIconBehaviorHUD = EAbilityIconBehavior_NeverShow;
+	Template.IconImage = "img:///UILibrary_PerkIcons.UIPerk_overwatch";
+	Template.ShotHUDPriority = class'UIUtilities_Tactical'.const.ARMOR_ACTIVE_PRIORITY;
+	Template.bDisplayInUITooltip = default.PA_ArchonKing_MC_DisplayIn_UI_Tooltip;
+	Template.bDisplayInUITacticalText = default.PA_ArchonKing_MC_DisplayIn_TacText;
+	Template.DisplayTargetHitChance = false;
+
+	Template.BuildNewGameStateFn = TypicalAbility_BuildGameState;
+
+	Template.bAllowFreeFireWeaponUpgrade = false;
+	Template.bAllowAmmoEffects = false;
+
+	// Damage Effect
+	//
+	PanickedEffect = class'X2StatusEffects'.static.CreatePanickedStatusEffect();
+	PanickedEffect.VisualizationFn = ArmorPanickedVisualization; // Overwriting Default Panic
+	Template.AddTargetEffect(PanickedEffect);
+
+	MindControlEffect = class'X2StatusEffects'.static.CreateMindControlStatusEffect();
+	MindControlEffect.VisualizationFn = ArmorPanickedVisualization; // Overwriting Default Panic
+	Template.AddTargetEffect(MindControlEffect);
+
+	SetUnitValEffect = new class'X2Effect_SetUnitValue';
+	SetUnitValEffect.UnitName = default.PA_Archon_MC_Test;
+	SetUnitValEffect.NewValueToSet = 1;
+	SetUnitValEffect.CleanupType = eCleanup_BeginTactical;
+	SetUnitValEffect.bApplyOnHit = true;
+	SetUnitValEffect.bApplyOnMiss = true;
+	Template.AddTargetEffect(SetUnitValEffect);
+
+	Template.BuildVisualizationFn = TypicalAbility_BuildVisualization;
+	Template.bSkipFireAction = true;
+//BEGIN AUTOGENERATED CODE: Template Overrides 'IcarusPanic'
+	Template.bFrameEvenWhenUnitIsHidden = true;
+//END AUTOGENERATED CODE: Template Overrides 'IcarusPanic'
+
+	return Template;
+}
+
+static function X2AbilityTemplate Create_PA_Viper_MC_Ability()
+{
+	local X2AbilityTemplate                 Template;
+	local X2Condition_UnitValue				TargetAlreadyTestedCondition;
+	local X2Condition_UnitType				UnitTypeCondition;
+	local X2Condition_PanicOnPod            PanicOnPodCondition;
+	local X2Effect_SetUnitValue				SetUnitValEffect;
+	local X2Condition_UnitProperty          ShooterCondition;
+	local X2AbilityTarget_Single            SingleTarget;
+	local X2AbilityTrigger_EventListener	Trigger;
+	local X2Effect_Panicked					PanickedEffect;
+	local X2Effect_MindControl 				MindControlEffect;
+	local X2AbilityToHitCalc_PercentChance	PercentChanceToHit;
+
+	`CREATE_X2ABILITY_TEMPLATE(Template, 'Viper_MC');
+
+	Template.bDontDisplayInAbilitySummary = true;
+
+	PercentChanceToHit = new class'X2AbilityToHitCalc_PercentChance';
+	PercentChanceToHit.PercentToHit = default.PA_Viper_MC_Chance;
+	Template.AbilityToHitCalc = PercentChanceToHit;
+
+	Template.AbilityTargetConditions.AddItem(default.LivingHostileUnitDisallowMindControlProperty);
+
+	TargetAlreadyTestedCondition = new class'X2Condition_UnitValue';
+	TargetAlreadyTestedCondition.AddCheckValue(default.PA_Viper_MC_Test, 0, eCheck_Exact);
+	Template.AbilityTargetConditions.AddItem(TargetAlreadyTestedCondition);
+
+	UnitTypeCondition = new class'X2Condition_UnitType';
+	UnitTypeCondition.IncludeTypes.AddItem('Viper');
+	Template.AbilityTargetConditions.AddItem(UnitTypeCondition);
+
+	PanicOnPodCondition = new class'X2Condition_PanicOnPod';
+	PanicOnPodCondition.MaxPanicUnitsPerPod = default.PA_Viper_MC_Per_Pod;
+	Template.AbilityTargetConditions.AddItem(PanicOnPodCondition);
+
+	Template.AbilityShooterConditions.AddItem(default.LivingShooterProperty);
+	ShooterCondition = new class'X2Condition_UnitProperty';
+	ShooterCondition.ExcludeConcealed = true;
+	Template.AbilityShooterConditions.AddItem(ShooterCondition);
+
+	SingleTarget = new class'X2AbilityTarget_Single';
+	SingleTarget.OnlyIncludeTargetsInsideWeaponRange = false;
+	Template.AbilityTargetStyle = SingleTarget;
+
+	Trigger = new class'X2AbilityTrigger_EventListener';
+	Trigger.ListenerData.Deferral = ELD_OnStateSubmitted;
+	Trigger.ListenerData.EventFn = class'XComGameState_Ability'.static.AbilityTriggerEventListener_UnitSeesUnit;
+	Trigger.ListenerData.EventID = 'UnitSeesUnit';
+	Template.AbilityTriggers.AddItem(Trigger);
+
+	Template.AbilitySourceName = 'eAbilitySource_Item';
+	Template.eAbilityIconBehaviorHUD = EAbilityIconBehavior_NeverShow;
+	Template.IconImage = "img:///UILibrary_PerkIcons.UIPerk_overwatch";
+	Template.ShotHUDPriority = class'UIUtilities_Tactical'.const.ARMOR_ACTIVE_PRIORITY;
+	Template.bDisplayInUITooltip = default.PA_ViperKing_MC_DisplayIn_UI_Tooltip;
+	Template.bDisplayInUITacticalText = default.PA_ViperKing_MC_DisplayIn_TacText;
+	Template.DisplayTargetHitChance = false;
+
+	Template.BuildNewGameStateFn = TypicalAbility_BuildGameState;
+
+	Template.bAllowFreeFireWeaponUpgrade = false;
+	Template.bAllowAmmoEffects = false;
+
+	// Damage Effect
+	//
+	PanickedEffect = class'X2StatusEffects'.static.CreatePanickedStatusEffect();
+	PanickedEffect.VisualizationFn = ArmorPanickedVisualization; // Overwriting Default Panic
+	//PanickedEffect.SetDisplayInfo(ePerkBuff_Penalty, Template.LocFriendlyName, Template.GetMyHelpText(), Template.IconImage, true);
+	Template.AddTargetEffect(PanickedEffect);
+
+	MindControlEffect = class'X2StatusEffects'.static.CreateMindControlStatusEffect();
+	MindControlEffect.VisualizationFn = ArmorPanickedVisualization; // Overwriting Default Panic
+	Template.AddTargetEffect(MindControlEffect);
+
+	SetUnitValEffect = new class'X2Effect_SetUnitValue';
+	SetUnitValEffect.UnitName = default.PA_Viper_MC_Test;
+	SetUnitValEffect.NewValueToSet = 1;
+	SetUnitValEffect.CleanupType = eCleanup_BeginTactical;
+	SetUnitValEffect.bApplyOnHit = true;
+	SetUnitValEffect.bApplyOnMiss = true;
+	Template.AddTargetEffect(SetUnitValEffect);
+
+	Template.BuildVisualizationFn = TypicalAbility_BuildVisualization;
+	Template.bSkipFireAction = true;
+//BEGIN AUTOGENERATED CODE: Template Overrides 'SerpentPanic'
+	Template.bFrameEvenWhenUnitIsHidden = true;
+//END AUTOGENERATED CODE: Template Overrides 'SerpentPanic'
+
+	return Template;
+}
+
+static function ArmorPanickedVisualization(XComGameState VisualizeGameState, out VisualizationActionMetadata ActionMetadata, const name EffectApplyResult)
+{
+	local XComGameState_Unit UnitState;
+	local XComGameStateContext_Ability  AbilityContext;
+	local X2AbilityTemplate AbilityTemplate;
+
+	if (EffectApplyResult != 'AA_Success')
+	{
+		return;
+	}
+
+	// pan to the panicking unit (but only if it isn't a civilian)
+	UnitState = XComGameState_Unit(ActionMetadata.StateObject_NewState);
+	if (UnitState == none)
+		return;
+
+	AbilityContext = XComGameStateContext_Ability(VisualizeGameState.GetContext());
+	AbilityTemplate = class'XComGameState_Ability'.static.GetMyTemplateManager().FindAbilityTemplate(AbilityContext.InputContext.AbilityTemplateName);
+
+	class'X2StatusEffects'.static.AddEffectCameraPanToAffectedUnitToTrack(ActionMetadata, VisualizeGameState.GetContext());
+	class'X2StatusEffects'.static.AddEffectSoundAndFlyOverToTrack(ActionMetadata, VisualizeGameState.GetContext(), AbilityTemplate.LocFlyOverText, '', eColor_Bad, , 1.0f);
+	class'X2StatusEffects'.static.AddEffectMessageToTrack(ActionMetadata,
+														  AbilityTemplate.LocFlyOverText,
+														  VisualizeGameState.GetContext(),
+														  class'UIEventNoticesTactical'.default.PanickedTitle,
+														  "img:///UILibrary_StrategyImages.X2StrategyMap.MapPin_Generic",
+														  eUIState_Bad);
+
+	class'X2StatusEffects'.static.UpdateUnitFlag(ActionMetadata, VisualizeGameState.GetContext());
 }
 
 

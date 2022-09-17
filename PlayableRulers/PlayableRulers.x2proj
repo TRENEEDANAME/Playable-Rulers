@@ -30,9 +30,6 @@
     <Content Include="Config\XComGameData_CharacterStats.ini">
       <SubType>Content</SubType>
     </Content>
-    <Content Include="Config\XcomGameData_SchematicCost.ini">
-      <SubType>Content</SubType>
-    </Content>
     <Content Include="Config\XComGameData_WeaponData.ini">
       <SubType>Content</SubType>
     </Content>
