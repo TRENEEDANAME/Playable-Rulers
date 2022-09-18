@@ -80,6 +80,26 @@ LocLongDescription="The Archon King flies in the sky, and unleashes a barrage of
 LocHelpText="Delayed missile barrage fired at multiple enemy targets."
 LocFlyOverText="Devastate"
 
+
+[Viper_MC X2AbilityTemplate]
+LocFriendlyName="Ruler's right"
+LocLongDescription="The Viper King, as his species king, can command any viper that he sees"
+LocHelpText="Ruler mind control"
+LocFlyOverText="Ruler mind control"
+
+[Archon_MC X2AbilityTemplate]
+LocFriendlyName="Ruler's right"
+LocLongDescription="The Archon King, as his species king, can command any archon he they sees"
+LocHelpText="Ruler mind control"
+LocFlyOverText="Ruler mind control"
+
+[Muton_MC X2AbilityTemplate]
+LocFriendlyName="Ruler's right"
+LocLongDescription="The Berserker Queen, as her species queen, can command any muton and Berserker that she sees"
+LocHelpText="Ruler mind control"
+LocFlyOverText="Ruler mind control"
+
+
 ; *****************************
 ; UNLOCK RULER TECH (PROVING GROUNDS)
 ; *****************************

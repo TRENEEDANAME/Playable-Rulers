@@ -64,6 +64,7 @@ var privatewrite name PA_KingBlazingPinionsStage2AbilityName;
 //* Blazing Pinions
 
 var config bool PA_ArchonKing_DoesBlazingPinions_ConsumeAllActionPointCost; // false
+var config bool PA_Does_BlazingPinions_ExcludeCivilians; // true
 
 var config int PA_ArchonKing_BlazingPinions_AbilityPointCost; // 1
 var config int PA_ArchonKing_BlazingPinions_Cooldown;
@@ -71,7 +72,7 @@ var config int PA_ArchonKing_BlazingPinions_TargetRadius;
 var config int PA_ArchonKing_BlazingPinions_Range;
 var config int PA_ArchonKing_BlazingPinions_NumberOfTargets;
 var config float PA_ArchonKing_BlazingPinions_ImpactRadius;
-var config int KING_BLAZING_PINIONS_ENVIRONMENT_DAMAGE_AMOUNT;
+var config int PA_ArchonKing_BlazingPinions_EnvDamage;
 var config string PA_ArchonKing_BlazingPinions_TargetParticleSystem;
 var const config int PA_ArchonKing_BlazingPinions_MaxNumberOfDesorient;
 var const config int PA_ArchonKing_BlazingPinions_MaxNumberOfStun;
@@ -83,8 +84,9 @@ var const config int PA_ArchonKing_BlazingPinions_MaxNumberOfUnconscious;
 
 //* Viper King
 
-var name PA_Viper_MC_Test;
+var config bool PA_ViperKing_DontDisplay_MindControl_InSummary;
 
+var name PA_Viper_MC_Test;
 
 var config int PA_Viper_MC_Chance;
 var config int PA_Viper_MC_Per_Pod;
@@ -93,6 +95,8 @@ var config bool PA_ViperKing_MC_DisplayIn_UI_Tooltip;
 var config bool PA_ViperKing_MC_DisplayIn_TacText;
 
 //* Archon King
+
+var config bool PA_ArchonKing_DontDisplay_MindControl_InSummary;
 
 var name PA_Archon_MC_Test;
 
@@ -104,6 +108,8 @@ var config bool PA_ArchonKing_MC_DisplayIn_TacText;
 
 //* Berserker Queen
 
+var config bool PA_BerserkerQueen_DontDisplay_MindControl_InSummary;
+
 var name PA_Muton_MC_Test;
 
 var config bool PA_BerserkerQueen_MC_DisplayIn_UI_Tooltip;
@@ -111,6 +117,7 @@ var config bool PA_BerserkerQueen_MC_DisplayIn_TacText;
 
 var config int PA_Muton_MC_Chance;
 var config int PA_Muton_MC_Per_Pod;
+
 
 static function array<X2DataTemplate> CreateTemplates()
 {
@@ -741,82 +748,6 @@ static function X2AbilityTemplate Create_PA_BindAbility()
 	return Template;
 }
 
-static function X2AbilityTemplate Create_PA_BindSustainedAbility()
-{
-	local X2AbilityTemplate                 Template;
-	local X2AbilityCost_ActionPoints        ActionPointCost;
-	local X2AbilityTrigger_PlayerInput		InputTrigger;
-	local X2Condition_UnitEffectsWithAbilitySource UnitEffectsCondition;
-	local X2AbilityTarget_Single            SingleTarget;
-	local X2Effect_ApplyWeaponDamage        PhysicalDamageEffect;
-	local X2Effect_Persistent               UnconsciousEffect;
-	local X2Condition_UnitEffects           UnconsciousEffectsCondition;
-	local X2Effect_RemoveEffects            RemoveEffects;
-
-	`CREATE_X2ABILITY_TEMPLATE(Template, 'PA_KingBindSustained');
-	Template.IconImage = "img:///UILibrary_PerkIcons.UIPerk_viper_bind";
-
-	Template.bDontDisplayInAbilitySummary = default.PA_ViperKing_DontDisplay_BindSustain_InSummary;
-	Template.AbilitySourceName = 'eAbilitySource_Standard';
-	Template.eAbilityIconBehaviorHUD = eAbilityIconBehavior_NeverShow;
-
-	ActionPointCost = new class'X2AbilityCost_ActionPoints';
-	ActionPointCost.iNumPoints = default.PA_ViperKing_BindSustain_ActionsPointCost;
-	ActionPointCost.bConsumeAllPoints = default.PA_ViperKing_DoesBindSustain_ConsumeAllActionPointCost;
-	Template.AbilityCosts.AddItem(ActionPointCost);
-
-	Template.AbilityToHitCalc = default.DeadEye;
-
-	// This ability is only valid if this unit is currently binding the target
-	UnitEffectsCondition = new class'X2Condition_UnitEffectsWithAbilitySource';
-	UnitEffectsCondition.AddRequireEffect(default.PA_KingBindSustainedEffectName, 'AA_UnitIsBound');
-	Template.AbilityTargetConditions.AddItem(UnitEffectsCondition);
-
-	// May only target a single unit
-	SingleTarget = new class'X2AbilityTarget_Single';
-	Template.AbilityTargetStyle = SingleTarget;
-
-	InputTrigger = new class'X2AbilityTrigger_PlayerInput';
-	Template.AbilityTriggers.AddItem(InputTrigger);
-
-	// Chance the target becomes unconscious. If the target becomes unconscious then don't do the damage
-	// but remove the sustained effect
-	UnconsciousEffect = class'X2StatusEffects'.static.CreateUnconsciousStatusEffect();
-	UnconsciousEffect.ApplyChance = default.PA_KingBindSustained_UnconsciousPercent;
-	Template.AddTargetEffect(UnconsciousEffect);
-
-	UnconsciousEffectsCondition = new class'X2Condition_UnitEffects';
-	UnconsciousEffectsCondition.AddRequireEffect(class'X2StatusEffects'.default.UnconsciousName, 'AA_UnitIsUnconscious');
-
-	// Remove the bind/bound effects from the Target
-	RemoveEffects = new class'X2Effect_RemoveEffects';
-	RemoveEffects.EffectNamesToRemove.AddItem(default.PA_KingBindSustainedEffectName);
-	RemoveEffects.TargetConditions.AddItem(UnconsciousEffectsCondition);
-	Template.AddTargetEffect(RemoveEffects);
-
-	UnconsciousEffectsCondition = new class'X2Condition_UnitEffects';
-	UnconsciousEffectsCondition.AddExcludeEffect(class'X2StatusEffects'.default.UnconsciousName, 'AA_UnitIsUnconscious');
-
-	// While sustained this ability causes damage by crushing²²
-	PhysicalDamageEffect = new class'X2Effect_ApplyWeaponDamage';
-	PhysicalDamageEffect.EffectDamageValue = default.PA_ViperKing_Bind_SustainDamage;
-	PhysicalDamageEffect.DamageTypes.AddItem('ViperCrush');
-	PhysicalDamageEffect.EffectDamageValue.DamageType = 'Melee';
-	PhysicalDamageEffect.TargetConditions.AddItem(UnconsciousEffectsCondition);
-	Template.AddTargetEffect(PhysicalDamageEffect);
-
-	Template.bSkipFireAction = true;
-	Template.BuildNewGameStateFn = TypicalAbility_BuildGameState;
-	Template.BuildVisualizationFn = PA_BindSustained_BuildVisualization;
-
-	Template.LostSpawnIncreasePerUse = class'X2AbilityTemplateManager'.default.MeleeLostSpawnIncreasePerUse;
-//BEGIN AUTOGENERATED CODE: Template Overrides 'KingBindSustained'
-	Template.bFrameEvenWhenUnitIsHidden = true;
-//END AUTOGENERATED CODE: Template Overrides 'KingBindSustained'
-
-	return Template;
-}
-
 //* =================================================================
 //* Archon Ruler Ability
 //* =================================================================
@@ -864,7 +795,7 @@ static function X2DataTemplate Create_PA_BlazingPinionsStage1Ability()
 	// The target locations are enemies
 	UnitProperty = new class'X2Condition_UnitProperty';
 	UnitProperty.ExcludeFriendlyToSource = true;
-	UnitProperty.ExcludeCivilian = true;
+	UnitProperty.ExcludeCivilian = default.PA_Does_BlazingPinions_ExcludeCivilians;
 	UnitProperty.ExcludeDead = true;
 	UnitProperty.HasClearanceToMaxZ = true;
 	UnitProperty.FailOnNonUnits = true;
@@ -1482,9 +1413,9 @@ static function X2AbilityTemplate Create_PA_Muton_MC_Ability()
 	local X2Effect_MindControl 				MindControlEffect;
 	local X2AbilityToHitCalc_PercentChance	PercentChanceToHit;
 
-	`CREATE_X2ABILITY_TEMPLATE(Template, 'Muton_MC');
+	`CREATE_X2ABILITY_TEMPLATE(Template, 'PA_MutonBerserker_MC');
 
-	Template.bDontDisplayInAbilitySummary = true;
+	Template.bDontDisplayInAbilitySummary = default.PA_BerserkerQueen_DontDisplay_MindControl_InSummary;
 
 	PercentChanceToHit = new class'X2AbilityToHitCalc_PercentChance';
 	PercentChanceToHit.PercentToHit = default.PA_Muton_MC_Chance;
@@ -1574,9 +1505,9 @@ static function X2AbilityTemplate Create_PA_Archon_MC_Ability()
 	local X2Effect_MindControl 				MindControlEffect;
 	local X2AbilityToHitCalc_PercentChance	PercentChanceToHit;
 
-	`CREATE_X2ABILITY_TEMPLATE(Template, 'Archon_MC');
+	`CREATE_X2ABILITY_TEMPLATE(Template, 'PA_Archon_MC');
 
-	Template.bDontDisplayInAbilitySummary = true;
+	Template.bDontDisplayInAbilitySummary = default.PA_ArchonKing_DontDisplay_MindControl_InSummary;
 
 	PercentChanceToHit = new class'X2AbilityToHitCalc_PercentChance';
 	PercentChanceToHit.PercentToHit = default.PA_Archon_MC_Chance;
@@ -1665,9 +1596,9 @@ static function X2AbilityTemplate Create_PA_Viper_MC_Ability()
 	local X2Effect_MindControl 				MindControlEffect;
 	local X2AbilityToHitCalc_PercentChance	PercentChanceToHit;
 
-	`CREATE_X2ABILITY_TEMPLATE(Template, 'Viper_MC');
+	`CREATE_X2ABILITY_TEMPLATE(Template, 'PA_Viper_MC');
 
-	Template.bDontDisplayInAbilitySummary = true;
+	Template.bDontDisplayInAbilitySummary = default.PA_ViperKing_DontDisplay_MindControl_InSummary;
 
 	PercentChanceToHit = new class'X2AbilityToHitCalc_PercentChance';
 	PercentChanceToHit.PercentToHit = default.PA_Viper_MC_Chance;
@@ -1780,4 +1711,7 @@ DefaultProperties
 	PA_KingBindSustainedEffectName="KingBindSustainedEffect"
 	PA_KingBindAbilityName="KingBind"
 	PA_KingBlazingPinionsStage2AbilityName="ArchonKingBlazingPinionsStage2"
+	PA_Muton_MC_Test="HeavyAlienPanicTested"
+	PA_Archon_MC_Test="MediumAlienPanicTested"
+	PA_Viper_MC_Test="LightAlienPanicTested"
 }
