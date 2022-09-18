@@ -88,11 +88,13 @@ var config bool PA_ViperKing_DontDisplay_MindControl_InSummary;
 
 var name PA_Viper_MC_Test;
 
-var config int PA_Viper_MC_Chance;
-var config int PA_Viper_MC_Per_Pod;
-
 var config bool PA_ViperKing_MC_DisplayIn_UI_Tooltip;
 var config bool PA_ViperKing_MC_DisplayIn_TacText;
+var config bool PA_Is_ViperKing_MC_Infinite;
+
+var config int PA_Viper_MC_Chance;
+var config int PA_Viper_MC_Per_Pod;
+var config int PA_Viper_MC_MaxNumTurn;
 
 //* Archon King
 
@@ -100,11 +102,13 @@ var config bool PA_ArchonKing_DontDisplay_MindControl_InSummary;
 
 var name PA_Archon_MC_Test;
 
-var config int PA_Archon_MC_Chance;
-var config int PA_Archon_MC_Per_Pod;
-
 var config bool PA_ArchonKing_MC_DisplayIn_UI_Tooltip;
 var config bool PA_ArchonKing_MC_DisplayIn_TacText;
+var config bool PA_Is_ArchonKing_MC_Infinite;
+
+var config int PA_Archon_MC_Chance;
+var config int PA_Archon_MC_Per_Pod;
+var config int PA_Archon_MC_MaxNumTurn;
 
 //* Berserker Queen
 
@@ -114,10 +118,11 @@ var name PA_Muton_MC_Test;
 
 var config bool PA_BerserkerQueen_MC_DisplayIn_UI_Tooltip;
 var config bool PA_BerserkerQueen_MC_DisplayIn_TacText;
+var config bool PA_Is_BerserkerQueen_MC_Infinite;
 
 var config int PA_Muton_MC_Chance;
 var config int PA_Muton_MC_Per_Pod;
-
+var config int PA_Muton_MC_MaxNumTurn;
 
 static function array<X2DataTemplate> CreateTemplates()
 {
@@ -1470,7 +1475,7 @@ static function X2AbilityTemplate Create_PA_Muton_MC_Ability()
 	PanickedEffect.VisualizationFn = ArmorPanickedVisualization; // Overwriting Default Panic
 	Template.AddTargetEffect(PanickedEffect);
 
-	MindControlEffect = class'X2StatusEffects'.static.CreateMindControlStatusEffect(99, false, true, 0);
+	MindControlEffect = class'X2StatusEffects'.static.CreateMindControlStatusEffect(default.PA_Muton_MC_MaxNumTurn, default.PA_Is_BerserkerQueen_MC_Infinite, true, 0);
 	MindControlEffect.VisualizationFn = ArmorPanickedVisualization; // Overwriting Default Panic
 	Template.AddTargetEffect(MindControlEffect);
 
@@ -1561,7 +1566,7 @@ static function X2AbilityTemplate Create_PA_Archon_MC_Ability()
 	PanickedEffect.VisualizationFn = ArmorPanickedVisualization; // Overwriting Default Panic
 	Template.AddTargetEffect(PanickedEffect);
 
-	MindControlEffect = class'X2StatusEffects'.static.CreateMindControlStatusEffect(99, false, true, 0);
+	MindControlEffect = class'X2StatusEffects'.static.CreateMindControlStatusEffect(default.PA_Archon_MC_MaxNumTurn, false, default.PA_Is_ArchonKing_MC_Infinite, 0);
 	MindControlEffect.VisualizationFn = ArmorPanickedVisualization; // Overwriting Default Panic
 	Template.AddTargetEffect(MindControlEffect);
 
@@ -1653,7 +1658,7 @@ static function X2AbilityTemplate Create_PA_Viper_MC_Ability()
 	//PanickedEffect.SetDisplayInfo(ePerkBuff_Penalty, Template.LocFriendlyName, Template.GetMyHelpText(), Template.IconImage, true);
 	Template.AddTargetEffect(PanickedEffect);
 
-	MindControlEffect = class'X2StatusEffects'.static.CreateMindControlStatusEffect(99, false, true, 0);
+	MindControlEffect = class'X2StatusEffects'.static.CreateMindControlStatusEffect(default.PA_Viper_MC_MaxNumTurn, false, default.PA_Is_ViperKing_MC_Infinite, 0);
 	MindControlEffect.VisualizationFn = ArmorPanickedVisualization; // Overwriting Default Mind control
 	Template.AddTargetEffect(MindControlEffect);
 
