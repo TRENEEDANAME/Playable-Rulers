@@ -1470,7 +1470,7 @@ static function X2AbilityTemplate Create_PA_Muton_MC_Ability()
 	PanickedEffect.VisualizationFn = ArmorPanickedVisualization; // Overwriting Default Panic
 	Template.AddTargetEffect(PanickedEffect);
 
-	MindControlEffect = class'X2StatusEffects'.static.CreateMindControlStatusEffect();
+	MindControlEffect = class'X2StatusEffects'.static.CreateMindControlStatusEffect(99, false, true, 0);
 	MindControlEffect.VisualizationFn = ArmorPanickedVisualization; // Overwriting Default Panic
 	Template.AddTargetEffect(MindControlEffect);
 
@@ -1561,7 +1561,7 @@ static function X2AbilityTemplate Create_PA_Archon_MC_Ability()
 	PanickedEffect.VisualizationFn = ArmorPanickedVisualization; // Overwriting Default Panic
 	Template.AddTargetEffect(PanickedEffect);
 
-	MindControlEffect = class'X2StatusEffects'.static.CreateMindControlStatusEffect();
+	MindControlEffect = class'X2StatusEffects'.static.CreateMindControlStatusEffect(99, false, true, 0);
 	MindControlEffect.VisualizationFn = ArmorPanickedVisualization; // Overwriting Default Panic
 	Template.AddTargetEffect(MindControlEffect);
 
@@ -1653,8 +1653,8 @@ static function X2AbilityTemplate Create_PA_Viper_MC_Ability()
 	//PanickedEffect.SetDisplayInfo(ePerkBuff_Penalty, Template.LocFriendlyName, Template.GetMyHelpText(), Template.IconImage, true);
 	Template.AddTargetEffect(PanickedEffect);
 
-	MindControlEffect = class'X2StatusEffects'.static.CreateMindControlStatusEffect();
-	MindControlEffect.VisualizationFn = ArmorPanickedVisualization; // Overwriting Default Panic
+	MindControlEffect = class'X2StatusEffects'.static.CreateMindControlStatusEffect(99, false, true, 0);
+	MindControlEffect.VisualizationFn = ArmorPanickedVisualization; // Overwriting Default Mind control
 	Template.AddTargetEffect(MindControlEffect);
 
 	SetUnitValEffect = new class'X2Effect_SetUnitValue';
