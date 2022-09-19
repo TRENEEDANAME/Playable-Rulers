@@ -1,8 +1,8 @@
 class X2Ability_PlayableRulers extends X2Ability config(GameData_SoldierSkills);
 
-//* =================================
+//* ======================================================
 //* Viper King
-//* =================================
+//* ======================================================
 
 //* Bind ability
 
@@ -12,9 +12,9 @@ var config bool PA_ViperKing_DontDisplay_Bind_InSummary;
 var config bool PA_ViperKing_DoesBind_ConsumeAllActionPointCost;
 
 // Exlusion rules
-var config bool ViperKing_DoesBindExcludeRobot;
-var config bool ViperKing_DoesBindExcludeAlien;
-var config bool ViperKing_DoesBindExcludeFriendly;
+var config bool PA_ViperKing_DoesBindExcludeRobot;
+var config bool PA_ViperKing_DoesBindExcludeAlien;
+var config bool PA_ViperKing_DoesBindExcludeFriendly;
 
 var config int PA_ViperKing_Bind_ActionPointCost;
 var config int PA_ViperKing_Bind_Cooldown;
@@ -43,9 +43,9 @@ var config int PA_ViperKing_EndBind_ActionPointCost;
 var config bool PA_ViperKing_DontDisplay_GetOverHere_InSummary;
 var config bool PA_ViperKing_DoesGetOverHere_ConsumeAllActionPointCost;
 
-var config bool PA_Does_GetOverHere_ExcludeRobot; // true
-var config bool PA_Does_GetOverHere_ExcludeDead; // true
-var config bool PA_Does_GetOverHere_ExcludeFriendly; // true
+var config bool PA_ViperKing_Does_GetOverHere_ExcludeRobot; // true
+var config bool PA_ViperKing_Does_GetOverHere_ExcludeDead; // true
+var config bool PA_ViperKing_Does_GetOverHere_ExcludeFriendly; // true
 
 var config int PA_ViperKing_GetOverHere_ActionPointCost;
 var config int PA_ViperKing_GetOverHere_MinRange;
@@ -57,9 +57,9 @@ var name PA_KingBindSustainedEffectName;
 var name PA_KingBindAbilityName;
 var privatewrite name PA_KingBlazingPinionsStage2AbilityName;
 
-//* =================================
+//* ======================================================
 //* Archon King
-//* =================================
+//* ======================================================
 
 //* Blazing Pinions
 
@@ -71,12 +71,66 @@ var config int PA_ArchonKing_BlazingPinions_Cooldown;
 var config int PA_ArchonKing_BlazingPinions_TargetRadius;
 var config int PA_ArchonKing_BlazingPinions_Range;
 var config int PA_ArchonKing_BlazingPinions_NumberOfTargets;
-var config float PA_ArchonKing_BlazingPinions_ImpactRadius;
 var config int PA_ArchonKing_BlazingPinions_EnvDamage;
-var config string PA_ArchonKing_BlazingPinions_TargetParticleSystem;
+
 var const config int PA_ArchonKing_BlazingPinions_MaxNumberOfDesorient;
 var const config int PA_ArchonKing_BlazingPinions_MaxNumberOfStun;
 var const config int PA_ArchonKing_BlazingPinions_MaxNumberOfUnconscious;
+
+var config float PA_ArchonKing_BlazingPinions_ImpactRadius;
+
+var config string PA_ArchonKing_BlazingPinions_TargetParticleSystem;
+
+//* ======================================================
+//* Berserker Queen
+//* ======================================================
+
+
+//* Quake
+
+var config WeaponDamageValue PA_BerserkerQueen_Quake_Damage;
+
+var config bool PA_BerserkerQueen_DontDisplay_Quake_InSummary;
+
+var config bool PA_BerserkerQueen_Quake_ConsumeAllActionPointCost;
+
+var config int PA_BerserkerQueen_Quake_ActionPointCost;
+var config int PA_BerserkerQueen_Quake_Cooldown;
+
+var config float PA_BerserkerQueen_Quake_Damage_Radius;
+var config float PA_BerserkerQueen_Quake_Knockback_Distance;
+
+// Number of hit, min / max, max number of enemy with status effect
+
+var config int PA_BerserkerQueen_Quake_MinHitDesoriented;
+var config int PA_BerserkerQueen_Quake_MaxHitDesoriented;
+var config int PA_BerserkerQueen_Quake_MaxEnemyDesoriented_Allowed;
+
+var config int PA_BerserkerQueen_Quake_MinHitStunned;
+var config int PA_BerserkerQueen_Quake_MaxHitStunned;
+var config int PA_BerserkerQueen_Quake_MaxEnemyStun_Allowed;
+
+var config int PA_BerserkerQueen_Quake_MinHitUnconscious;
+var config int PA_BerserkerQueen_Quake_MaxHitUnconscious;
+var config int PA_BerserkerQueen_Quake_MaxEnemyUnconscious_Allowed;
+
+//* Faith Breaker
+
+var config int PA_BerserkerQueen_FaithBreaker_ActionPointCost;
+var config int PA_BerserkerQueen_FaithBreaker_AddedChances_PerHP_Lost;
+var config int PA_BerserkerQueen_FaithBreaker_Cooldown;
+var config int PA_BerserkerQueen_FaithBreaker_ConsumeAllActionPointCost;
+
+// Exclude rules
+
+var config bool PA_BerserkerQueen_DoesFaithBreakerExcludeAlive; //false
+var config bool PA_BerserkerQueen_DoesFaithBreakerExcludeAlien; //true
+var config bool PA_BerserkerQueen_DoesFaithBreakerExcludeDead; //true
+var config bool PA_BerserkerQueen_DoesFaithBreakerExcludeFriendly; //true
+var config bool PA_BerserkerQueen_DoesFaithBreakerExcludeHostile; //false
+var config bool PA_BerserkerQueen_DoesFaithBreakerExcludeAFriendly_MindControlled; //false
+var config bool PA_BerserkerQueen_DoesFaithBreakerExcludeRobot; //true
+
 
 //* =================================
 //* Mind control 
@@ -128,13 +182,24 @@ static function array<X2DataTemplate> CreateTemplates()
 {
 	local array<X2DataTemplate> Templates;
 
+	// Ruler reaction
 	Templates.AddItem(Create_PA_RulersReactions_Ability());
+
+	// Viper King
 	Templates.AddItem(Create_PA_GetOverHereAbility());
 	Templates.AddItem(Create_PA_BindAbility());
 	Templates.AddItem(Create_PA_BindSustainedAbility());
 	Templates.AddItem(Create_PA_EndBindAbility());
 	Templates.AddItem(Create_PA_BlazingPinionsStage1Ability());
 	Templates.AddItem(Create_PA_BlazingPinionsStage2Ability());
+
+	// Berserker Queen
+	Templates.AddItem(Create_PA_QuakeAbility());
+	Templates.AddItem(Create_PA_FaithBreaker());
+	Templates.AddItem(Create_PA_QueenDevastatingPunchAbility());
+
+
+	// Mind control
 	Templates.AddItem(Create_PA_Muton_MC_Ability());
 	Templates.AddItem(Create_PA_Archon_MC_Ability());
 	Templates.AddItem(Create_PA_Viper_MC_Ability());
@@ -202,9 +267,9 @@ static function X2AbilityTemplate Create_PA_RulersReactions_Ability()
 	return Template;
 }
 
-//* =================================================================
+//* ======================================================
 //* Viper King Ability
-//* =================================================================
+//* ======================================================
 
 static function X2AbilityTemplate Create_PA_GetOverHereAbility()
 {
@@ -664,9 +729,9 @@ static function X2AbilityTemplate Create_PA_BindAbility()
 	// The Target must be alive and a humanoid
 	UnitPropertyCondition = new class'X2Condition_UnitProperty';
 	UnitPropertyCondition.ExcludeDead = true;
-	UnitPropertyCondition.ExcludeRobotic = default.ViperKing_DoesBindExcludeRobot; // true
-	UnitPropertyCondition.ExcludeAlien = default.ViperKing_DoesBindExcludeAlien; // true
-	UnitPropertyCondition.ExcludeFriendlyToSource = default.ViperKing_DoesBindExcludeFriendly; // true
+	UnitPropertyCondition.ExcludeRobotic = default.PA_ViperKing_DoesBindExcludeRobot; // true
+	UnitPropertyCondition.ExcludeAlien = default.PA_ViperKing_DoesBindExcludeAlien; // true
+	UnitPropertyCondition.ExcludeFriendlyToSource = default.PA_ViperKing_DoesBindExcludeFriendly; // true
 	UnitPropertyCondition.RequireWithinRange = true;
 	UnitPropertyCondition.WithinRange = default.PA_ViperKing_Bind_Range;
 	Template.AbilityTargetConditions.AddItem(UnitPropertyCondition);
@@ -753,9 +818,9 @@ static function X2AbilityTemplate Create_PA_BindAbility()
 	return Template;
 }
 
-//* =================================================================
+//* ======================================================
 //* Archon Ruler Ability
-//* =================================================================
+//* ======================================================
 
 static function X2DataTemplate Create_PA_BlazingPinionsStage1Ability()
 {
@@ -1399,6 +1464,256 @@ simulated function PA_BlazingPinionsStage2_BuildVisualization(XComGameState Visu
 	TypicalAbility_AddEffectRedirects(VisualizeGameState, ArchonTrack);
 }
 
+//! ======================================================
+//! Berserker Queen
+//! ======================================================
+
+// Updated Devastating Punch ability to not consume all points.
+static function X2AbilityTemplate Create_PA_QueenDevastatingPunchAbility(optional Name AbilityName='DevastatingPunch', int MovementRangeAdjustment=1)
+{
+	local X2AbilityTemplate AbilityTemplate;
+	local int				AbilityCostIndex;
+	AbilityTemplate = class'X2Ability_Berserker'.static.CreateDevastatingPunchAbility(AbilityName, MovementRangeAdjustment);
+	// Set to not end the turn.
+	for( AbilityCostIndex = 0; AbilityCostIndex < AbilityTemplate.AbilityCosts.Length; ++AbilityCostIndex )
+	{
+		if( AbilityTemplate.AbilityCosts[AbilityCostIndex].IsA('X2AbilityCost_ActionPoints') )
+		{
+			X2AbilityCost_ActionPoints(AbilityTemplate.AbilityCosts[AbilityCostIndex]).bConsumeAllPoints = false;
+		}
+	}
+	class'X2Ability_DLC_Day60AlienRulers'.static.RemoveMimicBeaconsFromTargets(AbilityTemplate);
+	return AbilityTemplate;
+}
+
+static function X2AbilityTemplate Create_PA_QuakeAbility()
+{
+	local X2AbilityTemplate							Template;	
+	local X2AbilityCost_ActionPoints				ActionPointCost;
+	local X2AbilityTarget_Cursor					CursorTarget;
+	local X2AbilityMultiTarget_Radius				RadiusMultiTarget;
+	local X2AbilityTrigger_PlayerInput				InputTrigger;
+	local X2AbilityCooldown							Cooldown;
+	local X2Effect_Knockback						KnockbackEffect;
+	local X2Effect_ApplyWeaponDamage				DamageEffect;
+	local X2AbilityToHitCalc_StatCheck_UnitVsUnit   StatContest;
+	local X2Effect_Persistent						DisorientedEffect;
+	local X2Effect_Stunned							StunnedEffect;
+	local X2Effect_Persistent						UnconsciousEffect;
+
+	`CREATE_X2ABILITY_TEMPLATE(Template, 'PA_Quake');
+	Template.bDontDisplayInAbilitySummary = default.PA_BerserkerQueen_DontDisplay_Quake_InSummary;
+	Template.IconImage = "img:///UILibrary_DLC2Images.UIPerk_beserker_quake";
+	
+	ActionPointCost = new class'X2AbilityCost_ActionPoints';
+	ActionPointCost.iNumPoints = default.PA_BerserkerQueen_Quake_ActionPointCost;
+	ActionPointCost.bConsumeAllPoints = default.PA_BerserkerQueen_Quake_ConsumeAllActionPointCost;
+	Template.AbilityCosts.AddItem(ActionPointCost);
+
+	// This will be a stat contest
+	StatContest = new class'X2AbilityToHitCalc_StatCheck_UnitVsUnit';
+	StatContest.AttackerStat = eStat_Strength;
+	Template.AbilityToHitCalc = StatContest;
+
+	// On hit effects
+	//  Stunned effect for 1 or 2 unblocked hit
+	DisorientedEffect = class'X2StatusEffects'.static.CreateDisorientedStatusEffect(, , false);
+	DisorientedEffect.MinStatContestResult = default.PA_BerserkerQueen_Quake_MinHitDesoriented;
+	DisorientedEffect.MaxStatContestResult = default.PA_BerserkerQueen_Quake_MaxHitDesoriented;
+	DisorientedEffect.MultiTargetStatContestInfo.MaxNumberAllowed = default.PA_BerserkerQueen_Quake_MaxEnemyDesoriented_Allowed;
+	DisorientedEffect.bRemoveWhenSourceDies = false;
+	Template.AddMultiTargetEffect(DisorientedEffect);
+
+	//  Stunned effect for 3 or 4 unblocked hit
+	StunnedEffect = class'X2StatusEffects'.static.CreateStunnedStatusEffect(2, 100, false);
+	StunnedEffect.MinStatContestResult = default.PA_BerserkerQueen_Quake_MinHitStunned;
+	StunnedEffect.MaxStatContestResult = default.PA_BerserkerQueen_Quake_MaxHitStunned;
+	StunnedEffect.MultiTargetStatContestInfo.MaxNumberAllowed = default.PA_BerserkerQueen_Quake_MaxEnemyStun_Allowed;  // Max number of stunned units allowed from this ability
+	StunnedEffect.MultiTargetStatContestInfo.EffectIdxToApplyOnMaxExceeded = 0;    // After the max allowed, targets become disoriented
+	StunnedEffect.bRemoveWhenSourceDies = false;
+	Template.AddMultiTargetEffect(StunnedEffect);
+
+	//  Unconscious effect for 5 unblocked hits
+	UnconsciousEffect = class'X2StatusEffects'.static.CreateUnconsciousStatusEffect();
+	UnconsciousEffect.MinStatContestResult = default.PA_BerserkerQueen_Quake_MinHitUnconscious;
+	UnconsciousEffect.MaxStatContestResult = default.PA_BerserkerQueen_Quake_MaxHitUnconscious;
+	UnconsciousEffect.MultiTargetStatContestInfo.MaxNumberAllowed = default.PA_BerserkerQueen_Quake_MaxEnemyUnconscious_Allowed;  // Max number of the multitargets that may become unconscious
+	UnconsciousEffect.MultiTargetStatContestInfo.EffectIdxToApplyOnMaxExceeded = 1;    // After the max allowed, targets become stunned
+	UnconsciousEffect.bRemoveWhenSourceDies = false;
+	Template.AddMultiTargetEffect(UnconsciousEffect);
+
+	// damage effect
+	DamageEffect = new class'X2Effect_ApplyWeaponDamage';
+	DamageEffect.EffectDamageValue = default.PA_BerserkerQueen_Quake_Damage;
+	Template.AddMultiTargetEffect(DamageEffect);
+
+	// knockback effect
+	KnockbackEffect = new class'X2Effect_Knockback';
+	KnockbackEffect.KnockbackDistance = default.PA_BerserkerQueen_Quake_Knockback_Distance;
+	Template.AddMultiTargetEffect(KnockbackEffect);
+
+	// Multi Targets
+	Template.AbilityMultiTargetConditions.AddItem(default.LivingTargetUnitOnlyProperty);
+
+	CursorTarget = new class'X2AbilityTarget_Cursor';
+	Template.AbilityTargetStyle = CursorTarget;
+
+	RadiusMultiTarget = new class'X2AbilityMultiTarget_Radius';
+	RadiusMultiTarget.bUseWeaponRadius = false;
+	RadiusMultiTarget.fTargetRadius = default.PA_BerserkerQueen_Quake_Damage_Radius;
+	RadiusMultiTarget.bExcludeSelfAsTargetIfWithinRadius = true;
+	Template.AbilityMultiTargetStyle = RadiusMultiTarget;
+
+	Template.TargetingMethod = class'X2TargetingMethod_PathTarget';
+
+	// shooter conditions
+	Template.AbilityShooterConditions.AddItem(default.LivingShooterProperty);
+
+	// trigger
+	InputTrigger = new class'X2AbilityTrigger_PlayerInput';
+	Template.AbilityTriggers.AddItem(InputTrigger);
+	
+	Template.AbilitySourceName = 'eAbilitySource_Standard';
+	Template.eAbilityIconBehaviorHUD = EAbilityIconBehavior_AlwaysShow;
+	Template.IconImage = "img:///UILibrary_PerkIcons.UIPerk_viper_frostbite";
+
+	// Cooldown on the ability
+	Cooldown = new class'X2AbilityCooldown';
+	Cooldown.iNumTurns = default.PA_BerserkerQueen_Quake_Cooldown;
+	Template.AbilityCooldown = Cooldown;
+
+	Template.bSkipMoveStop = true;
+	Template.CustomFireAnim = 'FF_Quake';
+	Template.CustomMovingFireAnim = 'MV_Quake';
+	Template.CustomMovingTurnLeftFireAnim = 'MV_RunTun90LeftQuake';
+	Template.CustomMovingTurnRightFireAnim = 'MV_RunTun90RightQuake';
+
+	// This action is considered 'hostile' and can be interrupted!
+	Template.Hostility = eHostility_Offensive;
+	Template.BuildNewGameStateFn = TypicalMoveEndAbility_BuildGameState;
+	Template.BuildInterruptGameStateFn = TypicalMoveEndAbility_BuildInterruptGameState;
+	Template.BuildVisualizationFn = TypicalAbility_BuildVisualization;
+	Template.CinescriptCameraType = "BerserkerQueen_Quake";
+
+	Template.LostSpawnIncreasePerUse = class'X2AbilityTemplateManager'.default.HeavyWeaponLostSpawnIncreasePerUse;
+//BEGIN AUTOGENERATED CODE: Template Overrides 'Quake'
+	Template.bFrameEvenWhenUnitIsHidden = true;
+//END AUTOGENERATED CODE: Template Overrides 'Quake'
+
+	return Template;
+}
+
+static function X2AbilityTemplate Create_PA_Faithbreaker()
+{
+	local X2AbilityTemplate     Template;
+	local X2AbilityCost_ActionPoints ActionPointCost;
+	local X2AbilityCooldown     Cooldown;
+	local X2AbilityMultiTarget_AllUnits MultiTarget;
+	local X2Effect_Panicked     PanicEffect;
+	local X2Condition_UnitProperty UnitPropertyCondition;
+
+	`CREATE_X2ABILITY_TEMPLATE(Template, 'PA_FaithBreaker');
+
+	Template.IconImage = "img:///UILibrary_DLC2Images.UIPerk_beserker_faithbreaker";
+	
+	ActionPointCost = new class'X2AbilityCost_ActionPoints';
+	ActionPointCost.iNumPoints = default.PA_BerserkerQueen_FaithBreaker_ActionPointCost;
+	ActionPointCost.bConsumeAllPoints = default.PA_BerserkerQueen_FaithBreaker_ConsumeAllActionPointCost;
+	Template.AbilityCosts.AddItem(ActionPointCost);
+
+	Cooldown = new class'X2AbilityCooldown';
+	Cooldown.iNumTurns = default.PA_BerserkerQueen_FaithBreaker_Cooldown;
+	Template.AbilityCooldown = Cooldown;
+
+	Template.AbilityTriggers.AddItem(default.PlayerInputTrigger);
+	Template.AbilityTargetStyle = default.SelfTarget;
+	MultiTarget = new class'X2AbilityMultiTarget_AllUnits';
+	MultiTarget.bAcceptEnemyUnits = true;
+	Template.AbilityMultiTargetStyle = MultiTarget;
+
+	Template.AbilityMultiTargetConditions.AddItem(new class'X2Condition_Panic');
+
+	UnitPropertyCondition = new class'X2Condition_UnitProperty';
+	UnitPropertyCondition.ExcludeAlive = default.PA_BerserkerQueen_DoesFaithBreakerExcludeAlive; //false
+	UnitPropertyCondition.ExcludeAlien = default.PA_BerserkerQueen_DoesFaithBreakerExcludeAlien;
+	UnitPropertyCondition.ExcludeDead = default.PA_BerserkerQueen_DoesFaithBreakerExcludeDead; //true
+	UnitPropertyCondition.ExcludeFriendlyToSource = default.PA_BerserkerQueen_DoesFaithBreakerExcludeFriendly; //true
+	UnitPropertyCondition.ExcludeHostileToSource = default.PA_BerserkerQueen_DoesFaithBreakerExcludeHostile; //false
+	UnitPropertyCondition.TreatMindControlledSquadmateAsHostile = default.PA_BerserkerQueen_DoesFaithBreakerExcludeAFriendly_MindControlled; //false
+	UnitPropertyCondition.FailOnNonUnits = true; //true
+	UnitPropertyCondition.ExcludeRobotic = default.PA_BerserkerQueen_DoesFaithBreakerExcludeRobot; //true
+	Template.AbilityMultiTargetConditions.AddItem(UnitPropertyCondition);
+
+	PanicEffect = class'X2StatusEffects'.static.CreatePanickedStatusEffect();
+	PanicEffect.ApplyChanceFn = PA_FaithbreakerApplyChance;
+	PanicEffect.VisualizationFn = PA_FaithBreaker_PanickedVisualization;
+	Template.AddMultiTargetEffect(PanicEffect);
+
+	Template.BuildNewGameStateFn = TypicalAbility_BuildGameState;
+	Template.BuildVisualizationFn = TypicalAbility_BuildVisualization;
+	Template.CinescriptCameraType = "Berserker_Rage";
+	Template.bShowPostActivation = true;
+
+	Template.CustomFireAnim = 'NO_Faithbreaker';
+
+	class'X2Ability_DLC_Day60AlienRulers'.static.RemoveMimicBeaconsFromTargets(Template);
+
+//BEGIN AUTOGENERATED CODE: Template Overrides 'Faithbreaker'
+	Template.bFrameEvenWhenUnitIsHidden = true;
+//END AUTOGENERATED CODE: Template Overrides 'Faithbreaker'
+	Template.LostSpawnIncreasePerUse = class'X2AbilityTemplateManager'.default.StandardShotLostSpawnIncreasePerUse;
+	return Template;
+}
+
+function name PA_FaithbreakerApplyChance(const out EffectAppliedData ApplyEffectParameters, XComGameState_BaseObject kNewTargetState, XComGameState NewGameState)
+{
+	//  this mimics the panic hit roll without actually BEING the panic hit roll
+	local XComGameState_Unit TargetUnit;
+	local name ImmuneName;
+	local float MaxHealth, CurrentHealth, HealthLost;
+	local int TargetRoll, RandRoll;
+
+	TargetUnit = XComGameState_Unit(kNewTargetState);
+	if (TargetUnit != none)
+	{
+		foreach class'X2AbilityToHitCalc_PanicCheck'.default.PanicImmunityAbilities(ImmuneName)
+		{
+			if (TargetUnit.FindAbility(ImmuneName).ObjectID != 0)
+			{
+				return 'AA_UnitIsImmune';
+			}
+		}
+		
+		MaxHealth = TargetUnit.GetMaxStat(eStat_HP);
+		CurrentHealth = TargetUnit.GetCurrentStat(eStat_HP);
+		HealthLost = MaxHealth - CurrentHealth;
+
+		TargetRoll = HealthLost * default.PA_BerserkerQueen_FaithBreaker_AddedChances_PerHP_Lost;
+		RandRoll = `SYNC_RAND(100);
+		if (RandRoll < TargetRoll)
+		{
+			return 'AA_Success';
+		}
+	}
+
+	return 'AA_EffectChanceFailed';
+}
+
+static function PA_FaithBreaker_PanickedVisualization(XComGameState VisualizeGameState, out VisualizationActionMetadata ActionMetadata, const name EffectApplyResult)
+{
+	local XComGameState_Unit UnitState;
+
+	UnitState = XComGameState_Unit(ActionMetadata.StateObject_NewState);
+	if (UnitState == none)
+	{
+		return;
+	}
+
+	if (!UnitState.IsCivilian() && EffectApplyResult != 'AA_Success')
+	{
+		class'X2StatusEffects'.static.AddEffectSoundAndFlyOverToTrack(ActionMetadata, VisualizeGameState.GetContext(), class'X2Effect_Panicked'.default.EffectFailedFriendlyName, '', eColor_Good, class'UIUtilities_Image'.const.UnitStatus_Panicked);
+	}
+}
 
 //* ========================================================
 //* Ultimate ability : mind control
