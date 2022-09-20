@@ -12,9 +12,9 @@ var config bool PA_ViperKing_DontDisplay_Bind_InSummary;
 var config bool PA_ViperKing_DoesBind_ConsumeAllActionPointCost;
 
 // Exlusion rules
-var config bool PA_ViperKing_DoesBindExcludeRobot;
-var config bool PA_ViperKing_DoesBindExcludeAlien;
-var config bool PA_ViperKing_DoesBindExcludeFriendly;
+var config bool PA_ViperKing_Does_Bind_ExcludeRobot;
+var config bool PA_ViperKing_Does_Bind_ExcludeAlien;
+var config bool PA_ViperKing_Does_Bind_ExcludeFriendly;
 
 var config int PA_ViperKing_Bind_ActionPointCost;
 var config int PA_ViperKing_Bind_Cooldown;
@@ -116,10 +116,7 @@ var config int PA_BerserkerQueen_Quake_MaxEnemyUnconscious_Allowed;
 
 //* Faith Breaker
 
-var config int PA_BerserkerQueen_FaithBreaker_ActionPointCost;
-var config int PA_BerserkerQueen_FaithBreaker_AddedChances_PerHP_Lost;
-var config int PA_BerserkerQueen_FaithBreaker_Cooldown;
-var config int PA_BerserkerQueen_FaithBreaker_ConsumeAllActionPointCost;
+var config bool PA_BerserkerQueen_FaithBreaker_ConsumeAllActionPointCost;
 
 // Exclude rules
 
@@ -131,6 +128,10 @@ var config bool PA_BerserkerQueen_DoesFaithBreakerExcludeHostile; //false
 var config bool PA_BerserkerQueen_DoesFaithBreakerExcludeAFriendly_MindControlled; //false
 var config bool PA_BerserkerQueen_DoesFaithBreakerExcludeRobot; //true
 
+
+var config int PA_BerserkerQueen_FaithBreaker_ActionPointCost;
+var config int PA_BerserkerQueen_FaithBreaker_AddedChances_PerHP_Lost;
+var config int PA_BerserkerQueen_FaithBreaker_Cooldown;
 
 //* =================================
 //* Mind control 
@@ -322,9 +323,9 @@ static function X2AbilityTemplate Create_PA_GetOverHereAbility()
 	// The Target must be alive and a humanoid
 	UnitPropertyCondition = new class'X2Condition_UnitProperty';
 	UnitPropertyCondition.ExcludeDead = true;
-	UnitPropertyCondition.ExcludeRobotic = default.PA_Does_GetOverHere_ExcludeRobot;
-	UnitPropertyCondition.ExcludeAlien = default.PA_Does_GetOverHere_ExcludeDead;
-	UnitPropertyCondition.ExcludeFriendlyToSource = default.PA_Does_GetOverHere_ExcludeFriendly;
+	UnitPropertyCondition.ExcludeRobotic = default.PA_ViperKing_Does_GetOverHere_ExcludeRobot;
+	UnitPropertyCondition.ExcludeAlien = default.PA_ViperKing_Does_GetOverHere_ExcludeDead;
+	UnitPropertyCondition.ExcludeFriendlyToSource = default.PA_ViperKing_Does_GetOverHere_ExcludeFriendly;
 	UnitPropertyCondition.RequireWithinMinRange = true;
 	UnitPropertyCondition.WithinMinRange = default.PA_ViperKing_GetOverHere_MinRange;
 	UnitPropertyCondition.RequireWithinRange = true;
@@ -729,9 +730,9 @@ static function X2AbilityTemplate Create_PA_BindAbility()
 	// The Target must be alive and a humanoid
 	UnitPropertyCondition = new class'X2Condition_UnitProperty';
 	UnitPropertyCondition.ExcludeDead = true;
-	UnitPropertyCondition.ExcludeRobotic = default.PA_ViperKing_DoesBindExcludeRobot; // true
-	UnitPropertyCondition.ExcludeAlien = default.PA_ViperKing_DoesBindExcludeAlien; // true
-	UnitPropertyCondition.ExcludeFriendlyToSource = default.PA_ViperKing_DoesBindExcludeFriendly; // true
+	UnitPropertyCondition.ExcludeRobotic = default.PA_ViperKing_Does_Bind_ExcludeRobot; // true
+	UnitPropertyCondition.ExcludeAlien = default.PA_ViperKing_Does_Bind_ExcludeAlien; // true
+	UnitPropertyCondition.ExcludeFriendlyToSource = default.PA_ViperKing_Does_Bind_ExcludeFriendly; // true
 	UnitPropertyCondition.RequireWithinRange = true;
 	UnitPropertyCondition.WithinRange = default.PA_ViperKing_Bind_Range;
 	Template.AbilityTargetConditions.AddItem(UnitPropertyCondition);
