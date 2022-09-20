@@ -43,11 +43,15 @@
 ; RULER CUSTOM ABILITY
 ; *****************************
 
+; Custom Ruler reaction
+
 [PA_RulersReactions X2AbilityTemplate]
 LocFriendlyName="Ruler Reaction"
 LocLongDescription="The rulers are able to adapt to situation faster than even our best soldier."
 LocHelpText="Rapid reactions."
 LocFlyOverText="Ruler Reaction"
+
+; Viper king
 
 [PA_KingGetOverHere X2AbilityTemplate]
 LocFriendlyName="Tongue Pull"
@@ -74,12 +78,35 @@ LocFriendlyName="Choke"
 LocLongDescription="The coils of a Viper are inhumanly strong, and can bind and crush an adjacent humanoid enemy."
 LocHelpText="Choke an adjacent humanoid enemy."
 
+; Archon king
+
 [PA_ArchonKingBlazingPinionsStage1 X2AbilityTemplate]
 LocFriendlyName="Devastate"
 LocLongDescription="The Archon King flies in the sky, and unleashes a barrage of energy missiles from his wings. The targeting lasers that guide the missiles give a momentary warning of where they will strike."
 LocHelpText="Delayed missile barrage fired at multiple enemy targets."
 LocFlyOverText="Devastate"
 
+; Berserker Queen
+
+[PA_Faithbreaker X2AbilityTemplate]
+LocFriendlyName="Faithbreaker"
+LocLongDescription="The Berserker Queen roars with her full might and rage, inflicting fear upon even the most battle-hardened soldiers."
+LocHelpText="Chance to panic every visible enemy unit."
+LocFlyOverText="Faithbreaker"
+
+[PA_Quake X2AbilityTemplate]
+LocFriendlyName="Quake"
+LocLongDescription="A massive ground strike that can disorient and knockback enemies."
+LocHelpText="A massive ground strike that can disorient and knockback enemies."
+LocFlyOverText="Quake"
+
+[PA_QueenDevastatingPunch X2AbilityTemplate]
+LocFriendlyName="Devastating Blow"
+LocLongDescription="A Berserker Queen's strength is sufficient to batter her enemies to death with nothing more than her fists. This attack can stun or disorient the target."
+LocHelpText="Attack a melee target, potentially stunning them."
+LocFlyOverText="Devastating Punch"
+
+; Mind control
 
 [ViperKing_MC X2AbilityTemplate]
 LocFriendlyName="Ruler's right"
