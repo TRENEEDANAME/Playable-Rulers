@@ -1405,7 +1405,7 @@ simulated function PA_BlazingPinionsStage2_BuildVisualization(XComGameState Visu
 			TargetVisualizerInterface.BuildAbilityEffectsVisualization(VisualizeGameState, ActionMetadata);
 		}
 	}
-
+	
 	//****************************************************************************************
 	//Configure the visualization tracks for the environment
 	//****************************************************************************************
