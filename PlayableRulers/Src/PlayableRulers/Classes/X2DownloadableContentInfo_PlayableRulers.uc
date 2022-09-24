@@ -36,8 +36,8 @@ static event OnPostTemplatesCreated()
 	AllAbilities = class'X2AbilityTemplateManager'.static.GetAbilityTemplateManager();
 
 	PatchImages_Ability(AllAbilities.FindAbilityTemplate('AlienRulerCallForEscape'), "UILibrary_PerkIcons.UIPerk_psi_rift");
-	PatchImages_Ability(AllAbilities.FindAbilityTemplate('Faithbreaker'), "UILibrary_DLC2Images.PerkIcons.UIPerk_beserker_faithbreaker");
-	PatchImages_Ability(AllAbilities.FindAbilityTemplate('Quake'), "UILibrary_DLC2Images.PerkIcons.UIPerk_beserker_quake");
+	PatchImages_Ability(AllAbilities.FindAbilityTemplate('PA_Faithbreaker'), "UILibrary_DLC2Images.PerkIcons.UIPerk_beserker_faithbreaker");
+	PatchImages_Ability(AllAbilities.FindAbilityTemplate('PA_Quake'), "UILibrary_DLC2Images.PerkIcons.UIPerk_beserker_quake");
 }
 
 static function PatchImages_Ability(X2AbilityTemplate Template, string ImagePath)

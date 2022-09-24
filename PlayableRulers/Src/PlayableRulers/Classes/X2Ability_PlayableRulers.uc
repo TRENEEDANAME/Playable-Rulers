@@ -1470,7 +1470,7 @@ simulated function PA_BlazingPinionsStage2_BuildVisualization(XComGameState Visu
 //! ======================================================
 
 // Updated Devastating Punch ability to not consume all points.
-static function X2AbilityTemplate Create_PA_QueenDevastatingPunchAbility(optional Name AbilityName='DevastatingPunch', int MovementRangeAdjustment=1)
+static function X2AbilityTemplate Create_PA_QueenDevastatingPunchAbility(optional Name AbilityName='PA_DevastatingPunch', int MovementRangeAdjustment=1)
 {
 	local X2AbilityTemplate AbilityTemplate;
 	local int				AbilityCostIndex;
