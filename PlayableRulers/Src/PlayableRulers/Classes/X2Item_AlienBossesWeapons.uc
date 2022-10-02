@@ -394,9 +394,8 @@ static function X2DataTemplate CreateTemplate_BerserkerBoss_MeleeAttack()
 	Template.WeaponTech = 'magnetic';
 	Template.strImage = "img:///UILibrary_StrategyImages.X2InventoryIcons.Inv_Sword";
 	Template.InventorySlot = eInvSlot_PrimaryWeapon;
-	// This all the resources; sounds, animations, models, physics, the works.
-	Template.RemoveTemplateAvailablility(Template.BITFIELD_GAMEAREA_Multiplayer); //invalidates multiplayer availability
 
+	Template.RemoveTemplateAvailablility(Template.BITFIELD_GAMEAREA_Multiplayer); //invalidates multiplayer availability
 	Template.Aim = class'X2Item_DefaultWeapons'.default.GENERIC_MELEE_ACCURACY; // DLC60 also has a GENERIC_MELEE_ACCURACY, but it is not being used, and not set in the config file.
 
 	Template.iRange = 0;
