@@ -108,13 +108,13 @@ LocFlyOverText="Devastating Punch"
 
 ; Mind control
 
-[ViperKing_MC X2AbilityTemplate]
+[PA_ViperKing_MC X2AbilityTemplate]
 LocFriendlyName="Ruler's right"
 LocLongDescription="The Viper King, as his species king, can command any viper that he sees"
 LocHelpText="Ruler mind control"
 LocFlyOverText="Ruler mind control"
 
-[PA_ArchonKing_MC X2AbilityTemplate]
+[PA_Archon_MC X2AbilityTemplate]
 LocFriendlyName="Ruler's right"
 LocLongDescription="The Archon King, as his species king, can command any archon he they sees"
 LocHelpText="Ruler mind control"
