@@ -39,6 +39,9 @@
     <Content Include="Config\XComUFOpedia.ini">
       <SubType>Content</SubType>
     </Content>
+    <Content Include="Config\XcomWeaponSkinReplacer.ini">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="Content\PARulers_Tongue_Item.upk">
       <SubType>Content</SubType>
     </Content>
