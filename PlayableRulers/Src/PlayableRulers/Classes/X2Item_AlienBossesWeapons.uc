@@ -329,8 +329,6 @@ static function X2DataTemplate CreateTemplate_ArchonBoss_WPN()
 	Template.Abilities.AddItem('OverwatchShot');
 	Template.Abilities.AddItem('Reload');
 	Template.Abilities.AddItem('HotLoadAmmo');
-	Template.Abilities.AddItem('BindSustained');
-	Template.Abilities.AddItem('EndBind');
 	
 	// This all the resources; sounds, animations, models, physics, the works.
 	Template.GameArchetype = "WP_ArchonKing_Staff.WP_ArchonKing_Staff";
