@@ -59,8 +59,8 @@ static function X2DataTemplate CreateTemplate_PARulers_BoltCaster_MG_Schematic()
 	Template.Requirements.RequiredTechs.AddItem('MagnetizedWeapons');
 
 	// Non-Narrative Requirements
-	AltReq.RequiredItems.AddItem('PARulers_BoltCaster_CV');
 	Template.AlternateRequirements.AddItem(AltReq);
+	AltReq.RequiredItems.AddItem('PARulers_BoltCaster_CV');
 	AltReq.RequiredTechs.AddItem('MagnetizedWeapons');
 
 	return Template;
