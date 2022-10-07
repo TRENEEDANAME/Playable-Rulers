@@ -270,6 +270,19 @@ ListTitle="Viper King -- Second Report"
 DescriptionTitle="Report from --classified-- about the Viper King : Second Report"
 DescriptionEntry="Date : --classified--\n Object : Transcript from --classified-- with the Viper King."
 
+; Viper King -- Regent version
+
+[Playable_Rulers_ViperKing_Regent X2EncyclopediaTemplate]
+ListTitle="Viper King -- First Report"
+DescriptionTitle="Report from --classified-- about the Viper King : First Report"
+DescriptionEntry="Date : --classified--\n Object : Transcript from --classified-- with Viper King."
+
+; Viper King N°2
+[Playable_Rulers_ViperKing_Regent_2 X2EncyclopediaTemplate]
+ListTitle="Viper King -- Second Report"
+DescriptionTitle="Report from --classified-- about the Viper King : Second Report"
+DescriptionEntry="Date : --classified--\n Object : Transcript from --classified-- with the Viper King."
+
 ; =======================
 ; Archon King
 ; =======================
