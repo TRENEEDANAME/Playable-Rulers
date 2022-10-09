@@ -1575,7 +1575,7 @@ static function X2AbilityTemplate Create_PA_QuakeAbility()
 	
 	Template.AbilitySourceName = 'eAbilitySource_Standard';
 	Template.eAbilityIconBehaviorHUD = EAbilityIconBehavior_AlwaysShow;
-	Template.IconImage = "img:///UILibrary_PerkIcons.UIPerk_viper_frostbite";
+	Template.IconImage = "img:///UILibrary_DLC2Images.PerkIcons.UIPerk_beserker_quake";
 
 	// Cooldown on the ability
 	Cooldown = new class'X2AbilityCooldown';
@@ -1614,7 +1614,7 @@ static function X2AbilityTemplate Create_PA_Faithbreaker()
 
 	`CREATE_X2ABILITY_TEMPLATE(Template, 'PA_FaithBreaker');
 
-	Template.IconImage = "img:///UILibrary_DLC2Images.UIPerk_beserker_faithbreaker";
+	Template.IconImage = "img:///UILibrary_DLC2Images.PerkIcons.UIPerk_beserker_faithbreaker";
 	
 	ActionPointCost = new class'X2AbilityCost_ActionPoints';
 	ActionPointCost.iNumPoints = default.PA_BerserkerQueen_FaithBreaker_ActionPointCost;
