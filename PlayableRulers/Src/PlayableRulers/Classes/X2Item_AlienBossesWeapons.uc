@@ -314,7 +314,7 @@ static function X2DataTemplate CreateTemplate_ArchonBoss_WPN()
 	Template.strImage = "img:///UILibrary_Common.AlienWeapons.ArchonStaff";
 	Template.RemoveTemplateAvailablility(Template.BITFIELD_GAMEAREA_Multiplayer); //invalidates multiplayer availability
 
-	Template.RangeAccuracy =  class'X2Item_DefaultWeapons'.default.FLAT_CONVENTIONAL_RANGE;
+	Template.RangeAccuracy =  class'X2Item_DefaultWeapons'.default.MEDIUM_CONVENTIONAL_RANGE;
 	Template.BaseDamage = default.ARCHONBOSS_WPN_BASEDAMAGE;
 	Template.iClipSize =  class'X2Item_DefaultWeapons'.default.ASSAULTRIFLE_MAGNETIC_ICLIPSIZE;
 	Template.iSoundRange =  class'X2Item_DefaultWeapons'.default.ASSAULTRIFLE_MAGNETIC_ISOUNDRANGE;
