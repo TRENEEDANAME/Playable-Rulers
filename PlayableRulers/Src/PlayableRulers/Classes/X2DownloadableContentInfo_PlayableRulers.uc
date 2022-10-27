@@ -1,7 +1,7 @@
 // ===============================================================================================================
 //	X2DownloadableContentInfo_PlayableRulers BY TRNEEDANAME AND RUSTYDIOS
 //
-//	CREATED ON 09/08/22	21:00	LAST UPDATED 11/09/22 18:00
+//	CREATED ON 09/08/22	21:00	LAST UPDATED 27/10/2022
 //
 //	DLC2INFO FOR PLAYABLE RULERS WORKSHOP VERSION
 //
@@ -10,6 +10,13 @@
 class X2DownloadableContentInfo_PlayableRulers extends X2DownloadableContentInfo config(Game);
 
 var config array<name> AllowedCharacters, IncludedAlienClasses, IncludedAlienTemplates;
+var localized string	SecondWaveDescription;
+var localized string	SecondWaveTooltip;
+
+var config int			StartingViperKing;
+var config int			StartingArchonKing;
+var config int			StartingBerserkerQueen;
+
 
 // ===============================================================================================================
 //	THINGS TO DO ON LOAD OF A GAMESAVE
@@ -35,7 +42,7 @@ static event OnPostTemplatesCreated()
 
 	AllAbilities = class'X2AbilityTemplateManager'.static.GetAbilityTemplateManager();
 
-	PatchImages_Ability(AllAbilities.FindAbilityTemplate('AlienRulerCallForEscape'), "UILibrary_PerkIcons.UIPerk_psi_rift");
+	PatchImages_Ability(AllAbilities.FindAbilityTemplate('AlienRulerCallForEscape'), "UILibrary_PerKKKKIcons.UIPerk_psi_rift");
 	PatchImages_Ability(AllAbilities.FindAbilityTemplate('PA_Faithbreaker'), "UILibrary_DLC2Images.PerkIcons.UIPerk_beserker_faithbreaker");
 	PatchImages_Ability(AllAbilities.FindAbilityTemplate('PA_Quake'), "UILibrary_DLC2Images.PerkIcons.UIPerk_beserker_quake");
 }
@@ -169,61 +176,84 @@ static function bool CanAddItemToInventory_CH_Improved(out int bCanAddItem, cons
     return DoNotOverrideNormalBehavior; // was not our grenade or otherwise we had no reason to change it
 }
 
-/*
-static function bool c(out int bCanAddItem, const EInventorySlot Slot, const X2ItemTemplate ItemTemplate, int Quantity, XComGameState_Unit UnitState, XComGameState CheckGameState)
+// ===============================================================================================================
+//	Second Wave Options
+// ===============================================================================================================
+
+static function CreateSecondWaveOption()
 {
-	local XComGameState_Item kItem;
-	local X2GrenadeTemplate WeaponTemplate;
-	local X2ItemTemplate UniqueItemTemplate;
-	local int i;
-	
-	//ENSURE INPUT WEAPON IS A GRENADE
-	WeaponTemplate = X2GrenadeTemplate(ItemTemplate);
+	local SecondWaveOption	SecondWave;
+	local UIShellDifficulty	ShellDifficulty;
+	local Object			ArrayObject;
+	local array<Object>		UIShells;
 
-	//if (WeaponTemplate == none)
-	//{
-	//	return false; ///was not a grenade or otherwise we had no reason to change it
-	//}
+	SecondWave.ID = 'PlayableRulers';
+	SecondWave.DifficultyValue = 0;
 
-	// ... check weapon category for our grenade
-    if(WeaponTemplate != none && WeaponTemplate.WeaponCat == 'PARulers_FrostGlobCat') //only do this check for our grenade
-    {
-		//for every character template on our list in the config and THIS unit, matches our config entry
-		if (default.AllowedCharacters.Find(UnitState.GetMyTemplateName()) != INDEX_NONE)
+	UIShells = class'XComEngine'.static.GetClassDefaultObjects(class'UIShellDifficulty');
+	foreach UIShells(ArrayObject)
+	{
+		ShellDifficulty = UIShellDifficulty(ArrayObject);
+		if(ShellDifficulty != none)
 		{
-			//check THIS units equipped items
-			for (i = 0; i < UnitState.InventoryItems.Length; ++i)
-			{
-				kItem = UnitState.GetItemGameState(UnitState.InventoryItems[i], CheckGameState);
-				if (kItem != none)
-				{
-					UniqueItemTemplate = kItem.GetMyTemplate();
-
-					//does it have a grenade?
-					if(UniqueItemTemplate.ItemCat == 'grenade')
-					{
-						bCanAddItem = 0;
-						return false; // we have another grenade equipped
-					}
-				}
-			}
-
-			//ensure slot is 'empty', thanks again Iridar!
-			if (UnitState.GetItemInSlot(Slot, CheckGameState) == none)
-			{
-				bCanAddItem = 1;
-				return true; //we set this to true so we can equip the grenade
-			}
+			ShellDifficulty.SecondWaveOptions.AddItem(SecondWave);
+			ShellDifficulty.SecondWaveDescriptions.AddItem(default.SecondWaveDescription);
+			ShellDifficulty.SecondWaveTooltips.AddItem(default.SecondWaveTooltip);
 		}
-		else
+	}
+}
+
+// ----------
+
+static event InstallNewCampaign(XComGameState StartState)
+{
+	local XComGameState_HeadquartersXCom	XComHQ;
+	local XComGameState_GameTime			GameTime;
+	local XComGameState_Unit				UnitState;
+	local int								Index;
+
+	if(`SecondWaveEnabled('ProjectExvent') == false || StartState == none)
+		return;
+
+	foreach StartState.IterateByClassType(class'XComGameState_HeadquartersXCom', XComHQ)
+		break;
+
+	foreach StartState.IterateByClassType(class'XComGameState_GameTime', GameTime)
+		break;
+
+	for(Index = 0; Index < default.StartingViperKing; ++Index)
+	{
+		UnitState = class'X2StrategyElement_ExventRewards'.static.CreateExventSoldier(StartState, 'ExventTrooper');
+		if(UnitState != none)
 		{
-			bCanAddItem = 0;
-			return false; //if we get this far, we give a disabled reason for being an invalid class.
+			UnitState.SetHQLocation(eSoldierLoc_Barracks);
+			XComHQ.AddToCrew(StartState, UnitState);
+			UnitState.m_RecruitDate = GameTime.CurrentTime;
 		}
-    }
+	}
 
-    return false; // not our grenade
-}*/
+	for(Index = 0; Index < default.StartingArchonKing; ++Index)
+	{
+		UnitState = class'X2StrategyElement_ExventRewards'.static.CreateExventSoldier(StartState, 'ExventOfficer');
+		if(UnitState != none)
+		{
+			UnitState.SetHQLocation(eSoldierLoc_Barracks);
+			XComHQ.AddToCrew(StartState, UnitState);
+			UnitState.m_RecruitDate = GameTime.CurrentTime;
+		}
+	}
+
+	for(Index = 0; Index < default.StartingBerserkerQueen; ++Index)
+	{
+		UnitState = class'X2StrategyElement_ExventRewards'.static.CreateExventSoldier(StartState, 'ExventStunLancer');
+		if(UnitState != none)
+		{
+			UnitState.SetHQLocation(eSoldierLoc_Barracks);
+			XComHQ.AddToCrew(StartState, UnitState);
+			UnitState.m_RecruitDate = GameTime.CurrentTime;
+		}
+	}
+}
 
 // ===============================================================================================================
 //	NEW CONSOLE COMMAND TO FORCE ADD A PLAYABLE ALIEN/RULER TO XCOM BARRACKS
@@ -241,7 +271,7 @@ exec function AddPlayableRuler(name TemplateName)
 
 	local XComOnlineProfileSettings 	ProfileSettings;
 
-	//CReate a new gamestate
+	//Create a new gamestate
 	NewGameState = class'XComGameStateContext_ChangeContainer'.static.CreateChangeState("Adding Playable Alien Recruit");
 
 	//get current HQ

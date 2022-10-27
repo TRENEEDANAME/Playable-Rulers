@@ -314,3 +314,10 @@ DescriptionEntry="Date : --classified--\n Object : Transcript from John Bradford
 ListTitle="Berserker Queen -- Second report"
 DescriptionTitle="Report from --classified-- about the Berserker Queen : Second Report"
 DescriptionEntry="Date : --classified--\n Object : Transcript from --classified-- with the Berserker Queen."
+
+
+; Second Wave option
+
+[X2DownloadableContentInfo_PlayableRulers]
+SecondWaveDescription = "Royalty on board : Start the campaign with one or more Ruler(s)."
+SecondWaveTooltip = "Begin the campaign with EXVENT soldiers in the barracks. The number of starting soldiers and their classes can be changed in <font color='#fdce2b'>XComGame.ini</font> (3 Rulers by default)."
