@@ -88,5 +88,10 @@
     <Content Include="Config\XcomGameData_SoldierSkills.ini" />
     <Content Include="Config\XComStrategyTuning.ini" />
     <Content Include="Src\PlayableRulers\Classes\X2Ability_PlayableRulers.uc" />
+    <Content Include="Config\XcomInfiltration.ini" />
+    <Content Include="Config\XcomTemplateCreator.ini" />
+    <Content Include="Config\XcomTemplateEditor.ini" />
+    <Content Include="Config\XcomTruePrimarySecondaries.ini" />
+    <Content Include="Config\XComTruePrimarySecondaries.ini" />
   </ItemGroup>
 </Project>
