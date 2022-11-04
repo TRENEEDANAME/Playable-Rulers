@@ -203,58 +203,6 @@ static function CreateSecondWaveOption()
 	}
 }
 
-// ----------
-
-static event InstallNewCampaign(XComGameState StartState)
-{
-	local XComGameState_HeadquartersXCom	XComHQ;
-	local XComGameState_GameTime			GameTime;
-	local XComGameState_Unit				UnitState;
-	local int								Index;
-
-	if(`SecondWaveEnabled('ProjectExvent') == false || StartState == none)
-		return;
-
-	foreach StartState.IterateByClassType(class'XComGameState_HeadquartersXCom', XComHQ)
-		break;
-
-	foreach StartState.IterateByClassType(class'XComGameState_GameTime', GameTime)
-		break;
-
-	for(Index = 0; Index < default.StartingViperKing; ++Index)
-	{
-		UnitState = class'X2StrategyElement_ExventRewards'.static.CreateExventSoldier(StartState, 'ExventTrooper');
-		if(UnitState != none)
-		{
-			UnitState.SetHQLocation(eSoldierLoc_Barracks);
-			XComHQ.AddToCrew(StartState, UnitState);
-			UnitState.m_RecruitDate = GameTime.CurrentTime;
-		}
-	}
-
-	for(Index = 0; Index < default.StartingArchonKing; ++Index)
-	{
-		UnitState = class'X2StrategyElement_ExventRewards'.static.CreateExventSoldier(StartState, 'ExventOfficer');
-		if(UnitState != none)
-		{
-			UnitState.SetHQLocation(eSoldierLoc_Barracks);
-			XComHQ.AddToCrew(StartState, UnitState);
-			UnitState.m_RecruitDate = GameTime.CurrentTime;
-		}
-	}
-
-	for(Index = 0; Index < default.StartingBerserkerQueen; ++Index)
-	{
-		UnitState = class'X2StrategyElement_ExventRewards'.static.CreateExventSoldier(StartState, 'ExventStunLancer');
-		if(UnitState != none)
-		{
-			UnitState.SetHQLocation(eSoldierLoc_Barracks);
-			XComHQ.AddToCrew(StartState, UnitState);
-			UnitState.m_RecruitDate = GameTime.CurrentTime;
-		}
-	}
-}
-
 // ===============================================================================================================
 //	NEW CONSOLE COMMAND TO FORCE ADD A PLAYABLE ALIEN/RULER TO XCOM BARRACKS
 //	PA_ViperKing	PA_BerserkerQueen	PA_ArchonKing
