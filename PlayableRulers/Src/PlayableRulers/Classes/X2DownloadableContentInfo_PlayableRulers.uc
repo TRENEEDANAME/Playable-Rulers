@@ -13,10 +13,36 @@ var config array<name> AllowedCharacters, IncludedAlienClasses, IncludedAlienTem
 var localized string	SecondWaveDescription;
 var localized string	SecondWaveTooltip;
 
-var config int			StartingViperKing;
-var config int			StartingArchonKing;
-var config int			StartingBerserkerQueen;
+var config int			StartingViperKingNum;
+var config int			StartingArchonKingNum;
+var config int			StartingBerserkerQueenNum;
+var config(GameData) bool	StartVKRuler, VKRulerInGatecrasherSquad;
+var config(GameData) bool	StartAKRuler, AKRulerInGatecrasherSquad;
+var config(GameData) bool	StartBQRuler, BQRulerInGatecrasherSquad;
+var config(GameData) int	VKGatecrasherSlot;
+var config(GameData) int	AKGatecrasherSlot;
+var config(GameData) int	BQGatecrasherSlot;
 
+
+// ===============================================================================================================
+//	THINGS TO DO ON NEW GAME
+// ===============================================================================================================
+
+static event InstallNewCampaign(XComGameState StartState)
+{   
+	if (default.StartVKRuler)
+	{
+		AddViperKingRecruit(StartState);
+	}
+	else if (default.StartAKRuler)
+	{
+	AddArchonKingRecruit(StartGame);
+	}
+	else if (default.StartBQRuler)
+	{
+	AddArchonKingRecruit(StartGame);
+	}
+}
 
 // ===============================================================================================================
 //	THINGS TO DO ON LOAD OF A GAMESAVE
@@ -208,58 +234,210 @@ static function CreateSecondWaveOption()
 //	PA_ViperKing	PA_BerserkerQueen	PA_ArchonKing
 // ===============================================================================================================
 
-exec function AddPlayableRuler(name TemplateName)
+
+//* This function doesn't seems to work
+
+// exec function AddPlayableRuler(name TemplateName)
+// {
+// 	local XComGameState NewGameState;
+// 	local XComGameState_HeadquartersXCom XComHQ;
+// 	local XComGameState_Unit NewSoldierState;
+
+// 	local X2CharacterTemplateManager	CharTemplateMgr;
+// 	local X2CharacterTemplate 			CharTemplate;
+
+// 	local XComOnlineProfileSettings 	ProfileSettings;
+
+// 	//Create a new gamestate
+// 	NewGameState = class'XComGameStateContext_ChangeContainer'.static.CreateChangeState("Adding Playable Alien Recruit");
+
+// 	//get current HQ
+// 	XComHQ = XComGameState_HeadquartersXCom(class'XComGameStateHistory'.static.GetGameStateHistory().GetSingleGameStateObjectForClass(class'XComGameState_HeadquartersXCom'));
+
+// 	//find character from input template
+// 	ProfileSettings = `XPROFILESETTINGS;
+// 	CharTemplateMgr = class'X2CharacterTemplateManager'.static.GetCharacterTemplateManager();
+// 	CharTemplate = CharTemplateMgr.FindCharacterTemplate(TemplateName);
+// 	if(CharTemplate == none)
+// 	{
+// 		class'Helpers'.static.OutputMsg("UNKNOWN TEMPLATE NAME[" @TemplateName @"]");
+// 		return; //if we don't get any valid templates, that means the user has entered the wrong name
+// 	}
+
+// 	//create new character from input template
+// 	NewSoldierState = `CHARACTERPOOLMGR.CreateCharacter(NewGameState, ProfileSettings.Data.m_eCharPoolUsage, CharTemplate.DataName);
+	
+// 	if(!NewSoldierState.HasBackground())
+// 	{
+// 		NewSoldierState.GenerateBackground();
+// 	}
+
+// 	NewSoldierState.GiveRandomPersonality();
+// 	NewSoldierState.ApplyInventoryLoadout(NewGameState);
+// 	NewSoldierState.SetHQLocation(eSoldierLoc_Barracks);
+	
+// 	//add new character to xcom hq
+// 	XComHQ = XComGameState_HeadquartersXCom(NewGameState.ModifyStateObject(class'XComGameState_HeadquartersXCom', XComHQ.ObjectID));
+// 	XComHQ.AddToCrew(NewGameState, NewSoldierState);
+
+// 	class'Helpers'.static.OutputMsg("TEMPLATE NAME[" @TemplateName @"] ADDED TO CREW");
+
+// 	//save new gamestate and new hq
+// 	if(NewGameState.GetNumGameStateObjects() > 0)
+// 	{
+// 		`XCOMGAME.GameRuleset.SubmitGameState(NewGameState);
+// 	}
+// 	else
+// 	{
+// 		`XCOMHISTORY.CleanupPendingGameState(NewGameState);
+// 	}
+// }
+
+
+exec function AddViperKingRecruit()
 {
+	local XComGameState_Unit NewSoldierState;
+	local XComOnlineProfileSettings ProfileSettings;
+	local X2CharacterTemplate CharTemplate;
+	local X2CharacterTemplateManager    CharTemplateMgr;
 	local XComGameState NewGameState;
 	local XComGameState_HeadquartersXCom XComHQ;
-	local XComGameState_Unit NewSoldierState;
+	NewGameState = class'XComGameStateContext_ChangeContainer'.static.CreateChangeState("Adding Allies Unknown State Objects");
 
-	local X2CharacterTemplateManager	CharTemplateMgr;
-	local X2CharacterTemplate 			CharTemplate;
-
-	local XComOnlineProfileSettings 	ProfileSettings;
-
-	//Create a new gamestate
-	NewGameState = class'XComGameStateContext_ChangeContainer'.static.CreateChangeState("Adding Playable Alien Recruit");
-
-	//get current HQ
 	XComHQ = XComGameState_HeadquartersXCom(class'XComGameStateHistory'.static.GetGameStateHistory().GetSingleGameStateObjectForClass(class'XComGameState_HeadquartersXCom'));
 
-	//find character from input template
-	ProfileSettings = `XPROFILESETTINGS;
-	CharTemplateMgr = class'X2CharacterTemplateManager'.static.GetCharacterTemplateManager();
-	CharTemplate = CharTemplateMgr.FindCharacterTemplate(TemplateName);
-	if(CharTemplate == none)
-	{
-		class'Helpers'.static.OutputMsg("UNKNOWN TEMPLATE NAME[" @TemplateName @"]");
-		return; //if we don't get any valid templates, that means the user has entered the wrong name
-	}
 
-	//create new character from input template
-	NewSoldierState = `CHARACTERPOOLMGR.CreateCharacter(NewGameState, ProfileSettings.Data.m_eCharPoolUsage, CharTemplate.DataName);
-	
-	if(!NewSoldierState.HasBackground())
-	{
-		NewSoldierState.GenerateBackground();
-	}
+		//assert(NewGameState != none);
+		ProfileSettings = `XPROFILESETTINGS;
 
-	NewSoldierState.GiveRandomPersonality();
-	NewSoldierState.ApplyInventoryLoadout(NewGameState);
-	NewSoldierState.SetHQLocation(eSoldierLoc_Barracks);
-	
-	//add new character to xcom hq
-	XComHQ = XComGameState_HeadquartersXCom(NewGameState.ModifyStateObject(class'XComGameState_HeadquartersXCom', XComHQ.ObjectID));
-	XComHQ.AddToCrew(NewGameState, NewSoldierState);
+		CharTemplateMgr = class'X2CharacterTemplateManager'.static.GetCharacterTemplateManager();
+		//Tuple = TupleMgr.GetRandomTuple();
 
-	class'Helpers'.static.OutputMsg("TEMPLATE NAME[" @TemplateName @"] ADDED TO CREW");
+		CharTemplate = CharTemplateMgr.FindCharacterTemplate('PA_ViperKing');
+		if(CharTemplate == none)
+		{
+			return; //if we don't get any valid templates, that means the user has yet to install any species mods
+		}
 
-	//save new gamestate and new hq
+		NewSoldierState = `CHARACTERPOOLMGR.CreateCharacter(NewGameState, ProfileSettings.Data.m_eCharPoolUsage, CharTemplate.DataName);
+		if(!NewSoldierState.HasBackground())
+			NewSoldierState.GenerateBackground();
+		NewSoldierState.GiveRandomPersonality();
+		NewSoldierState.ApplyInventoryLoadout(NewGameState);
+		NewSoldierState.SetHQLocation(eSoldierLoc_Barracks);
+		XComHQ = XComGameState_HeadquartersXCom(NewGameState.ModifyStateObject(class'XComGameState_HeadquartersXCom', XComHQ.ObjectID));
+		XComHQ.AddToCrew(NewGameState, NewSoldierState);
+
 	if(NewGameState.GetNumGameStateObjects() > 0)
 	{
 		`XCOMGAME.GameRuleset.SubmitGameState(NewGameState);
 	}
 	else
 	{
-		`XCOMHISTORY.CleanupPendingGameState(NewGameState);
+		`XCOMHistory.CleanupPendingGameState(NewGameState);
+	}
+
+		if (default.VKRulerInGatecrasherSquad)
+	{
+		XComHQ.Squad.RemoveItem(XComHQ.Squad[default.VKGatecrasherSlot]); // 3 is faction soldier in non legendary playthrough
+		XComHQ.Squad.AddItem(NewSoldierState.GetReference());
+	}
+}
+
+exec function AddBerserkerQueenRecruit()
+{
+	local XComGameState_Unit NewSoldierState;
+	local XComOnlineProfileSettings ProfileSettings;
+	local X2CharacterTemplate CharTemplate;
+	local X2CharacterTemplateManager    CharTemplateMgr;
+	local XComGameState NewGameState;
+	local XComGameState_HeadquartersXCom XComHQ;
+	NewGameState = class'XComGameStateContext_ChangeContainer'.static.CreateChangeState("Adding Allies Unknown State Objects");
+
+	XComHQ = XComGameState_HeadquartersXCom(class'XComGameStateHistory'.static.GetGameStateHistory().GetSingleGameStateObjectForClass(class'XComGameState_HeadquartersXCom'));
+
+
+		//assert(NewGameState != none);
+		ProfileSettings = `XPROFILESETTINGS;
+
+		CharTemplateMgr = class'X2CharacterTemplateManager'.static.GetCharacterTemplateManager();
+		//Tuple = TupleMgr.GetRandomTuple();
+
+		CharTemplate = CharTemplateMgr.FindCharacterTemplate('PA_BerserkerQueen');
+		if(CharTemplate == none)
+		{
+			return; //if we don't get any valid templates, that means the user has yet to install any species mods
+		}
+
+		NewSoldierState = `CHARACTERPOOLMGR.CreateCharacter(NewGameState, ProfileSettings.Data.m_eCharPoolUsage, CharTemplate.DataName);
+		if(!NewSoldierState.HasBackground())
+			NewSoldierState.GenerateBackground();
+		NewSoldierState.GiveRandomPersonality();
+		NewSoldierState.ApplyInventoryLoadout(NewGameState);
+		NewSoldierState.SetHQLocation(eSoldierLoc_Barracks);
+		XComHQ = XComGameState_HeadquartersXCom(NewGameState.ModifyStateObject(class'XComGameState_HeadquartersXCom', XComHQ.ObjectID));
+		XComHQ.AddToCrew(NewGameState, NewSoldierState);
+
+	if(NewGameState.GetNumGameStateObjects() > 0)
+	{
+		`XCOMGAME.GameRuleset.SubmitGameState(NewGameState);
+	}
+	else
+	{
+		`XCOMHistory.CleanupPendingGameState(NewGameState);
+	}
+		if (default.AKRulerInGatecrasherSquad)
+	{
+		XComHQ.Squad.RemoveItem(XComHQ.Squad[default.AKGatecrasherSlot]); // 3 is faction soldier in non legendary playthrough
+		XComHQ.Squad.AddItem(NewSoldierState.GetReference());
+	}
+}
+
+exec function AddArchonKingRecruit()
+{
+	local XComGameState_Unit NewSoldierState;
+	local XComOnlineProfileSettings ProfileSettings;
+	local X2CharacterTemplate CharTemplate;
+	local X2CharacterTemplateManager    CharTemplateMgr;
+	local XComGameState NewGameState;
+	local XComGameState_HeadquartersXCom XComHQ;
+	NewGameState = class'XComGameStateContext_ChangeContainer'.static.CreateChangeState("Adding Allies Unknown State Objects");
+
+	XComHQ = XComGameState_HeadquartersXCom(class'XComGameStateHistory'.static.GetGameStateHistory().GetSingleGameStateObjectForClass(class'XComGameState_HeadquartersXCom'));
+
+
+		//assert(NewGameState != none);
+		ProfileSettings = `XPROFILESETTINGS;
+
+		CharTemplateMgr = class'X2CharacterTemplateManager'.static.GetCharacterTemplateManager();
+		//Tuple = TupleMgr.GetRandomTuple();
+
+		CharTemplate = CharTemplateMgr.FindCharacterTemplate('PA_ArchonKing');
+		if(CharTemplate == none)
+		{
+			return; //if we don't get any valid templates, that means the user has yet to install any species mods
+		}
+
+		NewSoldierState = `CHARACTERPOOLMGR.CreateCharacter(NewGameState, ProfileSettings.Data.m_eCharPoolUsage, CharTemplate.DataName);
+		if(!NewSoldierState.HasBackground())
+			NewSoldierState.GenerateBackground();
+		NewSoldierState.GiveRandomPersonality();
+		NewSoldierState.ApplyInventoryLoadout(NewGameState);
+		NewSoldierState.SetHQLocation(eSoldierLoc_Barracks);
+		XComHQ = XComGameState_HeadquartersXCom(NewGameState.ModifyStateObject(class'XComGameState_HeadquartersXCom', XComHQ.ObjectID));
+		XComHQ.AddToCrew(NewGameState, NewSoldierState);
+
+	if(NewGameState.GetNumGameStateObjects() > 0)
+	{
+		`XCOMGAME.GameRuleset.SubmitGameState(NewGameState);
+	}
+	else
+	{
+		`XCOMHistory.CleanupPendingGameState(NewGameState);
+	}
+		if (default.BQRulerInGatecrasherSquad)
+	{
+		XComHQ.Squad.RemoveItem(XComHQ.Squad[default.BQGatecrasherSlot]); // 3 is faction soldier in non legendary playthrough
+		XComHQ.Squad.AddItem(NewSoldierState.GetReference());
 	}
 }
