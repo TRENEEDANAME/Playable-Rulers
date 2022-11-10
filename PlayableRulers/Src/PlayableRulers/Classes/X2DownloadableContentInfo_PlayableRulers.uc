@@ -36,11 +36,11 @@ static event InstallNewCampaign(XComGameState StartState)
 	}
 	else if (default.StartAKRuler)
 	{
-	AddArchonKingRecruit(StartGame);
+		AddArchonKingRecruit(StartGame);
 	}
 	else if (default.StartBQRuler)
 	{
-	AddArchonKingRecruit(StartGame);
+		AddArchonKingRecruit(StartGame);
 	}
 }
 

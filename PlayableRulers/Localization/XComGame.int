@@ -215,7 +215,7 @@ BriefSummary="This muscle is unbelievably strong, it can crush any humanoid crea
 TacticalText="<Bullet/> The Viper King's tongue<Bullet/>"
 AbilityDescName="Viper King's Tongue"
 
-[PARulers_FrostbiteGlob X2WeaponTemplate]
+[PARulers_FrostbiteGlob X2GrenadeTemplate]
 FriendlyName="Frostbite Glob"
 BriefSummary="A glob of ice that can be used to freeze any humanoid creature in place"
 TacticalText="<Bullet/>The Viper King's internal temperature is so low that he can shoot out a glob of ice that will freeze any target in it's radius<Bullet/>"
