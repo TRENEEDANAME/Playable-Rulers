@@ -28,21 +28,21 @@ var config(GameData) int	BQGatecrasherSlot;
 //	THINGS TO DO ON NEW GAME
 // ===============================================================================================================
 
-static event InstallNewCampaign(XComGameState StartState)
-{   
-	if (default.StartVKRuler)
-	{
-		AddViperKingRecruit(StartState);
-	}
-	else if (default.StartAKRuler)
-	{
-		AddArchonKingRecruit(StartGame);
-	}
-	else if (default.StartBQRuler)
-	{
-		AddArchonKingRecruit(StartGame);
-	}
-}
+//static event InstallNewCampaign(XComGameState StartState)
+//{   
+//	if (default.StartVKRuler)
+//	{
+//		AddViperKingRecruit(StartState);
+//	}
+//	else if (default.StartAKRuler)
+//	{
+//		AddArchonKingRecruit(StartGame);
+//	}
+//	else if (default.StartBQRuler)
+//	{
+//		AddArchonKingRecruit(StartGame);
+//	}
+//}
 
 // ===============================================================================================================
 //	THINGS TO DO ON LOAD OF A GAMESAVE

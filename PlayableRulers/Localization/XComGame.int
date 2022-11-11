@@ -108,7 +108,7 @@ LocFlyOverText="Devastating Punch"
 
 ; Mind control
 
-[PA_ViperKing_MC X2AbilityTemplate]
+[PA_Viper_MC X2AbilityTemplate]
 LocFriendlyName="Ruler's right"
 LocLongDescription="The Viper King, as his species king, can command any viper that he sees"
 LocHelpText="Ruler mind control"
