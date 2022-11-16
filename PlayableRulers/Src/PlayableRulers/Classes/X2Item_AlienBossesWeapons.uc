@@ -10,6 +10,8 @@ var config WeaponDamageValue PARulers_BQF_BaseDamage;
 var config int ARCHONBOSS_IDEALRANGE;
 var config int ARCHONBOSS_BLAZINGPINIONS_ENVDAMAGE;
 
+var config int PARulers_ArchonWPN_NumUpgradeSlot;
+
 var config int VIPERBOSSRIFLE_ICLIPSIZE;
 
 var config int PARulers_BC_StunChance;
@@ -320,6 +322,8 @@ static function X2DataTemplate CreateTemplate_ArchonBoss_WPN()
 	Template.iSoundRange =  class'X2Item_DefaultWeapons'.default.ASSAULTRIFLE_MAGNETIC_ISOUNDRANGE;
 	Template.iEnvironmentDamage =  class'X2Item_DefaultWeapons'.default.ASSAULTRIFLE_MAGNETIC_IENVIRONMENTDAMAGE;
 	Template.iIdealRange = default.ARCHONBOSS_IDEALRANGE;
+
+	Template.NumUpgradeSlots = default.PARulers_ArchonWPN_NumUpgradeSlot;
 
 	Template.DamageTypeTemplateName = 'Heavy';
 	
