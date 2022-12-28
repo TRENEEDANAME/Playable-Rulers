@@ -228,12 +228,12 @@ AbilityDescName="Frostbite glob"
 [ARCHONBOSS_WPN X2WeaponTemplate]
 FriendlyName="Archon Kings Staff"
 BriefSummary="This weapon is similar to the standard Archon staff, but it has been upgraded by the King for increased damage"
-TacticalText="<Bullet/> The Archon King weapon\n<Bullet/>"
+TacticalText="<Bullet/> The Archon King weapon."
 
 [ArchonBossStaff X2WeaponTemplate]
-FriendlyName="Archon King's Staff"
+FriendlyName="Archon King's Staff Edge."
 BriefSummary="This weapon is similar to the standard Archon staff, but it has been upgraded by the King for increased damage"
-TacticalText="<Bullet/> The Archon King weapon\n<Bullet/>"
+TacticalText="<Bullet/> The Archon King melee weapon."
 
 ; =======================
 ; BERSERKER QUEEN
@@ -242,7 +242,7 @@ TacticalText="<Bullet/> The Archon King weapon\n<Bullet/>"
 [BerserkerFistWeapon X2WeaponTemplate]
 FriendlyName="Berserker Queen First"
 BriefSummary="The Berserk Queen doesn't use weapons, instead, she uses her bare hand to kill"
-TacticalText="<Bullet/> The Berserker Queen Fist\n<Bullet/>"
+TacticalText="<Bullet/> The Berserker Queen Fist."
 
 ; ********************
 ; UFOPEDIA SECTION
