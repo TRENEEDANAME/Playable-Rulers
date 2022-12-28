@@ -297,7 +297,6 @@ static function X2DataTemplate CreateTemplate_PARulers_Tongue_WPN()
 	Template.iPhysicsImpulse = 5;
 
 	Template.CanBeBuilt = false;
-	Template.TradingPostValue = 30;
 	Template.StartingItem = true;
 
 	return Template;
@@ -340,7 +339,6 @@ static function X2DataTemplate CreateTemplate_ArchonBoss_WPN()
 	Template.iPhysicsImpulse = 5;
 
 	Template.CanBeBuilt = false;
-	Template.TradingPostValue = 30;
 
 	return Template;
 }
