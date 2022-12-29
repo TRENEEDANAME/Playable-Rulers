@@ -315,9 +315,38 @@ ListTitle="Berserker Queen -- Second report"
 DescriptionTitle="Report from --classified-- about the Berserker Queen : Second Report"
 DescriptionEntry="Date : --classified--\n Object : Transcript from --classified-- with the Berserker Queen."
 
-
-; Second Wave option
+; ********************
+; SECOND WAVE OPTIONS
+; ********************
 
 [X2DownloadableContentInfo_PlayableRulers]
 SecondWaveDescription = "Royalty on board : Start the campaign with one or more Ruler(s)."
-SecondWaveTooltip = "Begin the campaign with EXVENT soldiers in the barracks. The number of starting soldiers and their classes can be changed in <font color='#fdce2b'>XComGame.ini</font> (3 Rulers by default)."
+SecondWaveTooltip = "Begin the campaign with one or more rulers in the barracks."
+
+
+
+; ********************
+; ARMORS
+; ********************
+
+
+[BerserkerQueenArmor X2ArmorTemplate]
+FriendlyName="Berserker Queen's armor"
+BriefSummary="Because of her size, the Berserker Queen can't wear traditional armor"
+TacticalText="<Bullet/> This is the standard 'armor' of the Berserker Queen"
+AbilityDescName="Berserker Queen's armor"
+
+[PlatedBerserkerQueenArmor X2ArmorTemplate]
+FriendlyName="Berserker Queen's plated armor"
+BriefSummary="Because of her size, the Berserker Queen can't wear traditional armor"
+TacticalText="<Bullet/> She has an additional level of protection thanks to our predator armor research"
+AbilityDescName="Berserker Queen's plated armor"
+
+[PoweredBerserkerQueenArmor X2ArmorTemplate]
+FriendlyName="Berserker Queen's powered armor"
+BriefSummary="Because of her size, the Berserker Queen can't wear traditional armor"
+TacticalText="<Bullet/> She has an additional level of protection thanks to our warden armor research"
+AbilityDescName="Berserker Queen's powered armor"
+
+
+
