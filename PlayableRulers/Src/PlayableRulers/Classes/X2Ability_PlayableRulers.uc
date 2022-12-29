@@ -88,6 +88,9 @@ var config string PA_ArchonKing_BlazingPinions_TargetParticleSystem;
 //* Punch
 
 var config bool PA_BerserkerQueen_Punch_ConsumeAllActionPointCost;
+var name RageTriggeredEffectName;
+var localized string LocRageFlyover;
+var localized string BlindRageFlyover;
 
 //* Quake
 
@@ -1764,11 +1767,21 @@ function name PA_FaithbreakerApplyChance(const out EffectAppliedData ApplyEffect
 	local name ImmuneName;
 	local float MaxHealth, CurrentHealth, HealthLost;
 	local int TargetRoll, RandRoll;
+	local int AttackVal;
 	local X2BQArmorTemplate BerserkerQueenArmorTemplate;
+	local XComGameState_Item ArmorState;
 
 	TargetUnit = XComGameState_Unit(kNewTargetState);
 
 		//* This is basically the code for the "Intimidate" Spark perk
+
+		if (SourceUnit != none)
+	{
+		ArmorState = SourceUnit.GetItemInSlot(eInvSlot_Armor, NewGameState);
+		`assert(ArmorState != none);
+		BerserkerQueenArmorTemplate = X2BQArmorTemplate(ArmorState.GetMyTemplate());
+	}
+		
 		if (TargetUnit != none && BerserkerQueenArmorTemplate != none)
 	{
 		foreach class'X2AbilityToHitCalc_PanicCheck'.default.PanicImmunityAbilities(ImmuneName)
@@ -1779,10 +1792,12 @@ function name PA_FaithbreakerApplyChance(const out EffectAppliedData ApplyEffect
 			}
 		}
 
+
+
 		MaxHealth = TargetUnit.GetMaxStat(eStat_HP);
 		CurrentHealth = TargetUnit.GetCurrentStat(eStat_HP);
-		AttackVal = X2BQArmorTemplate.FaithBreaker;
-		HealthLost = MaxHealth - CurrentHealth + AttackVal;
+		AttackVal = BerserkerQueenArmorTemplate.FaithBreaker;
+		HealthLost = MaxHealth + AttackVal - CurrentHealth;
 
 		TargetRoll = HealthLost * default.PA_BerserkerQueen_FaithBreaker_AddedChances_PerHP_Lost;
 		RandRoll = `SYNC_RAND(100);
@@ -2132,4 +2147,5 @@ DefaultProperties
 	PA_Muton_MC_Test="HeavyAlienPanicTested"
 	PA_Archon_MC_Test="MediumAlienPanicTested"
 	PA_Viper_MC_Test="LightAlienPanicTested"
+	RageTriggeredEffectName="RageTriggered" //String change requires updating DefaultAI.ini
 }
