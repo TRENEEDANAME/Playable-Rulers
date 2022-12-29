@@ -1474,7 +1474,7 @@ simulated function PA_BlazingPinionsStage2_BuildVisualization(XComGameState Visu
 
 
 
-static function X2AbilityTemplate CreateDevastatingPunchAbility(optional Name AbilityName = 'DevastatingPunch', int MovementRangeAdjustment=1)
+static function X2AbilityTemplate Create_PA_QueenDevastatingPunchAbility(optional Name AbilityName = 'PA_DevastatingPunch', int MovementRangeAdjustment=1)
 {
 	local X2AbilityTemplate Template;
 	local X2AbilityCost_ActionPoints ActionPointCost;
@@ -1549,12 +1549,34 @@ static function X2AbilityTemplate CreateDevastatingPunchAbility(optional Name Ab
 	return Template;
 }
 
+function DevastatingPunchAbility_BuildVisualization(XComGameState VisualizeGameState)
+{
+	local XComGameStateHistory History;
+	local XComGameState_Unit SourceState, TargetState;
+	local XComGameStateContext_Ability  Context;
+	local VisualizationActionMetadata				ActionMetadata;
+	local X2Action_PlaySoundAndFlyOver SoundAndFlyOver;
 
+	TypicalAbility_BuildVisualization(VisualizeGameState);
+	
+	// Check if we should add a fly-over for 'Blind Rage' (iff both source and target are AI).
+	History = `XCOMHISTORY;
+	Context = XComGameStateContext_Ability(VisualizeGameState.GetContext());
+	SourceState = XComGameState_Unit(History.GetGameStateForObjectID(Context.InputContext.SourceObject.ObjectID));
+	if( SourceState.ControllingPlayerIsAI() && SourceState.IsUnitAffectedByEffectName(RageTriggeredEffectName))
+	{
+		TargetState = XComGameState_Unit(History.GetGameStateForObjectID(Context.InputContext.PrimaryTarget.ObjectID));
+		if( TargetState.GetTeam() == SourceState.GetTeam() )
+		{
+			ActionMetadata.StateObject_OldState = History.GetGameStateForObjectID(SourceState.ObjectID, eReturnType_Reference, VisualizeGameState.HistoryIndex - 1);
+			ActionMetadata.StateObject_NewState = VisualizeGameState.GetGameStateForObjectID(SourceState.ObjectID);
+			ActionMetadata.VisualizeActor = History.GetVisualizer(SourceState.ObjectID);
 
-
-
-
-
+			SoundAndFlyOver = X2Action_PlaySoundAndFlyOver(class'X2Action_PlaySoundAndFlyOver'.static.AddToVisualizationTree(ActionMetadata, Context, false, ActionMetadata.LastActionAdded));
+ 			SoundAndFlyOver.SetSoundAndFlyOverParameters(None, default.BlindRageFlyover, '', eColor_Good);
+		}
+	}
+}
 
 static function X2AbilityTemplate Create_PA_QuakeAbility()
 {
@@ -1759,7 +1781,7 @@ function name PA_FaithbreakerApplyChance(const out EffectAppliedData ApplyEffect
 
 		MaxHealth = TargetUnit.GetMaxStat(eStat_HP);
 		CurrentHealth = TargetUnit.GetCurrentStat(eStat_HP);
-		AttackVal = default.X2BQArmorTemplate.FaithBreaker;
+		AttackVal = X2BQArmorTemplate.FaithBreaker;
 		HealthLost = MaxHealth - CurrentHealth + AttackVal;
 
 		TargetRoll = HealthLost * default.PA_BerserkerQueen_FaithBreaker_AddedChances_PerHP_Lost;
