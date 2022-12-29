@@ -40,10 +40,10 @@ static function X2DataTemplate Create_PlatedBerserkerArmor()
 	local X2BQArmorTemplate Template;
 
 	`CREATE_X2TEMPLATE(class'X2BQArmorTemplate', Template, 'PlatedBerserkerQueenArmor');
-	Template.strImage = "img:///UILibrary_DLC3Images.Inv_Spark_Plated_A";
+	Template.strImage = "img:///UILibrary_DLC2Images.Inv_RageSuit";
 	Template.ItemCat = 'armor';
 	Template.StartingItem = false;
-	Template.CanBeBuilt = false;
+	Template.CanBeBuilt = true;
 	Template.bInfiniteItem = true;
 	Template.PointsToComplete = 200;
 	Template.Abilities.AddItem('PlatedBerserkerQueenArmorStats_Ability');
@@ -67,10 +67,10 @@ static function X2DataTemplate Create_PoweredBerserkerArmor()
 	local X2BQArmorTemplate Template;
 
 	`CREATE_X2TEMPLATE(class'X2BQArmorTemplate', Template, 'PoweredBerserkerQueenArmor');
-	Template.strImage = "img:///UILibrary_DLC3Images.Inv_Spark_Powered_A";
+	Template.strImage = "img:///UILibrary_DLC2Images.Inv_RageSuit";
 	Template.ItemCat = 'armor';
 	Template.StartingItem = false;
-	Template.CanBeBuilt = false;
+	Template.CanBeBuilt = true;
 	Template.bInfiniteItem = true;
 	Template.PointsToComplete = 200;
 	Template.Abilities.AddItem('PoweredBerserkerQueenArmorStats_Ability');
