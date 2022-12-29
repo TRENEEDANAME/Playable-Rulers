@@ -1672,9 +1672,12 @@ function name PA_FaithbreakerApplyChance(const out EffectAppliedData ApplyEffect
 	local name ImmuneName;
 	local float MaxHealth, CurrentHealth, HealthLost;
 	local int TargetRoll, RandRoll;
+	local X2BQArmorTemplate BerserkerQueenArmorTemplate;
 
 	TargetUnit = XComGameState_Unit(kNewTargetState);
-	if (TargetUnit != none)
+
+		//* This is basically the code for the "Intimidate" Spark perk
+		if (TargetUnit != none && BerserkerQueenArmorTemplate != none)
 	{
 		foreach class'X2AbilityToHitCalc_PanicCheck'.default.PanicImmunityAbilities(ImmuneName)
 		{
@@ -1683,10 +1686,11 @@ function name PA_FaithbreakerApplyChance(const out EffectAppliedData ApplyEffect
 				return 'AA_UnitIsImmune';
 			}
 		}
-		
+
 		MaxHealth = TargetUnit.GetMaxStat(eStat_HP);
 		CurrentHealth = TargetUnit.GetCurrentStat(eStat_HP);
-		HealthLost = MaxHealth - CurrentHealth;
+		AttackVal = BerserkerQueenArmorTemplate.FaithBreaker;
+		HealthLost = MaxHealth - CurrentHealth + AttackVal;
 
 		TargetRoll = HealthLost * default.PA_BerserkerQueen_FaithBreaker_AddedChances_PerHP_Lost;
 		RandRoll = `SYNC_RAND(100);
@@ -1694,10 +1698,12 @@ function name PA_FaithbreakerApplyChance(const out EffectAppliedData ApplyEffect
 		{
 			return 'AA_Success';
 		}
+
 	}
 
 	return 'AA_EffectChanceFailed';
 }
+
 
 static function PA_FaithBreaker_PanickedVisualization(XComGameState VisualizeGameState, out VisualizationActionMetadata ActionMetadata, const name EffectApplyResult)
 {
