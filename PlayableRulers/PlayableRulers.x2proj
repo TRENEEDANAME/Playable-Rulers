@@ -23,31 +23,24 @@
     <Folder Include="Src\PlayableRulers\" />
     <Folder Include="Src\PlayableRulers\Classes\" />
     <Folder Include="Content\" />
+    <Folder Include="Config\Ability\" />
+    <Folder Include="Config\ArmorWeapon\" />
+    <Folder Include="Config\Base\" />
+    <Folder Include="Config\Compatibility\" />
+    <Folder Include="Config\Cost\" />
     <Content Include="Config\XComClassData.ini">
       <SubType>Content</SubType>
     </Content>
     <Content Include="Config\XComEncyclopedia.ini">
       <SubType>Content</SubType>
     </Content>
-    <Content Include="Config\XComGameData.ini">
-      <SubType>Content</SubType>
-    </Content>
     <Content Include="Config\XComGameData_CharacterStats.ini">
-      <SubType>Content</SubType>
-    </Content>
-    <Content Include="Config\XComGameData_WeaponData.ini">
       <SubType>Content</SubType>
     </Content>
     <Content Include="Config\XComPlayableAdvent.ini">
       <SubType>Content</SubType>
     </Content>
-    <Content Include="Config\XComUFOpedia.ini">
-      <SubType>Content</SubType>
-    </Content>
     <Content Include="Config\XcomWeaponSkinReplacer.ini">
-      <SubType>Content</SubType>
-    </Content>
-    <Content Include="Config\XcomWeaponTuning.ini">
       <SubType>Content</SubType>
     </Content>
     <Content Include="Content\PARulers_Tongue_Item.upk">
@@ -63,9 +56,6 @@
       <SubType>Content</SubType>
     </Content>
     <Content Include="ModPreview.jpg" />
-    <Content Include="Config\XComEditor.ini" />
-    <Content Include="Config\XComEngine.ini" />
-    <Content Include="Config\XComGame.ini" />
     <Content Include="Localization\XComGame.int" />
     <Content Include="Src\PlayableRulers\Classes\PA_ArchonKingTech.uc">
       <SubType>Content</SubType>
@@ -93,13 +83,26 @@
     </Content>
     <Content Include="PublishedFileId.ID" />
     <Content Include="ReadMe.md" />
-    <Content Include="Config\XcomGameData_SoldierSkills.ini" />
-    <Content Include="Config\XComStrategyTuning.ini" />
     <Content Include="Src\PlayableRulers\Classes\X2Ability_PlayableRulers.uc" />
-    <Content Include="Config\XcomInfiltration.ini" />
     <Content Include="Config\XcomTemplateCreator.ini" />
     <Content Include="Config\XcomTemplateEditor.ini" />
-    <Content Include="Config\XcomTruePrimarySecondaries.ini" />
     <Content Include="Config\XComTruePrimarySecondaries.ini" />
+    <Content Include="Config\Ability\XcomGameData_PassiveSkills.ini" />
+    <Content Include="Config\Ability\XcomGameData_SoldierSkills.ini" />
+    <Content Include="Config\ArmorWeapon\XcomGameData_ArmorData.ini" />
+    <Content Include="Config\ArmorWeapon\XComGameData_WeaponData.ini" />
+    <Content Include="Config\Base\XComEditor.ini" />
+    <Content Include="Config\Base\XComEngine.ini" />
+    <Content Include="Config\Base\XComGame.ini" />
+    <Content Include="Config\Base\XComGameData.ini" />
+    <Content Include="Config\Compatibility\XcomInfiltration.ini" />
+    <Content Include="Config\Compatibility\XComTruePrimarySecondaries.ini" />
+    <Content Include="Config\Compatibility\XComUFOpedia.ini" />
+    <Content Include="Config\Cost\XComStrategyTuning.ini" />
+    <Content Include="Config\Cost\XcomWeaponTuning.ini" />
+    <Content Include="Src\PlayableRulers\Classes\X2Ability_ItemGrantedAbility.uc" />
+    <Content Include="Src\PlayableRulers\Classes\X2BQArmorTemplate.uc" />
+    <Content Include="Src\PlayableRulers\Classes\X2Effect_PunchDamage.uc" />
+    <Content Include="Src\PlayableRulers\Classes\X2Item_PlayableRulersArmor.uc" />
   </ItemGroup>
 </Project>
