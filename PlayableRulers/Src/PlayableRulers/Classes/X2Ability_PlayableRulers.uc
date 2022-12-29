@@ -63,8 +63,8 @@ var privatewrite name PA_KingBlazingPinionsStage2AbilityName;
 
 //* Blazing Pinions
 
-var config bool PA_ArchonKing_DoesBlazingPinions_ConsumeAllActionPointCost; // false
-var config bool PA_Does_BlazingPinions_ExcludeCivilians; // true
+var config bool PA_ArchonKing_Does_BlazingPinions_ConsumeAllActionPointCost; // false
+var config bool PA_ArchonKing_Does_BlazingPinions_ExcludeCivilians; // true
 
 var config int PA_ArchonKing_BlazingPinions_AbilityPointCost; // 1
 var config int PA_ArchonKing_BlazingPinions_Cooldown;
@@ -85,6 +85,9 @@ var config string PA_ArchonKing_BlazingPinions_TargetParticleSystem;
 //* Berserker Queen
 //* ======================================================
 
+//* Punch
+
+var config bool PA_BerserkerQueen_Punch_ConsumeAllActionPointCost;
 
 //* Quake
 
@@ -844,7 +847,7 @@ static function X2DataTemplate Create_PA_BlazingPinionsStage1Ability()
 
 	ActionPointCost = new class'X2AbilityCost_ActionPoints';
 	ActionPointCost.iNumPoints = default.PA_ArchonKing_BlazingPinions_AbilityPointCost;
-	ActionPointCost.bConsumeAllPoints = default.PA_ArchonKing_DoesBlazingPinions_ConsumeAllActionPointCost;
+	ActionPointCost.bConsumeAllPoints = default.PA_ArchonKing_Does_BlazingPinions_ConsumeAllActionPointCost;
 	Template.AbilityCosts.AddItem(ActionPointCost);
 
 	// Cooldown on the ability
@@ -865,7 +868,7 @@ static function X2DataTemplate Create_PA_BlazingPinionsStage1Ability()
 	// The target locations are enemies
 	UnitProperty = new class'X2Condition_UnitProperty';
 	UnitProperty.ExcludeFriendlyToSource = true;
-	UnitProperty.ExcludeCivilian = default.PA_Does_BlazingPinions_ExcludeCivilians;
+	UnitProperty.ExcludeCivilian = default.PA_ArchonKing_Does_BlazingPinions_ExcludeCivilians;
 	UnitProperty.ExcludeDead = true;
 	UnitProperty.HasClearanceToMaxZ = true;
 	UnitProperty.FailOnNonUnits = true;
@@ -1468,23 +1471,90 @@ simulated function PA_BlazingPinionsStage2_BuildVisualization(XComGameState Visu
 //! Berserker Queen
 //! ======================================================
 
-// Updated Devastating Punch ability to not consume all points.
-static function X2AbilityTemplate Create_PA_QueenDevastatingPunchAbility(optional Name AbilityName='PA_DevastatingPunch', int MovementRangeAdjustment=1)
+
+
+
+static function X2AbilityTemplate CreateDevastatingPunchAbility(optional Name AbilityName = 'DevastatingPunch', int MovementRangeAdjustment=1)
 {
-	local X2AbilityTemplate AbilityTemplate;
-	local int				AbilityCostIndex;
-	AbilityTemplate = class'X2Ability_Berserker'.static.CreateDevastatingPunchAbility(AbilityName, MovementRangeAdjustment);
-	// Set to not end the turn.
-	for( AbilityCostIndex = 0; AbilityCostIndex < AbilityTemplate.AbilityCosts.Length; ++AbilityCostIndex )
-	{
-		if( AbilityTemplate.AbilityCosts[AbilityCostIndex].IsA('X2AbilityCost_ActionPoints') )
-		{
-			X2AbilityCost_ActionPoints(AbilityTemplate.AbilityCosts[AbilityCostIndex]).bConsumeAllPoints = false;
-		}
-	}
-	class'X2Ability_DLC_Day60AlienRulers'.static.RemoveMimicBeaconsFromTargets(AbilityTemplate);
-	return AbilityTemplate;
+	local X2AbilityTemplate Template;
+	local X2AbilityCost_ActionPoints ActionPointCost;
+	local X2AbilityToHitCalc_StandardMelee MeleeHitCalc;
+	local X2Effect_ImmediateAbilityActivation BrainDamageAbilityEffect;
+	local X2AbilityTarget_MovingMelee MeleeTarget;
+	local X2Effect_Knockback KnockbackEffect;
+	local X2Effect_PunchDamage WeaponDamageEffect;
+	local array<name> SkipExclusions;
+
+	`CREATE_X2ABILITY_TEMPLATE(Template, AbilityName);
+	Template.IconImage = "img:///UILibrary_PerkIcons.UIPerk_muton_punch";
+	Template.Hostility = eHostility_Offensive;
+	Template.AbilitySourceName = 'eAbilitySource_Standard';
+
+	Template.AdditionalAbilities.AddItem(class'X2Ability_Impairing'.default.ImpairingAbilityName);
+
+	ActionPointCost = new class'X2AbilityCost_ActionPoints';
+	ActionPointCost.iNumPoints = 1;
+	ActionPointCost.bConsumeAllPoints = default.PA_BerserkerQueen_Punch_ConsumeAllActionPointCost;
+	Template.AbilityCosts.AddItem(ActionPointCost);
+
+	MeleeHitCalc = new class'X2AbilityToHitCalc_StandardMelee';
+	Template.AbilityToHitCalc = MeleeHitCalc;
+
+	MeleeTarget = new class'X2AbilityTarget_MovingMelee';
+	MeleeTarget.MovementRangeAdjustment = MovementRangeAdjustment;
+	Template.AbilityTargetStyle = MeleeTarget;
+	Template.TargetingMethod = class'X2TargetingMethod_MeleePath';
+
+	Template.AbilityTriggers.AddItem(new class'X2AbilityTrigger_PlayerInput');
+	Template.AbilityTriggers.AddItem(new class'X2AbilityTrigger_EndOfMove');
+
+	Template.AbilityShooterConditions.AddItem(default.LivingShooterProperty);
+	
+	// May punch if the unit is burning or disoriented
+	SkipExclusions.AddItem(class'X2AbilityTemplateManager'.default.DisorientedName);
+	SkipExclusions.AddItem(class'X2StatusEffects'.default.BurningName);
+	Template.AddShooterEffectExclusions(SkipExclusions);
+
+	Template.AbilityTargetConditions.AddItem(new class'X2Condition_BerserkerDevastatingPunch');	
+	Template.AbilityTargetConditions.AddItem(default.MeleeVisibilityCondition);
+
+	WeaponDamageEffect = new class'X2Effect_PunchDamage';
+	Template.AddTargetEffect(WeaponDamageEffect);
+
+	//Impairing effects need to come after the damage. This is needed for proper visualization ordering.
+	//Effect on a successful melee attack is triggering the BrainDamage Ability
+	BrainDamageAbilityEffect = new class 'X2Effect_ImmediateAbilityActivation';
+	BrainDamageAbilityEffect.BuildPersistentEffect(1, false, true, , eGameRule_PlayerTurnBegin);
+	BrainDamageAbilityEffect.EffectName = 'ImmediateBrainDamage';
+	// NOTICE: For now StunLancer, Muton, and Berserker all use this ability. This may change.
+	BrainDamageAbilityEffect.AbilityName = class'X2Ability_Impairing'.default.ImpairingAbilityName;
+	BrainDamageAbilityEffect.SetDisplayInfo(ePerkBuff_Passive, Template.LocFriendlyName, Template.GetMyLongDescription(), Template.IconImage, true, , Template.AbilitySourceName);
+	BrainDamageAbilityEffect.bRemoveWhenTargetDies = true;
+	BrainDamageAbilityEffect.VisualizationFn = class'X2Ability_Impairing'.static.ImpairingAbilityEffectTriggeredVisualization;
+	Template.AddTargetEffect(BrainDamageAbilityEffect);
+
+	KnockbackEffect = new class'X2Effect_Knockback';
+	KnockbackEffect.KnockbackDistance = 5; //Knockback 5 meters
+	Template.AddTargetEffect(KnockbackEffect);
+
+	Template.CustomFireAnim = 'FF_Melee';
+	Template.bSkipMoveStop = true;
+	Template.bFrameEvenWhenUnitIsHidden = true;
+	Template.bOverrideMeleeDeath = true;
+	Template.BuildNewGameStateFn = TypicalMoveEndAbility_BuildGameState;
+	Template.BuildVisualizationFn = DevastatingPunchAbility_BuildVisualization;
+	Template.BuildInterruptGameStateFn = TypicalMoveEndAbility_BuildInterruptGameState;
+	Template.CinescriptCameraType = "Berserker_DevastatingPunch";
+	
+	return Template;
 }
+
+
+
+
+
+
+
 
 static function X2AbilityTemplate Create_PA_QuakeAbility()
 {
@@ -1689,7 +1759,7 @@ function name PA_FaithbreakerApplyChance(const out EffectAppliedData ApplyEffect
 
 		MaxHealth = TargetUnit.GetMaxStat(eStat_HP);
 		CurrentHealth = TargetUnit.GetCurrentStat(eStat_HP);
-		AttackVal = BerserkerQueenArmorTemplate.FaithBreaker;
+		AttackVal = default.X2BQArmorTemplate.FaithBreaker;
 		HealthLost = MaxHealth - CurrentHealth + AttackVal;
 
 		TargetRoll = HealthLost * default.PA_BerserkerQueen_FaithBreaker_AddedChances_PerHP_Lost;
