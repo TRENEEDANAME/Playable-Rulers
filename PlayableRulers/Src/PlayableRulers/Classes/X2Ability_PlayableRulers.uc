@@ -1775,9 +1775,9 @@ function name PA_FaithbreakerApplyChance(const out EffectAppliedData ApplyEffect
 
 		//* This is basically the code for the "Intimidate" Spark perk
 
-		if (SourceUnit != none)
+		if (TargetUnit != none)
 	{
-		ArmorState = SourceUnit.GetItemInSlot(eInvSlot_Armor, NewGameState);
+		ArmorState = TargetUnit.GetItemInSlot(eInvSlot_Armor, NewGameState);
 		`assert(ArmorState != none);
 		BerserkerQueenArmorTemplate = X2BQArmorTemplate(ArmorState.GetMyTemplate());
 	}
@@ -1791,8 +1791,6 @@ function name PA_FaithbreakerApplyChance(const out EffectAppliedData ApplyEffect
 				return 'AA_UnitIsImmune';
 			}
 		}
-
-
 
 		MaxHealth = TargetUnit.GetMaxStat(eStat_HP);
 		CurrentHealth = TargetUnit.GetCurrentStat(eStat_HP);
