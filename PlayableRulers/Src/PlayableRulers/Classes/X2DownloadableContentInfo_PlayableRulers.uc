@@ -386,9 +386,9 @@ exec function AddBerserkerQueenRecruit()
 	{
 		`XCOMHistory.CleanupPendingGameState(NewGameState);
 	}
-		if (default.AKRulerInGatecrasherSquad)
+		if (default.BQRulerInGatecrasherSquad)
 	{
-		XComHQ.Squad.RemoveItem(XComHQ.Squad[default.AKGatecrasherSlot]); // 3 is faction soldier in non legendary playthrough
+		XComHQ.Squad.RemoveItem(XComHQ.Squad[default.BQGatecrasherSlot]); // 3 is faction soldier in non legendary playthrough
 		XComHQ.Squad.AddItem(NewSoldierState.GetReference());
 	}
 }
@@ -435,9 +435,9 @@ exec function AddArchonKingRecruit()
 	{
 		`XCOMHistory.CleanupPendingGameState(NewGameState);
 	}
-		if (default.BQRulerInGatecrasherSquad)
+		if (default.AKRulerInGatecrasherSquad)
 	{
-		XComHQ.Squad.RemoveItem(XComHQ.Squad[default.BQGatecrasherSlot]); // 3 is faction soldier in non legendary playthrough
+		XComHQ.Squad.RemoveItem(XComHQ.Squad[default.AKGatecrasherSlot]); // 3 is faction soldier in non legendary playthrough
 		XComHQ.Squad.AddItem(NewSoldierState.GetReference());
 	}
 }
