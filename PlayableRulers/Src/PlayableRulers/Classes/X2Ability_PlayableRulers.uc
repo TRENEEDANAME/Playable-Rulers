@@ -204,6 +204,7 @@ static function array<X2DataTemplate> CreateTemplates()
 	Templates.AddItem(Create_PA_QuakeAbility());
 	Templates.AddItem(Create_PA_FaithBreaker());
 	Templates.AddItem(Create_PA_QueenDevastatingPunchAbility());
+	Templates.AddItem(Create_PA_BerserkerQueenSlash_Ability());
 
 
 	// Mind control
@@ -1825,6 +1826,78 @@ static function PA_FaithBreaker_PanickedVisualization(XComGameState VisualizeGam
 		class'X2StatusEffects'.static.AddEffectSoundAndFlyOverToTrack(ActionMetadata, VisualizeGameState.GetContext(), class'X2Effect_Panicked'.default.EffectFailedFriendlyName, '', eColor_Good, class'UIUtilities_Image'.const.UnitStatus_Panicked);
 	}
 }
+
+
+
+static function X2AbilityTemplate Create_PA_BerserkerQueenSlash_Ability()
+{
+	local X2AbilityTemplate                 Template;
+	local X2AbilityCost_ActionPoints        ActionPointCost;
+	local X2AbilityToHitCalc_StandardMelee  StandardMelee;
+	local X2Effect_ApplyWeaponDamage        WeaponDamageEffect;
+	local array<name>                       SkipExclusions;
+
+	`CREATE_X2ABILITY_TEMPLATE(Template, 'PA_BerserkerQueenSlash');
+
+	Template.AbilitySourceName = 'eAbilitySource_Standard';
+	Template.eAbilityIconBehaviorHUD = EAbilityIconBehavior_AlwaysShow;
+	Template.BuildNewGameStateFn = TypicalMoveEndAbility_BuildGameState;
+	Template.BuildVisualizationFn = TypicalAbility_BuildVisualization;
+	Template.BuildInterruptGameStateFn = TypicalMoveEndAbility_BuildInterruptGameState;	
+	Template.CinescriptCameraType = "Ranger_Reaper";
+	Template.IconImage = "img:///UILibrary_PerkIcons.UIPerk_swordSlash";
+	Template.bHideOnClassUnlock = false;
+	Template.ShotHUDPriority = class'UIUtilities_Tactical'.const.CLASS_SQUADDIE_PRIORITY;
+	Template.AbilityConfirmSound = "TacticalUI_SwordConfirm";
+
+	ActionPointCost = new class'X2AbilityCost_ActionPoints';
+	ActionPointCost.iNumPoints = 1;
+	ActionPointCost.bConsumeAllPoints = true;
+	Template.AbilityCosts.AddItem(ActionPointCost);
+	
+	StandardMelee = new class'X2AbilityToHitCalc_StandardMelee';
+	Template.AbilityToHitCalc = StandardMelee;
+
+	Template.AbilityTargetStyle = new class'X2AbilityTarget_MovingMelee';
+	Template.TargetingMethod = class'X2TargetingMethod_MeleePath';
+
+	Template.AbilityTriggers.AddItem(default.PlayerInputTrigger);
+	Template.AbilityTriggers.AddItem(new class'X2AbilityTrigger_EndOfMove');
+
+	// Target Conditions
+	//
+	Template.AbilityTargetConditions.AddItem(default.LivingHostileTargetProperty);
+	Template.AbilityTargetConditions.AddItem(default.MeleeVisibilityCondition);
+
+	// Shooter Conditions
+	//
+	Template.AbilityShooterConditions.AddItem(default.LivingShooterProperty);
+	SkipExclusions.AddItem(class'X2StatusEffects'.default.BurningName);
+	Template.AddShooterEffectExclusions(SkipExclusions);
+
+	// Damage Effect
+	//
+	WeaponDamageEffect = new class'X2Effect_ApplyWeaponDamage';
+	Template.AddTargetEffect(WeaponDamageEffect);
+
+	Template.bAllowBonusWeaponEffects = true;
+	Template.bSkipMoveStop = true;
+	
+	// Voice events
+	//
+	Template.SuperConcealmentLoss = class'X2AbilityTemplateManager'.default.SuperConcealmentStandardShotLoss;
+	Template.ChosenActivationIncreasePerUse = class'X2AbilityTemplateManager'.default.StandardShotChosenActivationIncreasePerUse;
+	Template.LostSpawnIncreasePerUse = class'X2AbilityTemplateManager'.default.MeleeLostSpawnIncreasePerUse;
+	Template.bFrameEvenWhenUnitIsHidden = true;
+
+	return Template;
+}
+
+
+
+
+
+
 
 //* ========================================================
 //* Ultimate ability : mind control
