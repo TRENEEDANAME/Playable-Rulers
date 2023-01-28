@@ -323,12 +323,9 @@ DescriptionEntry="Date : --classified--\n Object : Transcript from --classified-
 SecondWaveDescription = "Royalty on board : Start the campaign with one or more Ruler(s)."
 SecondWaveTooltip = "Begin the campaign with one or more rulers in the barracks."
 
-
-
 ; ********************
 ; ARMORS
 ; ********************
-
 
 [BerserkerQueenArmor X2ArmorTemplate]
 FriendlyName="Berserker Queen's armor"
