@@ -144,7 +144,7 @@ static function bool IsResearchInHistory(name ResearchName)
             return true;
         }
     }
-    return false;
+    
 }
 
 // ===============================================================================================================
@@ -163,7 +163,7 @@ static function bool AbilityTagExpandHandler(string InString, out string OutStri
     	case 'PARulers_BC_MG_ClipSize_Tag':		OutString = string(class'X2Item_AlienBossesWeapons'.default.PARulers_BC_MG_ClipSize);	return true;
     	case 'PARulers_BC_BM_ClipSize_Tag':		OutString = string(class'X2Item_AlienBossesWeapons'.default.PARulers_BC_BM_ClipSize);	return true;
 
-   		default: return false;
+   		default: 
     }  
 }
 
@@ -261,7 +261,7 @@ static function CreateSecondWaveOption()
 // 	if(CharTemplate == none)
 // 	{
 // 		class'Helpers'.static.OutputMsg("UNKNOWN TEMPLATE NAME[" @TemplateName @"]");
-// 		return; //if we don't get any valid templates, that means the user has entered the wrong name
+// 		 //if we don't get any valid templates, that means the user has entered the wrong name
 // 	}
 
 // 	//create new character from input template
@@ -316,7 +316,7 @@ exec function AddViperKingRecruit()
 		CharTemplate = CharTemplateMgr.FindCharacterTemplate('PA_ViperKing');
 		if(CharTemplate == none)
 		{
-			return; //if we don't get any valid templates, that means the user has yet to install any species mods
+			 //if we don't get any valid templates, that means the user has yet to install any species mods
 		}
 
 		NewSoldierState = `CHARACTERPOOLMGR.CreateCharacter(NewGameState, ProfileSettings.Data.m_eCharPoolUsage, CharTemplate.DataName);
@@ -366,7 +366,7 @@ exec function AddBerserkerQueenRecruit()
 		CharTemplate = CharTemplateMgr.FindCharacterTemplate('PA_BerserkerQueen');
 		if(CharTemplate == none)
 		{
-			return; //if we don't get any valid templates, that means the user has yet to install any species mods
+			 //if we don't get any valid templates, that means the user has yet to install any species mods
 		}
 
 		NewSoldierState = `CHARACTERPOOLMGR.CreateCharacter(NewGameState, ProfileSettings.Data.m_eCharPoolUsage, CharTemplate.DataName);
@@ -415,7 +415,7 @@ exec function AddArchonKingRecruit()
 		CharTemplate = CharTemplateMgr.FindCharacterTemplate('PA_ArchonKing');
 		if(CharTemplate == none)
 		{
-			return; //if we don't get any valid templates, that means the user has yet to install any species mods
+			 //if we don't get any valid templates, that means the user has yet to install any species mods
 		}
 
 		NewSoldierState = `CHARACTERPOOLMGR.CreateCharacter(NewGameState, ProfileSettings.Data.m_eCharPoolUsage, CharTemplate.DataName);

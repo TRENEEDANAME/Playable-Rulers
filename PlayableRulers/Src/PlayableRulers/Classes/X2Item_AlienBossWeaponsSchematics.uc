@@ -14,7 +14,7 @@ static function array<X2DataTemplate> CreateTemplates()
 
 	else
 	{
-		return;
+		
 	}
 
 	return Schematics;
@@ -118,7 +118,7 @@ static function bool PA_Rulers_IsAlienHuntersNarrativeContentComplete()
 		}
 	}
 
-	return false;
+	
 }
 
 static function bool PA_Rulers_AreConventionalHunterWeaponsAvailable()
@@ -132,5 +132,5 @@ static function bool PA_Rulers_AreConventionalHunterWeaponsAvailable()
         return true;
     }
 
-    return false;
+    
 }

@@ -59,7 +59,7 @@ static function array<X2DataTemplate> CreateTemplates()
 
 	else
 	{
-		return;
+		
 	}
 
 	if(class'PA_ArchonKingTech'.default.IsArchonKingActive == true)
@@ -70,7 +70,7 @@ static function array<X2DataTemplate> CreateTemplates()
 
 	else
 	{
-		return;
+		
 	}
 
 	if(class'PA_BerserkerQueenTech'.default.IsBerserkerQueenActive == true)
@@ -80,7 +80,7 @@ static function array<X2DataTemplate> CreateTemplates()
 
 	else
 	{
-		return;
+		
 	}
 
 	return Weapons;

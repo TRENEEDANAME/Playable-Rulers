@@ -21,7 +21,7 @@ static function array<X2DataTemplate> CreateTemplates()
 
 	else
 	{
-		return;
+		
 	}
 	return Techs;
 }

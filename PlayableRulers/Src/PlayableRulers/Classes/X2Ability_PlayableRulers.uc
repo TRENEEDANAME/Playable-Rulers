@@ -1818,7 +1818,7 @@ static function PA_FaithBreaker_PanickedVisualization(XComGameState VisualizeGam
 	UnitState = XComGameState_Unit(ActionMetadata.StateObject_NewState);
 	if (UnitState == none)
 	{
-		return;
+		
 	}
 
 	if (!UnitState.IsCivilian() && EffectApplyResult != 'AA_Success')
@@ -2186,13 +2186,13 @@ static function ArmorPanickedVisualization(XComGameState VisualizeGameState, out
 
 	if (EffectApplyResult != 'AA_Success')
 	{
-		return;
+		
 	}
 
 	// pan to the panicking unit (but only if it isn't a civilian)
 	UnitState = XComGameState_Unit(ActionMetadata.StateObject_NewState);
 	if (UnitState == none)
-		return;
+		
 
 	AbilityContext = XComGameStateContext_Ability(VisualizeGameState.GetContext());
 	AbilityTemplate = class'XComGameState_Ability'.static.GetMyTemplateManager().FindAbilityTemplate(AbilityContext.InputContext.AbilityTemplateName);
