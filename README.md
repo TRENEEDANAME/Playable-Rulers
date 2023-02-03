@@ -22,7 +22,7 @@ Required mod = [Mitzruti's Perk Pack](https://steamcommunity.com/sharedfiles/fil
 
 #### Optional mod
 
-Optional mod = [UFOpedia & Bestiary](https://steamcommunity.com/sharedfiles/filedetails/?id=2819129273).
+Optional mod = [UFOpedia & Bestiary](https://steamcommunity.com/sharedfiles/filedetails/?id=2819129273) (this mod add entry for the captured rulers. They are made by Endlesspie49).
 
 ## FAQ
 
