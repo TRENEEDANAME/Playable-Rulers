@@ -5,10 +5,33 @@ var config bool ALIENS_APPEAR_IN_BASE;
 static function array<X2DataTemplate> CreateTemplates()
 {
 	local array<X2DataTemplate> Templates;
-	
-	Templates.AddItem(CreateTemplate_ArchonBoss());
-	Templates.AddItem(CreateTemplate_BerserkerBoss());
+
+	if(class'PA_ArchonKingTech'.default.IsArchonKingActive == true)
+	{
+		Templates.AddItem(CreateTemplate_ArchonBoss());
+	}
+	else
+	{
+		return;
+	}
+
+	if(class'PA_BerserkerQueenTech'.default.IsBerserkerQueenActive == true)
+	{
+		Templates.AddItem(CreateTemplate_BerserkerBoss());
+	}
+	else
+	{
+		return;
+	}
+
+	if(class'PA_ViperKingTech'.default.IsViperKingActive == true)
+	{
 	Templates.AddItem(CreateTemplate_ViperBoss());
+	}
+	else
+	{
+	return:
+	}
 
 	return Templates;
 }

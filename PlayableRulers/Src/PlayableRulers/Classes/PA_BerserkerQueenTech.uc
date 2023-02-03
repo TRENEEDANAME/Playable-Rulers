@@ -7,13 +7,22 @@ var config int BerserkerQueenTech_CoreCost;
 var config array<name> BerserkerQueenTech_RequiredTech;
 var config name BerserkerQueenTech_RequiredCorpse;
 
+var config(GameData) bool IsBerserkerQueenActive;
+
 static function array<X2DataTemplate> CreateTemplates()
 {
 	local array<X2DataTemplate> Techs;
 
+	if (default.IsBerserkerQueenActive == true)
+	{
 	Techs.AddItem(CreatePA_BerserkerQueen_TechTemplate());
-		Techs.AddItem(CreateBerserkerQueenReanimationResearch());
+	Techs.AddItem(CreateBerserkerQueenReanimationResearch());
+	}
 
+	else
+	{
+		return;
+	}
 	return Techs;
 }
 

@@ -12,8 +12,6 @@ var config int ARCHONBOSS_BLAZINGPINIONS_ENVDAMAGE;
 
 var config int PARulers_ArchonWPN_NumUpgradeSlot;
 
-var config int VIPERBOSSRIFLE_ICLIPSIZE;
-
 var config int PARulers_BC_StunChance;
 
 var config WeaponDamageValue  PARulers_BC_CV_Damage;
@@ -51,16 +49,39 @@ static function array<X2DataTemplate> CreateTemplates()
 
 	// Alien Rulers
 
-	Weapons.AddItem(CreateTemplate_PARulers_Tongue_WPN());
+	if(class'PA_ViperKingTech'.default.IsViperKingActive == true)
+	{
+		Weapons.AddItem(CreateTemplate_PARulers_Tongue_WPN());
+		Weapons.AddItem(CreateTemplate_PARulers_BoltCaster_CV());
+		Weapons.AddItem(CreateTemplate_PARulers_BoltCaster_MG());
+		Weapons.AddItem(CreateTemplate_PARulers_BoltCaster_BM());
+	}
 
-	Weapons.AddItem(CreateTemplate_PARulers_BoltCaster_CV());
-	Weapons.AddItem(CreateTemplate_PARulers_BoltCaster_MG());
-	Weapons.AddItem(CreateTemplate_PARulers_BoltCaster_BM());
+	else
+	{
+		return;
+	}
 
-	Weapons.AddItem(CreateTemplate_ArchonBoss_WPN());
-	Weapons.AddItem(CreateTemplate_ArchonBoss_MeleeAttack());
-	
-	Weapons.AddItem(CreateTemplate_BerserkerBoss_MeleeAttack());
+	if(class'PA_ArchonKingTech'.default.IsArchonKingActive == true)
+	{
+		Weapons.AddItem(CreateTemplate_ArchonBoss_WPN());
+		Weapons.AddItem(CreateTemplate_ArchonBoss_MeleeAttack());
+	}
+
+	else
+	{
+		return;
+	}
+
+	if(class'PA_BerserkerQueenTech'.default.IsBerserkerQueenActive == true)
+	{
+		Weapons.AddItem(CreateTemplate_BerserkerBoss_MeleeAttack());
+	}
+
+	else
+	{
+		return;
+	}
 
 	return Weapons;
 }
@@ -398,7 +419,7 @@ static function X2DataTemplate CreateTemplate_BerserkerBoss_MeleeAttack()
 	Template.RemoveTemplateAvailablility(Template.BITFIELD_GAMEAREA_Multiplayer); //invalidates multiplayer availability
 	Template.Aim = class'X2Item_DefaultWeapons'.default.GENERIC_MELEE_ACCURACY; // DLC60 also has a GENERIC_MELEE_ACCURACY, but it is not being used, and not set in the config file.
 
-	Template.iRange = 0;
+	Template.iRange = 1;
 	Template.iRadius = 1;
 	Template.NumUpgradeSlots = 0;
 	Template.InfiniteAmmo = true;

@@ -6,14 +6,22 @@ var config int ArchonKingTech_CorpseCost;
 var config int ArchonKingTech_CoreCost;
 var config array<name> ArchonKingTech_RequiredTech;
 var config name ArchonKingTech_RequiredCorpse;
+var config(GameData) bool IsArchonKingActive;
 
 static function array<X2DataTemplate> CreateTemplates()
 {
 	local array<X2DataTemplate> Techs;
 
+	if(default.IsArchonKingActive == true)
+	{
 	Techs.AddItem(CreatePA_ArchonKing_TechTemplate());
 	Techs.AddItem(CreateArchonKingReanimationResearch());
+	}
 
+	else
+	{
+		return;
+	}
 	
 	return Techs;
 }

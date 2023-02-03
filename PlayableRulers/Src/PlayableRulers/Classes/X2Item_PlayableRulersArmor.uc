@@ -7,9 +7,18 @@ static function array<X2DataTemplate> CreateTemplates()
 {
 	local array<X2DataTemplate> Armors;
 
-	Armors.AddItem(Create_BerserkerArmor());
-	Armors.AddItem(Create_PlatedBerserkerArmor());
-	Armors.AddItem(Create_PoweredBerserkerArmor());
+
+	if(class'PA_BerserkerQueenTech'.default.IsBerserkerQueenActive == true)
+	{
+		Armors.AddItem(Create_BerserkerArmor());
+		Armors.AddItem(Create_PlatedBerserkerArmor());
+		Armors.AddItem(Create_PoweredBerserkerArmor());
+	}
+
+	else
+	{
+		return;
+	}
 
 	return Armors;
 }
@@ -20,7 +29,7 @@ static function X2DataTemplate Create_BerserkerArmor()
 
 	`CREATE_X2TEMPLATE(class'X2BQArmorTemplate', Template, 'BerserkerQueenArmor');
 	Template.strImage = "img:///UILibrary_DLC3Images.Inv_Spark_Conventional_A";
-	Template.StartingItem = false;
+	Template.StartingItem = true;
 	Template.CanBeBuilt = false;
 	Template.bInfiniteItem = true;
 	Template.ArmorTechCat = 'conventional';
