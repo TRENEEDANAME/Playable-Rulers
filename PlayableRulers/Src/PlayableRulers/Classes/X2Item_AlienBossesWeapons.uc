@@ -49,39 +49,14 @@ static function array<X2DataTemplate> CreateTemplates()
 
 	// Alien Rulers
 
-	if(class'PA_ViperKingTech'.default.IsViperKingActive == true)
-	{
 		Weapons.AddItem(CreateTemplate_PARulers_Tongue_WPN());
 		Weapons.AddItem(CreateTemplate_PARulers_BoltCaster_CV());
 		Weapons.AddItem(CreateTemplate_PARulers_BoltCaster_MG());
 		Weapons.AddItem(CreateTemplate_PARulers_BoltCaster_BM());
-	}
-
-	else
-	{
-		
-	}
-
-	if(class'PA_ArchonKingTech'.default.IsArchonKingActive == true)
-	{
 		Weapons.AddItem(CreateTemplate_ArchonBoss_WPN());
 		Weapons.AddItem(CreateTemplate_ArchonBoss_MeleeAttack());
-	}
-
-	else
-	{
-		
-	}
-
-	if(class'PA_BerserkerQueenTech'.default.IsBerserkerQueenActive == true)
-	{
 		Weapons.AddItem(CreateTemplate_BerserkerBoss_MeleeAttack());
-	}
 
-	else
-	{
-		
-	}
 
 	return Weapons;
 }

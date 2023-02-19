@@ -12,17 +12,9 @@ static function array<X2DataTemplate> CreateTemplates()
 {
 	local array<X2DataTemplate> Techs;
 
-	if(default.IsArchonKingActive == true)
-	{
 	Techs.AddItem(CreatePA_ArchonKing_TechTemplate());
 	Techs.AddItem(CreateArchonKingReanimationResearch());
-	}
 
-	else
-	{
-
-	}
-	
 	return Techs;
 }
 
@@ -40,14 +32,14 @@ static function X2DataTemplate CreatePA_ArchonKing_TechTemplate()
 	Template.SortingTier = 1;
 	Template.ResearchCompletedFn = ResearchCompleted;
 	Template.PointsToComplete = class'X2StrategyElement_DefaultTechs'.static.StafferXDays(1, default.ArchonKingTech_Days);
-		Resources.ItemTemplateName = 'Supplies';
-		Resources.Quantity = default.ArchonKingTech_SupplyCost;
-		Template.Cost.ResourceCosts.AddItem(Resources);
-		Artifacts.ItemTemplateName = 'CorpseArchonKing';
-		Artifacts.ItemTemplateName = 'EleriumCore';
-		Artifacts.Quantity = default.ArchonKingTech_CorpseCost;
-		Template.Cost.ArtifactCosts.AddItem(Artifacts);
-		Template.Requirements.RequiredTechs.AddItem('ArchonKingReanimationResearch');
+	Resources.ItemTemplateName = 'Supplies';
+	Resources.Quantity = default.ArchonKingTech_SupplyCost;
+	Template.Cost.ResourceCosts.AddItem(Resources);
+	Artifacts.ItemTemplateName = 'CorpseArchonKing';
+	Artifacts.ItemTemplateName = 'EleriumCore';
+	Artifacts.Quantity = default.ArchonKingTech_CorpseCost;
+	Template.Cost.ArtifactCosts.AddItem(Artifacts);
+	Template.Requirements.RequiredTechs.AddItem('ArchonKingReanimationResearch');
 
 	return Template;
 

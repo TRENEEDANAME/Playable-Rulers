@@ -6,22 +6,13 @@ var config int ViperKingTech_CorpseCost;
 var config int ViperKingTech_CoreCost;
 var config array<name> ViperKingTech_RequiredTech;
 var config name ViperKingTech_RequiredCorpse;
-var config(GameData) bool IsViperKingActive;
 
 static function array<X2DataTemplate> CreateTemplates()
 {
 	local array<X2DataTemplate> Techs;
-
-	if(default.IsViperKingActive == true)
-	{
-		Techs.AddItem(CreatePA_ViperKing_TechTemplate());
-		Techs.AddItem(CreateViperKingReanimationResearch());
-	}
-	else
-	{
 		
-	}
-
+	Techs.AddItem(CreatePA_ViperKing_TechTemplate());
+	Techs.AddItem(CreateViperKingReanimationResearch());
 	
 	return Techs;
 }

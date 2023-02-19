@@ -13,16 +13,9 @@ static function array<X2DataTemplate> CreateTemplates()
 {
 	local array<X2DataTemplate> Techs;
 
-	if (default.IsBerserkerQueenActive == true)
-	{
 	Techs.AddItem(CreatePA_BerserkerQueen_TechTemplate());
 	Techs.AddItem(CreateBerserkerQueenReanimationResearch());
-	}
 
-	else
-	{
-		
-	}
 	return Techs;
 }
 
@@ -41,15 +34,15 @@ static function X2DataTemplate CreatePA_BerserkerQueen_TechTemplate()
 	Template.SortingTier = 1;
 	Template.ResearchCompletedFn = ResearchCompleted;
 	Template.PointsToComplete = class'X2StrategyElement_DefaultTechs'.static.StafferXDays(1, default.BerserkerQueenTech_Days);
-		Resources.ItemTemplateName = 'Supplies';
-		Resources.Quantity = default.BerserkerQueenTech_SupplyCost;
-		Template.Cost.ResourceCosts.AddItem(Resources);
-		Artifacts.ItemTemplateName = 'EleriumCore';
-		Artifacts.ItemTemplateName = 'CorpseBerserkerQueen';
-		Artifacts.Quantity = default.BerserkerQueenTech_CoreCost;
-		Template.Cost.ArtifactCosts.AddItem(Artifacts);
-		Template.Requirements.RequiredTechs.AddItem('BerserkerQueenReanimationResearch');
-
+	Resources.ItemTemplateName = 'Supplies';
+	Resources.Quantity = default.BerserkerQueenTech_SupplyCost;
+	Template.Cost.ResourceCosts.AddItem(Resources);
+	Artifacts.ItemTemplateName = 'EleriumCore';
+	Artifacts.ItemTemplateName = 'CorpseBerserkerQueen';
+	Artifacts.Quantity = default.BerserkerQueenTech_CoreCost;
+	Template.Cost.ArtifactCosts.AddItem(Artifacts);
+	Template.Requirements.RequiredTechs.AddItem('BerserkerQueenReanimationResearch');
+	
 	return Template;
 }
 

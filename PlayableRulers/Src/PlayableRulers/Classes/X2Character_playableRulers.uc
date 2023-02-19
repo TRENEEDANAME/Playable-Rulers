@@ -6,32 +6,9 @@ static function array<X2DataTemplate> CreateTemplates()
 {
 	local array<X2DataTemplate> Templates;
 
-	if(class'PA_ArchonKingTech'.default.IsArchonKingActive == true)
-	{
-		Templates.AddItem(CreateTemplate_ArchonBoss());
-	}
-	else
-	{
-		
-	}
-
-	if(class'PA_BerserkerQueenTech'.default.IsBerserkerQueenActive == true)
-	{
-		Templates.AddItem(CreateTemplate_BerserkerBoss());
-	}
-	else
-	{
-		
-	}
-
-	if(class'PA_ViperKingTech'.default.IsViperKingActive == true)
-	{
+	Templates.AddItem(CreateTemplate_ArchonBoss());
+	Templates.AddItem(CreateTemplate_BerserkerBoss());
 	Templates.AddItem(CreateTemplate_ViperBoss());
-	}
-	else
-	{
-
-	}
 
 	return Templates;
 }
@@ -46,17 +23,8 @@ static function X2CharacterTemplate CreateTemplate_ViperBoss()
 	CharTemplate.DefaultLoadout='ViperBoss_Loadout';
 	CharTemplate.BehaviorClass=class'XGAIBehavior';
 	CharTemplate.strPawnArchetypes.AddItem("GameUnit_ViperKing.ARC_GameUnit_ViperKing");
-	Loot.ForceLevel=0;
-	Loot.LootTableName='ViperBoss_BaseLoot';
-	CharTemplate.Loot.LootReferences.AddItem(Loot);
 
 	// Timed Loot
-	Loot.ForceLevel = 0;
-	Loot.LootTableName = 'ViperBoss_TimedLoot';
-	CharTemplate.TimedLoot.LootReferences.AddItem(Loot);
-	Loot.LootTableName = 'ViperBoss_VultureLoot';
-	CharTemplate.VultureLoot.LootReferences.AddItem(Loot);
-
 	CharTemplate.strMatineePackages.AddItem("CIN_Viper");
 	CharTemplate.strMatineePackages.AddItem("CIN_AdventMEC");
 	CharTemplate.strTargetingMatineePrefix = "CIN_AdventMEC_FF_StartPos";
@@ -146,12 +114,6 @@ static function X2CharacterTemplate CreateTemplate_ArchonBoss()
 	CharTemplate.Loot.LootReferences.AddItem(Loot);
 
 	// Timed Loot
-	Loot.ForceLevel = 0;
-	Loot.LootTableName = 'ArchonBoss_TimedLoot';
-	CharTemplate.TimedLoot.LootReferences.AddItem(Loot);
-	Loot.LootTableName = 'ArchonBoss_VultureLoot';
-	CharTemplate.VultureLoot.LootReferences.AddItem(Loot);
-
 	CharTemplate.strMatineePackages.AddItem("CIN_Archon");
 	CharTemplate.strMatineePackages.AddItem("CIN_AdventMEC");
 	CharTemplate.strTargetingMatineePrefix = "CIN_AdventMEC_FF_StartPos";
@@ -243,16 +205,8 @@ static function X2CharacterTemplate CreateTemplate_BerserkerBoss()
 	CharTemplate.DefaultLoadout='BerserkerBoss_Loadout';
 	CharTemplate.BehaviorClass=class'XGAIBehavior';
 	CharTemplate.strPawnArchetypes.AddItem("GameUnit_BerserkerQueen.ARC_GameUnit_BerserkerQueen");
-	Loot.ForceLevel=0;
-	Loot.LootTableName='BerserkerBoss_BaseLoot';
-	CharTemplate.Loot.LootReferences.AddItem(Loot);
 
 	// Timed Loot
-	Loot.ForceLevel = 0;
-	Loot.LootTableName = 'BerserkerBoss_TimedLoot';
-	CharTemplate.TimedLoot.LootReferences.AddItem(Loot);
-	Loot.LootTableName = 'BerserkerBoss_VultureLoot';
-	CharTemplate.VultureLoot.LootReferences.AddItem(Loot);
 
 	CharTemplate.strMatineePackages.AddItem("CIN_Berserker");
 
