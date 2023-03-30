@@ -15,16 +15,8 @@ static function array<X2DataTemplate> CreateTemplates()
 	local array<X2DataTemplate> Grenades;
 
 	// Alien Rulers
-
-	if(class'PA_ViperKingTech'.default.IsViperKingActive == true)
-	{
 		Grenades.AddItem(CreatePARulers_FrostbiteGlob());
-	}
 
-	else
-	{
-		
-	}
 
 	return Grenades;
 } 

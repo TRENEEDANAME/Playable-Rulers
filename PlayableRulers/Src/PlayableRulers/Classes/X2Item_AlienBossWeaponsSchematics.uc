@@ -4,18 +4,9 @@ static function array<X2DataTemplate> CreateTemplates()
 {
 	local array<X2DataTemplate> Schematics;
 
-
-	if(class'PA_ViperKingTech'.default.IsViperKingActive == true)
-	{
 		Schematics.AddItem(CreateTemplate_PARulers_BoltCaster_CV_Schematic());
 		Schematics.AddItem(CreateTemplate_PARulers_BoltCaster_MG_Schematic());
 		Schematics.AddItem(CreateTemplate_PARulers_BoltCaster_BM_Schematic());
-	}
-
-	else
-	{
-		
-	}
 
 	return Schematics;
 }
