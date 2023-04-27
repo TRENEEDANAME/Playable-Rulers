@@ -249,9 +249,6 @@ static function X2CharacterTemplate CreateTemplate_BerserkerBoss()
 	CharTemplate.bUsesWillSystem = false;
 	CharTemplate.bIsTooBigForArmory = true;
 
-	CharTemplate.DefaultSoldierClass = 'BerserkerQueenClass';
-	CharTemplate.DefaultLoadout = 'BerserkerBoss_Loadout';
-	CharTemplate.RequiredLoadout = 'BerserkerBoss_Loadout';
 	CharTemplate.ImmuneTypes.AddItem('Mental');
 
 	CharTemplate.Abilities.AddItem('Interact_UseElevator');
@@ -272,8 +269,6 @@ static function X2CharacterTemplate CreateTemplate_BerserkerBoss()
 	CharTemplate.bAllowRushCam = false;
 
 	CharTemplate.strScamperBT = "ScamperRoot_MeleeNoCover";
-
-	CharTemplate.Abilities.AddItem('PA_DevastatingPunch');
 
 	CharTemplate.strTargetIconImage = class'UIUtilities_Image'.const.TargetIcon_Alien;
 
