@@ -94,7 +94,6 @@ static function XComGameState_Unit CreateUnit(XComGameState NewGameState)
 static function X2DataTemplate CreateArchonKingReanimationResearch()
 {
 	local X2TechTemplate Template;
-	local ArtifactCost Artifacts;
 
 	`CREATE_X2TEMPLATE(class'X2TechTemplate', Template, 'ArchonKingReanimationResearch');
 	Template.PointsToComplete = 8000;

@@ -14,7 +14,6 @@ static function array<X2DataTemplate> CreateTemplates()
 static function X2DataTemplate CreateTemplate_PARulers_BoltCaster_CV_Schematic()
 {
 	local X2SchematicTemplate Template;
-	local ArtifactCost Resources;
 
 	`CREATE_X2TEMPLATE(class'X2SchematicTemplate', Template, 'PARulers_BoltCaster_CV_Schematic');
 

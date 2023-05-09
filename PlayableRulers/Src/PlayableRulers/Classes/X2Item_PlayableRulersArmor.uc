@@ -7,18 +7,9 @@ static function array<X2DataTemplate> CreateTemplates()
 {
 	local array<X2DataTemplate> Armors;
 
-
-	if(class'PA_BerserkerQueenTech'.default.IsBerserkerQueenActive == true)
-	{
 		Armors.AddItem(Create_BerserkerArmor());
 		Armors.AddItem(Create_PlatedBerserkerArmor());
 		Armors.AddItem(Create_PoweredBerserkerArmor());
-	}
-
-	else
-	{
-		
-	}
 
 	return Armors;
 }
