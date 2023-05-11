@@ -72,13 +72,22 @@ static function X2CharacterTemplate CreateTemplate_ViperBoss()
 
 	CharTemplate.Abilities.AddItem('Interact_UseElevator');
 
-	CharTemplate.Abilities.AddItem('Loot');
+	CharTemplate.Abilities.AddItem('Interact_PlantBomb');
+	CharTemplate.Abilities.AddItem('Interact_TakeVial');
+	CharTemplate.Abilities.AddItem('Interact_StasisTube');
+	CharTemplate.Abilities.AddItem('Interact_MarkSupplyCrate');
+	CharTemplate.Abilities.AddItem('Interact_ActivateAscensionGate');
+	CharTemplate.Abilities.AddItem('Interact_UseElevator');
+	CharTemplate.Abilities.AddItem('CarryUnit');
+	CharTemplate.Abilities.AddItem('PutDownUnit');
 	CharTemplate.Abilities.AddItem('Evac');
 	CharTemplate.Abilities.AddItem('PlaceEvacZone');
 	CharTemplate.Abilities.AddItem('LiftOffAvenger');
 	CharTemplate.Abilities.AddItem('Knockout');
 	CharTemplate.Abilities.AddItem('KnockoutSelf');
-	CharTemplate.Abilities.AddItem('Interact_MarkSupplyCrate');
+	CharTemplate.Abilities.AddItem('HunkerDown');
+	CharTemplate.Abilities.AddItem('DisableConsumeAllPoints');
+	CharTemplate.Abilities.AddItem('Revive');
 
 	CharTemplate.Abilities.AddItem('PA_KingBind');
 	CharTemplate.Abilities.AddItem('PA_BindSustained');
@@ -164,15 +173,22 @@ static function X2CharacterTemplate CreateTemplate_ArchonBoss()
 	CharTemplate.DefaultLoadout = 'ArchonBoss_Loadout';
 	CharTemplate.RequiredLoadout = 'ArchonBoss_Loadout';
 
+	CharTemplate.Abilities.AddItem('Interact_PlantBomb');
+	CharTemplate.Abilities.AddItem('Interact_TakeVial');
+	CharTemplate.Abilities.AddItem('Interact_StasisTube');
+	CharTemplate.Abilities.AddItem('Interact_MarkSupplyCrate');
+	CharTemplate.Abilities.AddItem('Interact_ActivateAscensionGate');
 	CharTemplate.Abilities.AddItem('Interact_UseElevator');
-
-	CharTemplate.Abilities.AddItem('Loot');
+	CharTemplate.Abilities.AddItem('CarryUnit');
+	CharTemplate.Abilities.AddItem('PutDownUnit');
 	CharTemplate.Abilities.AddItem('Evac');
 	CharTemplate.Abilities.AddItem('PlaceEvacZone');
 	CharTemplate.Abilities.AddItem('LiftOffAvenger');
 	CharTemplate.Abilities.AddItem('Knockout');
 	CharTemplate.Abilities.AddItem('KnockoutSelf');
-	CharTemplate.Abilities.AddItem('Berserk');
+	CharTemplate.Abilities.AddItem('HunkerDown');
+	CharTemplate.Abilities.AddItem('DisableConsumeAllPoints');
+	CharTemplate.Abilities.AddItem('Revive');
 	CharTemplate.Abilities.AddItem('ArchonKingBlazingPinionsStage1');
 	CharTemplate.Abilities.AddItem('ArchonKingBlazingPinionsStage2');
 	CharTemplate.Abilities.AddItem('IcarusDropSlam');
@@ -253,13 +269,22 @@ static function X2CharacterTemplate CreateTemplate_BerserkerBoss()
 
 	CharTemplate.Abilities.AddItem('Interact_UseElevator');
 
-	CharTemplate.Abilities.AddItem('Loot');
+	CharTemplate.Abilities.AddItem('Interact_PlantBomb');
+	CharTemplate.Abilities.AddItem('Interact_TakeVial');
+	CharTemplate.Abilities.AddItem('Interact_StasisTube');
+	CharTemplate.Abilities.AddItem('Interact_MarkSupplyCrate');
+	CharTemplate.Abilities.AddItem('Interact_ActivateAscensionGate');
+	CharTemplate.Abilities.AddItem('Interact_UseElevator');
+	CharTemplate.Abilities.AddItem('CarryUnit');
+	CharTemplate.Abilities.AddItem('PutDownUnit');
 	CharTemplate.Abilities.AddItem('Evac');
 	CharTemplate.Abilities.AddItem('PlaceEvacZone');
 	CharTemplate.Abilities.AddItem('LiftOffAvenger');
 	CharTemplate.Abilities.AddItem('Knockout');
 	CharTemplate.Abilities.AddItem('KnockoutSelf');
-	CharTemplate.Abilities.AddItem('Berserk');
+	CharTemplate.Abilities.AddItem('HunkerDown');
+	CharTemplate.Abilities.AddItem('DisableConsumeAllPoints');
+	CharTemplate.Abilities.AddItem('Revive');
 
 	CharTemplate.ImmuneTypes.AddItem('Obsessed');
 	CharTemplate.ImmuneTypes.AddItem('Shattered');
