@@ -318,11 +318,12 @@ exec function AddViperKingRecruit()
 		{
 			 //if we don't get any valid templates, that means the user has yet to install any species mods
 		}
-
+			
 		NewSoldierState = `CHARACTERPOOLMGR.CreateCharacter(NewGameState, ProfileSettings.Data.m_eCharPoolUsage, CharTemplate.DataName);
 		if(!NewSoldierState.HasBackground())
 			NewSoldierState.GenerateBackground();
 		NewSoldierState.GiveRandomPersonality();
+		NewSoldierState.RankUpSoldier(NewGameState, 'ViperKingClass');
 		NewSoldierState.ApplyInventoryLoadout(NewGameState);
 		NewSoldierState.SetHQLocation(eSoldierLoc_Barracks);
 		XComHQ = XComGameState_HeadquartersXCom(NewGameState.ModifyStateObject(class'XComGameState_HeadquartersXCom', XComHQ.ObjectID));
@@ -375,6 +376,7 @@ exec function AddBerserkerQueenRecruit()
 		NewSoldierState.GiveRandomPersonality();
 		NewSoldierState.ApplyInventoryLoadout(NewGameState);
 		NewSoldierState.SetHQLocation(eSoldierLoc_Barracks);
+		NewSoldierState.RankUpSoldier(NewGameState, 'BerserkerQueenClass');
 		XComHQ = XComGameState_HeadquartersXCom(NewGameState.ModifyStateObject(class'XComGameState_HeadquartersXCom', XComHQ.ObjectID));
 		XComHQ.AddToCrew(NewGameState, NewSoldierState);
 
@@ -422,6 +424,7 @@ exec function AddArchonKingRecruit()
 		if(!NewSoldierState.HasBackground())
 			NewSoldierState.GenerateBackground();
 		NewSoldierState.GiveRandomPersonality();
+		NewSoldierState.RankUpSoldier(NewGameState, 'ArchonKingClass');
 		NewSoldierState.ApplyInventoryLoadout(NewGameState);
 		NewSoldierState.SetHQLocation(eSoldierLoc_Barracks);
 		XComHQ = XComGameState_HeadquartersXCom(NewGameState.ModifyStateObject(class'XComGameState_HeadquartersXCom', XComHQ.ObjectID));
