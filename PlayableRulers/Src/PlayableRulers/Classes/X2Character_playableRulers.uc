@@ -218,6 +218,7 @@ static function X2CharacterTemplate CreateTemplate_BerserkerBoss()
 
 	`CREATE_X2CHARACTER_TEMPLATE(CharTemplate, 'PA_BerserkerQueen');
 	CharTemplate.CharacterGroupName = 'BerserkerQueen';
+	CharTemplate.DefaultSoldierClass = 'BerserkerQueenClass';
 	CharTemplate.DefaultLoadout='BerserkerBoss_Loadout';
 	CharTemplate.BehaviorClass=class'XGAIBehavior';
 	CharTemplate.strPawnArchetypes.AddItem("GameUnit_BerserkerQueen.ARC_GameUnit_BerserkerQueen");
