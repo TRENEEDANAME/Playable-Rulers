@@ -1,0 +1,15 @@
+{
+    "tfcFiles":  [
+
+                 ],
+    "sfPackages":  [
+                       {
+                           "fullFileName":  "PARulers_Tongue_Item_SF.upk",
+                           "lastUpdatedUtc":  638241815366538610
+                       },
+                       {
+                           "fullFileName":  "TR_PlayableRulers_ClassIcons_SF.upk",
+                           "lastUpdatedUtc":  638241815382428126
+                       }
+                   ]
+}

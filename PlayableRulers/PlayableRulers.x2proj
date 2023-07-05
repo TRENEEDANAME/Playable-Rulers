@@ -28,6 +28,7 @@
     <Folder Include="Config\Base\" />
     <Folder Include="Config\Compatibility\" />
     <Folder Include="Config\Cost\" />
+    <Folder Include="ContentForCook\" />
     <Content Include="Config\XComClassData.ini">
       <SubType>Content</SubType>
     </Content>
@@ -43,13 +44,10 @@
     <Content Include="Config\XcomWeaponSkinReplacer.ini">
       <SubType>Content</SubType>
     </Content>
-    <Content Include="Content\PARulers_Tongue_Item.upk">
+    <Content Include="ContentForCook\PARulers_Tongue_Item.upk">
       <SubType>Content</SubType>
     </Content>
-    <Content Include="Content\PlayableRulers_ModShaderCache.upk">
-      <SubType>Content</SubType>
-    </Content>
-    <Content Include="Content\WOTCClonedAlienRulers_ModShaderCache.upk">
+    <Content Include="ContentForCook\PARulers_Tongue_Item.upk">
       <SubType>Content</SubType>
     </Content>
     <Content Include="Localization\WOTC_UFOpedia.int">
@@ -86,7 +84,6 @@
     <Content Include="Src\PlayableRulers\Classes\X2Ability_PlayableRulers.uc" />
     <Content Include="Config\XcomTemplateCreator.ini" />
     <Content Include="Config\XcomTemplateEditor.ini" />
-    <Content Include="Config\XComTruePrimarySecondaries.ini" />
     <Content Include="Config\Ability\XcomGameData_PassiveSkills.ini" />
     <Content Include="Config\Ability\XcomGameData_SoldierSkills.ini" />
     <Content Include="Config\ArmorWeapon\XcomGameData_ArmorData.ini" />
@@ -104,5 +101,10 @@
     <Content Include="Src\PlayableRulers\Classes\X2BQArmorTemplate.uc" />
     <Content Include="Src\PlayableRulers\Classes\X2Effect_PunchDamage.uc" />
     <Content Include="Src\PlayableRulers\Classes\X2Item_PlayableRulersArmor.uc" />
+    <Content Include="ContentOptions.json" />
+    <Content Include="Config\ArmorWeapon\XComGameData_ArmorData.ini" />
+    <Content Include="ContentForCook\PARulers_Tongue_Item.upk" />
+    <Content Include="ContentForCook\PlayableRulers_ModShaderCache.upk" />
+    <Content Include="ContentForCook\TR_PlayableRulers_ClassIcons.upk" />
   </ItemGroup>
 </Project>
