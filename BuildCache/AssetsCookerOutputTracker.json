@@ -1,6 +1,10 @@
 {
     "tfcFiles":  [
-
+                     {
+                         "fullFileName":  "World_PlayableRulers_DLCTFC_XPACK_.tfc",
+                         "originalSize":  2757,
+                         "lastUpdatedUtc":  638242369377975249
+                     }
                  ],
     "sfPackages":  [
                        {
@@ -9,7 +13,7 @@
                        },
                        {
                            "fullFileName":  "TR_PlayableRulers_ClassIcons_SF.upk",
-                           "lastUpdatedUtc":  638241815382428126
+                           "lastUpdatedUtc":  638242369378485364
                        }
                    ]
 }

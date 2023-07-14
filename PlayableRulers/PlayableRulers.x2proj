@@ -104,7 +104,6 @@
     <Content Include="ContentOptions.json" />
     <Content Include="Config\ArmorWeapon\XComGameData_ArmorData.ini" />
     <Content Include="ContentForCook\PARulers_Tongue_Item.upk" />
-    <Content Include="ContentForCook\PlayableRulers_ModShaderCache.upk" />
     <Content Include="ContentForCook\TR_PlayableRulers_ClassIcons.upk" />
   </ItemGroup>
 </Project>
