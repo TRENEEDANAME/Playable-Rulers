@@ -1478,7 +1478,7 @@ simulated function PA_BlazingPinionsStage2_BuildVisualization(XComGameState Visu
 
 
 
-static function X2AbilityTemplate Create_PA_QueenDevastatingPunchAbility(optional Name AbilityName = 'PA_DevastatingPunch', int MovementRangeAdjustment=1)
+static function X2AbilityTemplate Create_PA_QueenDevastatingPunchAbility(int MovementRangeAdjustment=1)
 {
 	local X2AbilityTemplate Template;
 	local X2AbilityCost_ActionPoints ActionPointCost;
@@ -1489,7 +1489,7 @@ static function X2AbilityTemplate Create_PA_QueenDevastatingPunchAbility(optiona
 	local X2Effect_PunchDamage WeaponDamageEffect;
 	local array<name> SkipExclusions;
 
-	`CREATE_X2ABILITY_TEMPLATE(Template, AbilityName);
+	`CREATE_X2ABILITY_TEMPLATE(Template, "PA_DevastatingPunch");
 	Template.IconImage = "img:///UILibrary_PerkIcons.UIPerk_muton_punch";
 	Template.Hostility = eHostility_Offensive;
 	Template.AbilitySourceName = 'eAbilitySource_Standard';

@@ -20,6 +20,7 @@ static function X2DataTemplate Create_BerserkerArmor()
 
 	`CREATE_X2TEMPLATE(class'X2BQArmorTemplate', Template, 'BerserkerQueenArmor');
 	Template.strImage = "img:///UILibrary_DLC3Images.Inv_Spark_Conventional_A";
+
 	Template.StartingItem = true;
 	Template.CanBeBuilt = false;
 	Template.bInfiniteItem = true;
