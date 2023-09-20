@@ -1,5 +1,4 @@
-class X2Ability_ItemGrantedAbility extends X2Ability
-	dependson(XComGameStateContext_Ability) config(GameData_PassiveSkills);
+class X2Ability_PlayableRulers_ItemGrantedAbility extends X2Ability config(PlayableAdvent);
 
 var config int PA_BerserkerQueen_Plated_HealthBonus;
 var config int PA_BerserkerQueen_Plated_MobilityBonus;

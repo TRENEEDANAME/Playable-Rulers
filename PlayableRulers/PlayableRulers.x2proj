@@ -97,7 +97,7 @@
     <Content Include="Config\Compatibility\XComUFOpedia.ini" />
     <Content Include="Config\Cost\XComStrategyTuning.ini" />
     <Content Include="Config\Cost\XcomWeaponTuning.ini" />
-    <Content Include="Src\PlayableRulers\Classes\X2Ability_ItemGrantedAbility.uc" />
+    <Content Include="Src\PlayableRulers\Classes\X2Ability_PlayableRulers_ItemGrantedAbility.uc" />
     <Content Include="Src\PlayableRulers\Classes\X2BQArmorTemplate.uc" />
     <Content Include="Src\PlayableRulers\Classes\X2Effect_PunchDamage.uc" />
     <Content Include="Src\PlayableRulers\Classes\X2Item_PlayableRulersArmor.uc" />
