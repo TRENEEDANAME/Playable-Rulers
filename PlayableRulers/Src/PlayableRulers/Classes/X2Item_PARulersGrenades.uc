@@ -15,17 +15,16 @@ static function array<X2DataTemplate> CreateTemplates()
 	local array<X2DataTemplate> Grenades;
 
 	// Alien Rulers
-		Grenades.AddItem(CreatePARulers_FrostbiteGlob());
-
+		Grenades.AddItem(CreatePA_ViperKingFrostGlobCat());
 
 	return Grenades;
-} 
+}
 
-static function X2DataTemplate CreatePARulers_FrostbiteGlob()
+static function X2DataTemplate CreatePA_ViperKingFrostGlobCat()
 {
 	local X2WeaponTemplate Template;
 
-	`CREATE_X2TEMPLATE(class'X2GrenadeTemplate', Template, 'PARulers_FrostbiteGlob');
+	`CREATE_X2TEMPLATE(class'X2GrenadeTemplate', Template, 'PA_ViperKingFrostGlobCat');
 
 	Template.ItemCat = 'grenade';
 	Template.WeaponCat = 'grenade';

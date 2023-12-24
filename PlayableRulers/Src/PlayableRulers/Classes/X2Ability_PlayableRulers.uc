@@ -4,6 +4,15 @@ class X2Ability_PlayableRulers extends X2Ability config(GameData_SoldierSkills);
 //* Viper King
 //* ======================================================
 
+// Frostbite
+var config bool PA_ViperKing_FrostBite_ConsumeAllActionPointCost;
+var config int PA_ViperKing_FrostBite_AP_Cost;
+var config int PA_ViperKing_FrostBite_Cooldown;
+var config bool PA_ViperKing_FrostBite_RestrictToWeaponRange;
+var config bool PA_ViperKing_FrostBite_ExcludeSelfAsTargetIfWithinRadius;
+var config int PA_ViperKing_FrostBite_MinRulerFreezeDuration;
+var config int PA_ViperKing_FrostBite_MaxRulerFreezeDuration;
+
 //* Bind ability
 
 var config WeaponDamageValue PA_ViperKing_Bind_BaseDamage;
@@ -79,8 +88,6 @@ var const config int PA_ArchonKing_BlazingPinions_MaxNumberOfUnconscious;
 
 var config float PA_ArchonKing_BlazingPinions_ImpactRadius;
 
-var config string PA_ArchonKing_BlazingPinions_TargetParticleSystem;
-
 //* ======================================================
 //* Berserker Queen
 //* ======================================================
@@ -88,9 +95,8 @@ var config string PA_ArchonKing_BlazingPinions_TargetParticleSystem;
 //* Punch
 
 var config bool PA_BerserkerQueen_Punch_ConsumeAllActionPointCost;
+var config int PA_BerserkerQueen_Punch_ActionPointCost;
 var name RageTriggeredEffectName;
-var localized string LocRageFlyover;
-var localized string BlindRageFlyover;
 
 //* Quake
 
@@ -140,7 +146,7 @@ var config int PA_BerserkerQueen_FaithBreaker_AddedChances_PerHP_Lost;
 var config int PA_BerserkerQueen_FaithBreaker_Cooldown;
 
 //* =================================
-//* Mind control 
+//* Mind control
 //* =================================
 
 //* Viper King
@@ -197,6 +203,8 @@ static function array<X2DataTemplate> CreateTemplates()
 	Templates.AddItem(Create_PA_BindAbility());
 	Templates.AddItem(Create_PA_BindSustainedAbility());
 	Templates.AddItem(Create_PA_EndBindAbility());
+
+	// Archon King
 	Templates.AddItem(Create_PA_BlazingPinionsStage1Ability());
 	Templates.AddItem(Create_PA_BlazingPinionsStage2Ability());
 
@@ -216,61 +224,62 @@ static function array<X2DataTemplate> CreateTemplates()
 	return Templates;
 }
 
-
+// Because I use BattleLord as a ref, need either Skirmisher Rebalance or I need to copy the fixes here (with permission)
 static function X2AbilityTemplate Create_PA_RulersReactions_Ability()
 {
-	local X2AbilityTemplate Template;
-	local X2AbilityTrigger_EventListener Trigger;
-	local X2Effect_RunBehaviorTree ReactionEffect;
-	local X2Effect_GrantActionPoints AddAPEffect;
-	local array<name> SkipExclusions;
-	local X2Condition_UnitProperty UnitPropertyCondition;
+	local X2AbilityTemplate				Template;
+	local X2AbilityCharges				Charges;
+	local X2AbilityCost_Charges			ChargeCost;
+	local X2AbilityCost_ActionPoints	ActionPointCost;
+	local X2Effect_Battlelord			BattlelordEffect;
 
 	`CREATE_X2ABILITY_TEMPLATE(Template, 'PA_RulersReactions');
 
-	Template.AbilitySourceName = 'eAbilitySource_Standard';
-	Template.eAbilityIconBehaviorHUD = eAbilityIconBehavior_NeverShow;
-	Template.IconImage = "img:///UILibrary_PerkIcons.UIPerk_combatstims";
+	Template.IconImage = "img:///UILibrary_XPACK_Common.PerkIcons.UIPerk_Battlelord";
+	Template.AbilitySourceName = 'eAbilitySource_Perk';
+	Template.eAbilityIconBehaviorHUD = eAbilityIconBehavior_AlwaysShow;
+	Template.Hostility = eHostility_Neutral;
 
 	Template.AbilityToHitCalc = default.DeadEye;
 	Template.AbilityTargetStyle = default.SelfTarget;
+	Template.AbilityTriggers.AddItem(default.PlayerInputTrigger);
+
+	if (default.DoesRulerReactionHaveCharges)
+	{
+		Charges = new class'X2AbilityCharges';
+		Charges.InitialCharges = 1;
+		Template.AbilityCharges = Charges;
+
+		ChargeCost = new class'X2AbilityCost_Charges';
+		ChargeCost.NumCharges = 1;
+		Template.AbilityCosts.AddItem(ChargeCost);
+	}
+
+	if (default.DoesRulerReactionHaveActionPointCost)
+	{
+		ActionPointCost = new class'X2AbilityCost_ActionPoints';
+		ActionPointCost.iNumPoints = 1;
+		ActionPointCost.bConsumeAllPoints = true;
+		ActionPointCost.AllowedTypes.RemoveItem(class'X2CharacterTemplateManager'.default.SkirmisherInterruptActionPoint);
+		Template.AbilityCosts.AddItem(ActionPointCost);
+	}
+
+	BattlelordEffect = new class'X2Effect_Battlelord';
+	BattlelordEffect.BuildPersistentEffect(1, false, , , eGameRule_PlayerTurnBegin);
+	BattlelordEffect.SetDisplayInfo(ePerkBuff_Bonus, Template.LocFriendlyName, Template.LocLongDescription, Template.IconImage, true, , Template.AbilitySourceName);
+	Template.AddTargetEffect(BattlelordEffect);
 
 	Template.AbilityShooterConditions.AddItem(default.LivingShooterProperty);
+	Template.AddShooterEffectExclusions();
 
-	SkipExclusions.AddItem(class'X2AbilityTemplateManager'.default.DisorientedName);
-	SkipExclusions.AddItem(class'X2StatusEffects'.default.BurningName);
-	SkipExclusions.AddItem(class'X2AbilityTemplateManager'.default.ConfusedName);
-	Template.AddShooterEffectExclusions(SkipExclusions);
-
-	Trigger = new class'X2AbilityTrigger_EventListener';
-	Trigger.ListenerData.Deferral = ELD_OnStateSubmitted;
-	Trigger.ListenerData.EventID = 'UnitTakeEffectDamage';
-	Trigger.ListenerData.EventFn = class'XComGameState_Ability'.static.AbilityTriggerEventListener_Self;
-	Trigger.ListenerData.Filter = eFilter_Unit;
-	Template.AbilityTriggers.AddItem(Trigger);
-
-	UnitPropertyCondition = new class'X2Condition_UnitProperty';
-	UnitPropertyCondition.ExcludeDead = true;
-	UnitPropertyCondition.ExcludeAlive = false;
-	UnitPropertyCondition.ExcludeStunned = true;
-	Template.AbilityShooterConditions.AddItem(UnitPropertyCondition);
-
-	AddAPEffect = new class'X2Effect_GrantActionPoints';
-	AddAPEffect.NumActionPoints = 1;
-	AddAPEffect.PointType = class'X2CharacterTemplateManager'.default.StandardActionPoint;
-	Template.AddTargetEffect(AddAPEffect);
-
-	ReactionEffect = new class'X2Effect_RunBehaviorTree';
-	ReactionEffect.BehaviorTreeName = 'RulersReactions';
-	Template.AddTargetEffect(ReactionEffect);
-
-	Template.bShowActivation = true;
-	Template.bSkipExitCoverWhenFiring = true;
-	Template.bSkipFireAction = true;
-
-	Template.FrameAbilityCameraType = eCameraFraming_Always;
 	Template.BuildNewGameStateFn = TypicalAbility_BuildGameState;
 	Template.BuildVisualizationFn = TypicalAbility_BuildVisualization;
+	Template.bSkipFireAction = true;
+	Template.bShowActivation = true;
+//BEGIN AUTOGENERATED CODE: Template Overrides 'Battlelord'
+	Template.AbilityConfirmSound = "Battlelord_Activate";
+	Template.ActivationSpeech = 'Battlelord';
+//END AUTOGENERATED CODE: Template Overrides 'Battlelord'
 
 	return Template;
 }
@@ -388,7 +397,7 @@ static function X2AbilityTemplate Create_PA_GetOverHereAbility()
 	Template.BuildInterruptGameStateFn = TypicalAbility_BuildInterruptGameState;
 
 	class'X2Ability_DLC_Day60AlienRulers'.static.RemoveMimicBeaconsFromTargets(Template);
-	
+
 	Template.LostSpawnIncreasePerUse = class'X2AbilityTemplateManager'.default.MeleeLostSpawnIncreasePerUse;
 	Template.bFrameEvenWhenUnitIsHidden = true;
 
@@ -472,66 +481,6 @@ static function X2AbilityTemplate Create_PA_BindSustainedAbility()
 	return Template;
 }
 
-simulated function PA_BindSustained_BuildVisualization(XComGameState VisualizeGameState)
-{
-	local XComGameStateHistory			History;
-	local XComGameStateContext_Ability  Context;
-	local StateObjectReference          InteractingUnitRef;
-	local bool                          bTargetIsDead, bTargetIsUnconscious;
-	local int                           i;
-
-	local VisualizationActionMetadata        EmptyTrack;
-	local VisualizationActionMetadata        ActionMetadata;
-
-	History = `XCOMHISTORY;
-
-	Context = XComGameStateContext_Ability(VisualizeGameState.GetContext());
-
-	//Configure the visualization track for the target
-	//****************************************************************************************
-	ActionMetadata = EmptyTrack;
-	InteractingUnitRef = Context.InputContext.PrimaryTarget;
-	ActionMetadata.StateObject_OldState = History.GetGameStateForObjectID(InteractingUnitRef.ObjectID, eReturnType_Reference, VisualizeGameState.HistoryIndex - 1);
-	ActionMetadata.StateObject_NewState = VisualizeGameState.GetGameStateForObjectID(InteractingUnitRef.ObjectID);
-	ActionMetadata.VisualizeActor = History.GetVisualizer(InteractingUnitRef.ObjectID);
-
-	bTargetIsDead = XComGameState_Unit(ActionMetadata.StateObject_NewState).IsDead() ||
-					XComGameState_Unit(ActionMetadata.StateObject_NewState).IsBleedingOut();
-
-	bTargetIsUnconscious = XComGameState_Unit(ActionMetadata.StateObject_NewState).IsUnconscious();
-
-	if( bTargetIsDead || bTargetIsUnconscious )
-	{
-		class'X2Action_WaitForAbilityEffect'.static.AddToVisualizationTree(ActionMetadata, Context, false, ActionMetadata.LastActionAdded);
-		class'X2Action_Death'.static.AddToVisualizationTree(ActionMetadata, Context, false, ActionMetadata.LastActionAdded);
-	}
-
-	for( i = 0; i < Context.ResultContext.TargetEffectResults.Effects.Length; ++i )
-	{
-		Context.ResultContext.TargetEffectResults.Effects[i].AddX2ActionsForVisualization(VisualizeGameState, ActionMetadata, Context.ResultContext.TargetEffectResults.ApplyResults[i]);
-	}
-
-		//****************************************************************************************
-
-	//Configure the visualization track for the shooter
-	//****************************************************************************************
-	if( bTargetIsDead || bTargetIsUnconscious )
-	{
-		ActionMetadata = EmptyTrack;
-		InteractingUnitRef = Context.InputContext.SourceObject;
-		ActionMetadata.VisualizeActor = History.GetVisualizer(InteractingUnitRef.ObjectID);
-		ActionMetadata.StateObject_OldState = History.GetGameStateForObjectID(InteractingUnitRef.ObjectID, eReturnType_Reference, VisualizeGameState.HistoryIndex - 1);
-		ActionMetadata.StateObject_NewState = VisualizeGameState.GetGameStateForObjectID(InteractingUnitRef.ObjectID);
-
-		if( bTargetIsUnconscious )
-		{
-			// The target is unconscious so the End Bind for source needs to happen
-			PA_BindEndSource_BuildVisualization(VisualizeGameState, ActionMetadata, 'AA_Success');
-		}
-	}
-	//****************************************************************************************
-}
-
 // Ability only exists for player-controlled Vipers to end their bind ability.  Not actually used by the AI.
 static function X2AbilityTemplate Create_PA_EndBindAbility()
 {
@@ -582,109 +531,84 @@ static function X2AbilityTemplate Create_PA_EndBindAbility()
 	return Template;
 }
 
-simulated function PA_BindEndSource_BuildVisualization(XComGameState VisualizeGameState, out VisualizationActionMetadata ActionMetadata, const name EffectApplyResult)
+static function X2AbilityTemplate Create_PA_ViperKing_FrostbiteAbility()
 {
-	local XComGameStateHistory			History;
-	local XComGameState_Effect          BindSustainedEffectState;
-	local XComGameState_Unit            OldUnitState, BindTarget;
-	local X2Action_ViperBindEnd         BindEnd;
-	local XComGameStateContext			Context;
+	local X2AbilityTemplate                 Template;
+	local X2AbilityCost_ActionPoints        ActionPointCost;
+	local X2AbilityTarget_Cursor            CursorTarget;
+	local X2AbilityMultiTarget_Radius       RadiusMultiTarget;
+	local X2Condition_UnitProperty          UnitPropertyCondition;
+	local X2AbilityTrigger_PlayerInput      InputTrigger;
+	local X2AbilityCooldown                 Cooldown;
+	local X2Effect_ApplyWeaponDamage        WeaponEffect;
+	local array<name> SkipExclusions;
 
-	History = `XCOMHISTORY;
+	`CREATE_X2ABILITY_TEMPLATE(Template, 'PA_ViperKing_Frostbite');
+	Template.bDontDisplayInAbilitySummary = false;
+	Template.IconImage = "img:///UILibrary_DLC2Images.UIPerk_freezingbreath";
 
-	if (ActionMetadata.VisualizeActor != None)
-	{
-		Context = VisualizeGameState.GetContext( );
+	ActionPointCost = new class'X2AbilityCost_ActionPoints';
+	ActionPointCost.iNumPoints = default.PA_ViperKing_FrostBite_AP_Cost;
+	ActionPointCost.bConsumeAllPoints = default.PA_ViperKing_FrostBite_ConsumeAllActionPointCost;
+	Template.AbilityCosts.AddItem(ActionPointCost);
 
-		OldUnitState = XComGameState_Unit(ActionMetadata.StateObject_OldState);
-		BindSustainedEffectState = OldUnitState.GetUnitApplyingEffectState(default.PA_KingBindSustainedEffectName);
-		`assert(BindSustainedEffectState != none);
-		BindTarget = XComGameState_Unit(History.GetGameStateForObjectID(BindSustainedEffectState.ApplyEffectParameters.TargetStateObjectRef.ObjectID));
-		`assert(BindTarget != none);
+	Template.AbilityToHitCalc = default.DeadEye;
 
-		if( BindTarget.IsDead() ||
-			BindTarget.IsBleedingOut() ||
-			BindTarget.IsUnconscious() )
-		{
-			// The target is dead, wait for it to die and inform the source
-			class'X2Action_WaitForAbilityEffect'.static.AddToVisualizationTree(ActionMetadata, Context, false, ActionMetadata.LastActionAdded);
-		}
-		else
-		{
+	WeaponEffect = new class'X2Effect_ApplyWeaponDamage';
+	WeaponEffect.DamageTypes.AddItem('Frost');
+	Template.AddMultiTargetEffect(WeaponEffect);
+	Template.AddMultiTargetEffect(class'X2Effect_DLC_Day60Freeze'.static.CreateFreezeEffect(default.PA_ViperKing_FrostBite_MinRulerFreezeDuration, default.PA_ViperKing_FrostBite_MaxRulerFreezeDuration));
+	Template.AddMultiTargetEffect(class'X2Effect_DLC_Day60Freeze'.static.CreateFreezeRemoveEffects());
 
-			BindEnd = X2Action_ViperBindEnd(class'X2Action_ViperBindEnd'.static.AddToVisualizationTree(ActionMetadata, Context, false, ActionMetadata.LastActionAdded));
-			BindEnd.PartnerUnitRef = BindSustainedEffectState.ApplyEffectParameters.TargetStateObjectRef;
-		}
-	}
+	CursorTarget = new class'X2AbilityTarget_Cursor';
+	CursorTarget.bRestrictToWeaponRange = default.PA_ViperKing_FrostBite_RestrictToWeaponRange;
+	Template.AbilityTargetStyle = CursorTarget;
+
+	RadiusMultiTarget = new class'X2AbilityMultiTarget_Radius';
+	RadiusMultiTarget.bUseWeaponRadius = true;
+	RadiusMultiTarget.bExcludeSelfAsTargetIfWithinRadius = default.PA_ViperKing_FrostBite_ExcludeSelfAsTargetIfWithinRadius;
+	Template.AbilityMultiTargetStyle = RadiusMultiTarget;
+
+	UnitPropertyCondition = new class'X2Condition_UnitProperty';
+	UnitPropertyCondition.ExcludeDead = true;
+	Template.AbilityShooterConditions.AddItem(UnitPropertyCondition);
+
+	// PA_ViperKing_FrostBite may be used if disoriented, burning, or confused.  Not bound though.
+	SkipExclusions.AddItem(class'X2AbilityTemplateManager'.default.DisorientedName);
+	SkipExclusions.AddItem(class'X2StatusEffects'.default.BurningName);
+	SkipExclusions.AddItem(class'X2AbilityTemplateManager'.default.ConfusedName);
+	Template.AddShooterEffectExclusions(SkipExclusions);
+
+	InputTrigger = new class'X2AbilityTrigger_PlayerInput';
+	Template.AbilityTriggers.AddItem(InputTrigger);
+
+	Template.AbilitySourceName = 'eAbilitySource_Standard';
+	Template.eAbilityIconBehaviorHUD = EAbilityIconBehavior_AlwaysShow;
+	Template.IconImage = "img:///UILibrary_PerkIcons.UIPerk_viper_frostbite";
+	Template.bUseAmmoAsChargesForHUD = true;
+
+	Template.BuildNewGameStateFn = TypicalAbility_BuildGameState;
+	Template.BuildVisualizationFn = TypicalAbility_BuildVisualization;
+	Template.CinescriptCameraType = "Viper_PoisonSpit";
+
+	Template.TargetingMethod = class'X2TargetingMethod_ViperSpit';
+
+	// Cooldown on the ability
+	Cooldown = new class'X2AbilityCooldown';
+	Cooldown.iNumTurns = default.PA_ViperKing_FrostBite_Cooldown;
+	Template.AbilityCooldown = Cooldown;
+
+	// This action is considered 'hostile' and can be interrupted!
+	Template.Hostility = eHostility_Offensive;
+	Template.BuildInterruptGameStateFn = TypicalAbility_BuildInterruptGameState;
+
+	Template.LostSpawnIncreasePerUse = class'X2AbilityTemplateManager'.default.StandardShotLostSpawnIncreasePerUse;
+//BEGIN AUTOGENERATED CODE: Template Overrides 'Frostbite'
+	Template.bFrameEvenWhenUnitIsHidden = true;
+//END AUTOGENERATED CODE: Template Overrides 'Frostbite'
+
+	return Template;
 }
-
-simulated function PA_BindEndTarget_BuildVisualization(XComGameState VisualizeGameState, out VisualizationActionMetadata ActionMetadata, const name EffectApplyResult)
-{	
-	local XComGameState_Effect          BindSustainedEffectState;
-	local XComGameState_Unit            OldUnitState;
-	local X2Action_ViperBindEnd         BindEnd;
-	local XComGameStateContext			Context;
-
-	if(ActionMetadata.VisualizeActor != None)
-	{
-		Context = VisualizeGameState.GetContext();
-
-		if( XComGameState_Unit(ActionMetadata.StateObject_NewState).IsDead() ||
-		   XComGameState_Unit(ActionMetadata.StateObject_NewState).IsBleedingOut() ||
-		   XComGameState_Unit(ActionMetadata.StateObject_NewState).IsUnconscious() )
-		{
-			OldUnitState = XComGameState_Unit(ActionMetadata.StateObject_OldState);
-			BindSustainedEffectState = OldUnitState.GetUnitAffectedByEffectState(default.PA_KingBindSustainedEffectName);
-			`assert(BindSustainedEffectState != none);
-
-			BindEnd = X2Action_ViperBindEnd(class'X2Action_ViperBindEnd'.static.AddToVisualizationTree(ActionMetadata, Context, false, ActionMetadata.LastActionAdded));
-			BindEnd.PartnerUnitRef = BindSustainedEffectState.ApplyEffectParameters.SourceStateObjectRef;
-		}
-		else
-		{
-			class'X2Action_WaitForAbilityEffect'.static.AddToVisualizationTree(ActionMetadata, Context, false, ActionMetadata.LastActionAdded);
-		}
-	}
-}
-
-simulated function PA_BindEnd_BuildVisualization(XComGameState VisualizeGameState)
-{
-	local XComGameStateHistory			History;
-	local XComGameStateContext_Ability  Context;
-	local StateObjectReference          InteractingUnitRef;
-	
-
-	local VisualizationActionMetadata        EmptyTrack;
-	local VisualizationActionMetadata        ActionMetadata;
-
-	History = `XCOMHISTORY;
-
-	Context = XComGameStateContext_Ability(VisualizeGameState.GetContext());
-
-	//Configure the visualization track for the shooter
-	//****************************************************************************************
-	ActionMetadata = EmptyTrack;
-	InteractingUnitRef = Context.InputContext.SourceObject;
-	ActionMetadata.VisualizeActor = History.GetVisualizer(InteractingUnitRef.ObjectID);
-	ActionMetadata.StateObject_OldState = History.GetGameStateForObjectID(InteractingUnitRef.ObjectID, eReturnType_Reference, VisualizeGameState.HistoryIndex - 1);
-	ActionMetadata.StateObject_NewState = VisualizeGameState.GetGameStateForObjectID(InteractingUnitRef.ObjectID);
-
-	PA_BindEndSource_BuildVisualization(VisualizeGameState, ActionMetadata, 'AA_Success');
-		//****************************************************************************************
-
-	//Configure the visualization track for the target
-	//****************************************************************************************
-	ActionMetadata = EmptyTrack;
-	InteractingUnitRef = Context.InputContext.PrimaryTarget;
-	ActionMetadata.StateObject_OldState = History.GetGameStateForObjectID(InteractingUnitRef.ObjectID, eReturnType_Reference, VisualizeGameState.HistoryIndex - 1);
-	ActionMetadata.StateObject_NewState = VisualizeGameState.GetGameStateForObjectID(InteractingUnitRef.ObjectID);
-	ActionMetadata.VisualizeActor = History.GetVisualizer(InteractingUnitRef.ObjectID);
-
-	PA_BindEndTarget_BuildVisualization(VisualizeGameState, ActionMetadata, 'AA_Success');
-		//****************************************************************************************
-}
-
-
 
 
 static function X2AbilityTemplate Create_PA_BindAbility()
@@ -753,7 +677,7 @@ static function X2AbilityTemplate Create_PA_BindAbility()
 	SingleTarget = new class'X2AbilityTarget_Single';
 	Template.AbilityTargetStyle = SingleTarget;
 
-	TargetVisibilityCondition = new class'X2Condition_Visibility';	
+	TargetVisibilityCondition = new class'X2Condition_Visibility';
 	TargetVisibilityCondition.bRequireGameplayVisible = true;
 	TargetVisibilityCondition.bCannotPeek = true;
 	TargetVisibilityCondition.bRequireNotMatchCoverType = true;
@@ -818,7 +742,7 @@ static function X2AbilityTemplate Create_PA_BindAbility()
 	Template.CinescriptCameraType = "Viper_Bind";
 
 	class'X2Ability_DLC_Day60AlienRulers'.static.RemoveMimicBeaconsFromTargets(Template);
-	
+
 	Template.LostSpawnIncreasePerUse = class'X2AbilityTemplateManager'.default.MeleeLostSpawnIncreasePerUse;
 	Template.bFrameEvenWhenUnitIsHidden = true;
 
@@ -866,7 +790,7 @@ static function X2DataTemplate Create_PA_BlazingPinionsStage1Ability()
 
 	Template.AbilityToHitCalc = default.DeadEye;
 	Template.AbilityTriggers.AddItem(default.PlayerInputTrigger);
- 
+
 	Template.TargetingMethod = class'X2TargetingMethod_BlazingPinions';
 
 	// The target locations are enemies
@@ -905,197 +829,20 @@ static function X2DataTemplate Create_PA_BlazingPinionsStage1Ability()
 
 	//  The target FX goes in target array as there will be no single target hit and no side effects of this touching a unit
 	BlazingPinionsTargetEffect = new class'X2Effect_ApplyBlazingPinionsTargetToWorld';
-	BlazingPinionsTargetEffect.OverrideParticleSystemFill_Name = default.PA_ArchonKing_BlazingPinions_TargetParticleSystem;
+	BlazingPinionsTargetEffect.OverrideParticleSystemFill_Name = class'X2Ability_DLC_60ArchonKing'.default.KING_BLAZING_PINIONS_TARGET_PARTICLE_SYSTEM;
 	Template.AddShooterEffect(BlazingPinionsTargetEffect);
 
-	Template.ModifyNewContextFn = PA_BlazingPinionsStage1_ModifyActivatedAbilityContext;
-	Template.BuildNewGameStateFn = PA_BlazingPinionsStage1_BuildGameState;
+	Template.ModifyNewContextFn = class'X2Ability_DLC_60ArchonKing'.BlazingPinionsStage1_ModifyActivatedAbilityContext;
+	Template.BuildNewGameStateFn = class'X2Ability_DLC_60ArchonKing'.BlazingPinionsStage1_BuildGameState;
 	Template.BuildInterruptGameStateFn = TypicalAbility_BuildInterruptGameState;
-	Template.BuildVisualizationFn = PA_BlazingPinionsStage1_BuildVisualization;
-	Template.BuildAppliedVisualizationSyncFn = PA_BlazingPinionsStage1_BuildVisualizationSync;
+	Template.BuildVisualizationFn = class'X2Ability_DLC_60ArchonKing'.BlazingPinionsStage1_BuildVisualization;
+	Template.BuildAppliedVisualizationSyncFn = class'X2Ability_DLC_60ArchonKing'.BlazingPinionsStage1_BuildVisualizationSync;
 	Template.CinescriptCameraType = "Archon_BlazingPinions_Stage1";
 //BEGIN AUTOGENERATED CODE: Template Overrides 'ArchonKingBlazingPinionsStage1'
 	Template.bFrameEvenWhenUnitIsHidden = true;
 //END AUTOGENERATED CODE: Template Overrides 'ArchonKingBlazingPinionsStage1'
-	
+
 	return Template;
-}
-
-simulated function PA_BlazingPinionsStage1_ModifyActivatedAbilityContext(XComGameStateContext Context)
-{
-	local XComGameState_Unit UnitState;
-	local XComGameStateContext_Ability AbilityContext;
-	local XComGameStateHistory History;
-	local vector EndLocation;
-	local TTile EndTileLocation;
-	local XComWorldData World;
-	local PathingInputData InputData;
-	local PathingResultData ResultData;
-
-	History = `XCOMHISTORY;
-	World = `XWORLD;
-
-	AbilityContext = XComGameStateContext_Ability(Context);
-	`assert(AbilityContext.InputContext.TargetLocations.Length > 0);
-	
-	UnitState = XComGameState_Unit(History.GetGameStateForObjectID(AbilityContext.InputContext.SourceObject.ObjectID));
-
-	// solve the path to get him to the fire location
-	EndLocation = AbilityContext.InputContext.TargetLocations[0];
-	EndTileLocation = World.GetTileCoordinatesFromPosition(EndLocation);
-	EndTileLocation.Z = World.NumZ - 3; // Subtract Magic Number X to make the height visually appealing
-
-	class'X2PathSolver'.static.BuildPath(UnitState, UnitState.TileLocation, EndTileLocation, InputData.MovementTiles, false);
-	
-	// get the path points
-	class'X2PathSolver'.static.GetPathPointsFromPath(UnitState, InputData.MovementTiles, InputData.MovementData);
-
-	// string pull the path to smooth it out
-	class'XComPath'.static.PerformStringPulling(XGUnitNativeBase(UnitState.GetVisualizer()), InputData.MovementData);
-
-	//Now add the path to the input context
-	InputData.MovingUnitRef = UnitState.GetReference();
-	AbilityContext.InputContext.MovementPaths.AddItem(InputData);
-
-	// Update the result context's PathTileData, without this the AI doesn't know it has been seen and will use the invisible teleport move action
-	class'X2TacticalVisibilityHelpers'.static.FillPathTileData(AbilityContext.InputContext.SourceObject.ObjectID, InputData.MovementTiles, ResultData.PathTileData);
-	AbilityContext.ResultContext.PathResults.AddItem(ResultData);
-}
-
-simulated function XComGameState PA_BlazingPinionsStage1_BuildGameState(XComGameStateContext Context)
-{
-	local XComGameState NewGameState;
-	local XComGameState_Unit UnitState;
-	local XComGameStateContext_Ability AbilityContext;
-	local vector NewLocation;
-	local TTile NewTileLocation;
-	local XComWorldData World;
-	local X2EventManager EventManager;
-	local int LastPathElement;
-
-	World = `XWORLD;
-	EventManager = `XEVENTMGR;
-
-	//Build the new game state frame
-	NewGameState = TypicalAbility_BuildGameState(Context);
-
-	AbilityContext = XComGameStateContext_Ability(NewGameState.GetContext());	
-	UnitState = XComGameState_Unit(NewGameState.ModifyStateObject(class'XComGameState_Unit', AbilityContext.InputContext.SourceObject.ObjectID));
-	
-	LastPathElement = AbilityContext.InputContext.MovementPaths[0].MovementData.Length - 1;
-
-	// Move the unit vertically, set the unit's new location
-	// The last position in MovementData will be the end location
-	`assert(LastPathElement > 0);
-	NewLocation = AbilityContext.InputContext.MovementPaths[0].MovementData[LastPathElement].Position;
-	NewTileLocation = World.GetTileCoordinatesFromPosition(NewLocation);
-	UnitState.SetVisibilityLocation(NewTileLocation);
-
-	AbilityContext.ResultContext.bPathCausesDestruction = MoveAbility_StepCausesDestruction(UnitState, AbilityContext.InputContext, 0, LastPathElement);
-	MoveAbility_AddTileStateObjects(NewGameState, UnitState, AbilityContext.InputContext, 0, LastPathElement);
-
-	EventManager.TriggerEvent('ObjectMoved', UnitState, UnitState, NewGameState);
-	EventManager.TriggerEvent('UnitMoveFinished', UnitState, UnitState, NewGameState);
-
-	//Return the game state we have created
-	return NewGameState;
-}
-
-simulated function PA_BlazingPinionsStage1_BuildVisualization(XComGameState VisualizeGameState)
-{
-	local XComGameStateHistory History;
-	local XComGameStateContext_Ability  AbilityContext;
-	local StateObjectReference InteractingUnitRef;
-	local X2AbilityTemplate AbilityTemplate;
-	local VisualizationActionMetadata EmptyTrack, ActionMetadata;
-	local X2Action_PlaySoundAndFlyOver SoundAndFlyover;
-	local int i;
-	local X2Action_MoveTurn MoveTurnAction;
-	local X2Action_PlayAnimation PlayAnimation;
-
-	History = `XCOMHISTORY;
-
-	AbilityContext = XComGameStateContext_Ability(VisualizeGameState.GetContext());
-	InteractingUnitRef = AbilityContext.InputContext.SourceObject;
-
-	AbilityTemplate = class'XComGameState_Ability'.static.GetMyTemplateManager().FindAbilityTemplate(AbilityContext.InputContext.AbilityTemplateName);
-
-	//****************************************************************************************
-	//Configure the visualization track for the source
-	//****************************************************************************************
-	ActionMetadata = EmptyTrack;
-	ActionMetadata.StateObject_OldState = History.GetGameStateForObjectID(InteractingUnitRef.ObjectID, eReturnType_Reference, VisualizeGameState.HistoryIndex - 1);
-	ActionMetadata.StateObject_NewState = VisualizeGameState.GetGameStateForObjectID(InteractingUnitRef.ObjectID);
-	ActionMetadata.VisualizeActor = History.GetVisualizer(InteractingUnitRef.ObjectID);
-
-	SoundAndFlyOver = X2Action_PlaySoundAndFlyOver(class'X2Action_PlaySoundAndFlyover'.static.AddToVisualizationTree(ActionMetadata, AbilityContext));
-	SoundAndFlyOver.SetSoundAndFlyOverParameters(None, AbilityTemplate.LocFlyOverText, '', eColor_Bad);
-
-	// Turn to face the target action. The target location is the center of the ability's radius, stored in the 0 index of the TargetLocations
-	MoveTurnAction = X2Action_MoveTurn(class'X2Action_MoveTurn'.static.AddToVisualizationTree(ActionMetadata, AbilityContext));
-	MoveTurnAction.m_vFacePoint = AbilityContext.InputContext.TargetLocations[0];
-
-	// Fly up actions
-	class'X2VisualizerHelpers'.static.ParsePath(AbilityContext, ActionMetadata);
-
-	// Play the animation to get him to his looping idle
-	PlayAnimation = X2Action_PlayAnimation(class'X2Action_PlayAnimation'.static.AddToVisualizationTree(ActionMetadata, AbilityContext));
-	PlayAnimation.Params.AnimName = 'HL_Devastate';
-	
-	for( i = 0; i < AbilityContext.ResultContext.ShooterEffectResults.Effects.Length; ++i )
-	{
-		AbilityContext.ResultContext.ShooterEffectResults.Effects[i].AddX2ActionsForVisualization(VisualizeGameState, ActionMetadata, 
-																								  AbilityContext.ResultContext.ShooterEffectResults.ApplyResults[i]);
-	}
-
-	}
-
-simulated function PA_BlazingPinionsStage1_BuildVisualizationSync( name EffectName, XComGameState VisualizeGameState, out VisualizationActionMetadata ActionMetadata )
-{
-	local X2Action_MoveTurn MoveTurnAction;
-	local XComGameStateContext_Ability  AbilityContext;
-	local X2AbilityTemplate AbilityTemplate;
-	local X2Action_PlayAnimation PlayAnimation;
-	local X2Action_MoveTeleport MoveTeleport;
-	local PathingInputData PathingData;
-	local PathingResultData ResultData;
-	local vector PathEndPos;
-	local int i, LastPathIndex;
-
-	if (!`XENGINE.IsMultiplayerGame() && EffectName == 'BlazingPinionsStage1Delay')
-	{
-		AbilityContext = XComGameStateContext_Ability( VisualizeGameState.GetContext( ) );
-		AbilityTemplate = class'X2AbilityTemplateManager'.static.GetAbilityTemplateManager().FindAbilityTemplate(AbilityContext.InputContext.AbilityTemplateName);
-
-		//The unit may be dead when loading a save. Don't try to make the archon fly around if so
-		if (XComGameState_Unit(ActionMetadata.StateObject_NewState).IsAlive())
-		{
-			// Turn to face the target action. The target location is the center of the ability's radius, stored in the 0 index of the TargetLocations
-			MoveTurnAction = X2Action_MoveTurn(class'X2Action_MoveTurn'.static.AddToVisualizationTree(ActionMetadata, AbilityContext));
-			MoveTurnAction.m_vFacePoint = AbilityContext.InputContext.TargetLocations[0];
-
-			// Fly up actions
-			PathingData = AbilityContext.InputContext.MovementPaths[0];
-			ResultData = AbilityContext.ResultContext.PathResults[0];
-			LastPathIndex = PathingData.MovementData.Length - 1;
-			PathEndPos = PathingData.MovementData[LastPathIndex].Position;
-			MoveTeleport = X2Action_MoveTeleport(class'X2Action_MoveTeleport'.static.AddToVisualizationTree(ActionMetadata, ABilityContext));
-			MoveTeleport.ParsePathSetParameters(LastPathIndex, PathEndPos, 0, PathingData, ResultData);
-			MoveTeleport.SnapToGround = false;
-
-			// Play the animation to get him to his looping idle
-			PlayAnimation = X2Action_PlayAnimation(class'X2Action_PlayAnimation'.static.AddToVisualizationTree(ActionMetadata, AbilityContext));
-			PlayAnimation.Params.AnimName = 'HL_Devastate';
-		}
-
-		// The references to the shooter effect instances in the input context don't restore to be the references to the ability
-		// template that they should.  Which is okay, we'll just use the effects directly.
-		for (i = 0; i < AbilityTemplate.AbilityShooterEffects.Length; ++i)
-		{
-			AbilityTemplate.AbilityShooterEffects[ i ].AddX2ActionsForVisualization( VisualizeGameState, ActionMetadata,
-				AbilityContext.ResultContext.ShooterEffectResults.ApplyResults[ i ] );
-		}
-	}
 }
 
 static function X2DataTemplate Create_PA_BlazingPinionsStage2Ability()
@@ -1174,9 +921,9 @@ static function X2DataTemplate Create_PA_BlazingPinionsStage2Ability()
 	DamageEffect.bApplyWorldEffectsForEachTargetLocation = true;
 	Template.AddMultiTargetEffect(DamageEffect);
 
-	Template.ModifyNewContextFn = PA_BlazingPinionsStage2_ModifyActivatedAbilityContext;
-	Template.BuildNewGameStateFn = PA_BlazingPinionsStage2_BuildGameState;
-	Template.BuildVisualizationFn = PA_BlazingPinionsStage2_BuildVisualization;
+	Template.ModifyNewContextFn = class'X2Ability_DLC_60ArchonKing'.BlazingPinionsStage2_ModifyActivatedAbilityContext;
+	Template.BuildNewGameStateFn = class'X2Ability_DLC_60ArchonKing'.BlazingPinionsStage2_BuildGameState;
+	Template.BuildVisualizationFn = class'X2Ability_DLC_60ArchonKing'.BlazingPinionsStage2_BuildVisualization;
 	Template.CinescriptCameraType = "Archon_BlazingPinions_Stage2";
 
 	Template.LostSpawnIncreasePerUse = class'X2AbilityTemplateManager'.default.HeavyWeaponLostSpawnIncreasePerUse;
@@ -1187,296 +934,9 @@ static function X2DataTemplate Create_PA_BlazingPinionsStage2Ability()
 	return Template;
 }
 
-simulated function PA_BlazingPinionsStage2_ModifyActivatedAbilityContext(XComGameStateContext Context)
-{
-	local XComGameState_Unit UnitState;
-	local XComGameStateContext_Ability AbilityContext;
-	local XComGameStateHistory History;
-	local TTile SelectedTile, LandingTile;
-	local XComWorldData World;
-	local vector TargetLocation, LandingLocation;
-	local array<vector> FloorPoints;
-	local int i;
-	local X2AbilityMultiTargetStyle RadiusMultiTarget;
-	local XComGameState_Ability AbilityState;
-	local AvailableTarget MultiTargets;
-	local PathingInputData InputData;
-	local X2AbilityTemplate AbilityTemplate;
-	local AvailableTarget kTarget;
-	local name AvailableCode;
-
-	History = `XCOMHISTORY;
-	World = `XWORLD;
-
-	AbilityContext = XComGameStateContext_Ability(Context);
-	
-	UnitState = XComGameState_Unit(History.GetGameStateForObjectID(AbilityContext.InputContext.SourceObject.ObjectID));
-
-	// Find a valid landing location
-	TargetLocation = World.GetPositionFromTileCoordinates(UnitState.TileLocation);
-
-	LandingLocation = TargetLocation;
-	LandingLocation.Z = World.GetFloorZForPosition(TargetLocation, true);
-	LandingTile = World.GetTileCoordinatesFromPosition(LandingLocation);
-	LandingTile = class'Helpers'.static.GetClosestValidTile(LandingTile);
-
-	if( !World.CanUnitsEnterTile(LandingTile) )
-	{
-		// The selected tile is no longer valid. A new landing position
-		// must be found. TODO: Decide what to do when FoundFloorPositions is false.
-		World.GetFloorTilePositions(TargetLocation, World.WORLD_StepSize * default.PA_ArchonKing_BlazingPinions_TargetRadius, World.WORLD_StepSize, FloorPoints, true);
-
-		i = 0;
-		while( i < FloorPoints.Length )
-		{
-			LandingLocation = FloorPoints[i];
-			LandingTile = World.GetTileCoordinatesFromPosition(LandingLocation);
-			if( World.CanUnitsEnterTile(SelectedTile) )
-			{
-				// Found a valid landing location
-				i = FloorPoints.Length;
-			}
-
-			++i;
-		}
-	}
-
-	//Attempting to build a path to our current location causes a problem, so avoid that
-	if(UnitState.TileLocation != LandingTile) 
-	{
-		// Build the MovementData for the path
-		// solve the path to get him to the end location
-		class'X2PathSolver'.static.BuildPath(UnitState, UnitState.TileLocation, LandingTile, InputData.MovementTiles, false);
-
-		// get the path points
-		class'X2PathSolver'.static.GetPathPointsFromPath(UnitState, InputData.MovementTiles, InputData.MovementData);
-
-		// string pull the path to smooth it out
-		class'XComPath'.static.PerformStringPulling(XGUnitNativeBase(UnitState.GetVisualizer()), InputData.MovementData);
-
-		//Now add the path to the input context
-		InputData.MovingUnitRef = UnitState.GetReference();
-		AbilityContext.InputContext.MovementPaths.AddItem(InputData);
-	}
-
-	// Build the MultiTarget array based upon the impact points
-	AbilityState = XComGameState_Ability(History.GetGameStateForObjectID(AbilityContext.InputContext.AbilityRef.ObjectID, eReturnType_Reference));
-	RadiusMultiTarget = AbilityState.GetMyTemplate().AbilityMultiTargetStyle;// new class'X2AbilityMultiTarget_Radius';
-
-	AbilityContext.ResultContext.ProjectileHitLocations.Length = 0;
-	for( i = 0; i < AbilityContext.InputContext.TargetLocations.Length; ++i )
-	{
-		RadiusMultiTarget.GetMultiTargetsForLocation(AbilityState, AbilityContext.InputContext.TargetLocations[i], MultiTargets);
-
-		// Add the TargetLocations as ProjectileHitLocations
-		AbilityContext.ResultContext.ProjectileHitLocations.AddItem(AbilityContext.InputContext.TargetLocations[i]);
-	}
-
-	// Cull multi targets based on conditions
-	AbilityTemplate = AbilityState.GetMyTemplate();
-	for( i = MultiTargets.AdditionalTargets.Length - 1; i >= 0; --i )
-	{
-		AvailableCode = AbilityTemplate.CheckMultiTargetConditions(AbilityState, UnitState, History.GetGameStateForObjectID(MultiTargets.AdditionalTargets[i].ObjectID));
-		if( AvailableCode != 'AA_Success' )
-		{
-			MultiTargets.AdditionalTargets.Remove(i, 1);
-		}
-	}
-	AbilityContext.InputContext.MultiTargets = MultiTargets.AdditionalTargets;
-
-	//Re-Calculate the chance to hit here because we had to get the MultiTargets above
-	if( AbilityTemplate.AbilityToHitCalc != none )
-	{
-		kTarget.PrimaryTarget = AbilityContext.InputContext.PrimaryTarget;
-		kTarget.AdditionalTargets = AbilityContext.InputContext.MultiTargets;
-		AbilityTemplate.AbilityToHitCalc.RollForAbilityHit(AbilityState, kTarget, AbilityContext.ResultContext);
-	}
-}
-
-simulated function XComGameState PA_BlazingPinionsStage2_BuildGameState(XComGameStateContext Context)
-{
-	local XComGameState NewGameState;
-	local XComGameState_Unit UnitState;	
-	local XComGameStateContext_Ability AbilityContext;
-	local TTile LandingTile;
-	local XComWorldData World;
-	local X2EventManager EventManager;
-	local vector LandingLocation;
-	local int LastPathElement;
-
-	World = `XWORLD;
-	EventManager = `XEVENTMGR;
-
-	//Build the new game state frame
-	NewGameState = TypicalAbility_BuildGameState(Context);
-
-	AbilityContext = XComGameStateContext_Ability(NewGameState.GetContext());	
-	UnitState = XComGameState_Unit(NewGameState.ModifyStateObject(class'XComGameState_Unit', AbilityContext.InputContext.SourceObject.ObjectID));
-	
-	if(AbilityContext.InputContext.MovementPaths.Length > 0)
-	{
-		LastPathElement = AbilityContext.InputContext.MovementPaths[0].MovementData.Length - 1;
-
-		// Move the unit vertically, set the unit's new location
-		// The last position in MovementData will be the end location
-		`assert(LastPathElement > 0);
-		LandingLocation = AbilityContext.InputContext.MovementPaths[0].MovementData[LastPathElement /*- 1*/].Position;
-		LandingTile = World.GetTileCoordinatesFromPosition(LandingLocation);
-		UnitState.SetVisibilityLocation(LandingTile);
-
-		AbilityContext.ResultContext.bPathCausesDestruction = MoveAbility_StepCausesDestruction(UnitState, AbilityContext.InputContext, 0, AbilityContext.InputContext.MovementPaths[0].MovementTiles.Length - 1);
-		MoveAbility_AddTileStateObjects(NewGameState, UnitState, AbilityContext.InputContext, 0, AbilityContext.InputContext.MovementPaths[0].MovementTiles.Length - 1);
-		EventManager.TriggerEvent('ObjectMoved', UnitState, UnitState, NewGameState);
-		EventManager.TriggerEvent('UnitMoveFinished', UnitState, UnitState, NewGameState);
-	}
-
-	//Return the game state we have created
-	return NewGameState;
-}
-
-simulated function PA_BlazingPinionsStage2_BuildVisualization(XComGameState VisualizeGameState)
-{
-	local XComGameStateHistory History;
-	local XComGameStateContext_Ability  AbilityContext;
-	local StateObjectReference InteractingUnitRef;
-	local X2AbilityTemplate AbilityTemplate;
-	local VisualizationActionMetadata EmptyTrack;
-	local VisualizationActionMetadata ActionMetadata, ArchonTrack;
-	local X2Action_PlaySoundAndFlyOver SoundAndFlyover;
-	local X2Action_PersistentEffect	PersistentEffectAction;
-	local int i, j;
-	local X2VisualizerInterface TargetVisualizerInterface;
-
-	local XComGameState_EnvironmentDamage EnvironmentDamageEvent;
-	local XComGameState_WorldEffectTileData WorldDataUpdate;
-	local XComGameState_InteractiveObject InteractiveObject;
-
-	History = `XCOMHISTORY;
-
-	AbilityContext = XComGameStateContext_Ability(VisualizeGameState.GetContext());
-	InteractingUnitRef = AbilityContext.InputContext.SourceObject;
-
-	AbilityTemplate = class'XComGameState_Ability'.static.GetMyTemplateManager().FindAbilityTemplate(AbilityContext.InputContext.AbilityTemplateName);
-
-	//****************************************************************************************
-	//Configure the visualization track for the source
-	//****************************************************************************************
-	ArchonTrack = EmptyTrack;
-	ArchonTrack.StateObject_OldState = History.GetGameStateForObjectID(InteractingUnitRef.ObjectID, eReturnType_Reference, VisualizeGameState.HistoryIndex - 1);
-	ArchonTrack.StateObject_NewState = VisualizeGameState.GetGameStateForObjectID(InteractingUnitRef.ObjectID);
-	ArchonTrack.VisualizeActor = History.GetVisualizer(InteractingUnitRef.ObjectID);
-
-	SoundAndFlyOver = X2Action_PlaySoundAndFlyOver(class'X2Action_PlaySoundAndFlyover'.static.AddToVisualizationTree(ArchonTrack, AbilityContext));
-	SoundAndFlyOver.SetSoundAndFlyOverParameters(None, AbilityTemplate.LocFlyOverText, '', eColor_Bad);
-
-	// Remove the override idle animation
-	PersistentEffectAction = X2Action_PersistentEffect(class'X2Action_PersistentEffect'.static.AddToVisualizationTree(ArchonTrack, AbilityContext));
-	PersistentEffectAction.IdleAnimName = '';
-
-	// Play the firing action
-	class'X2Action_BlazingPinionsStage2'.static.AddToVisualizationTree(ArchonTrack, AbilityContext);
-
-	for( i = 0; i < AbilityContext.ResultContext.ShooterEffectResults.Effects.Length; ++i )
-	{
-		AbilityContext.ResultContext.ShooterEffectResults.Effects[i].AddX2ActionsForVisualization(VisualizeGameState, ArchonTrack, 
-																								  AbilityContext.ResultContext.ShooterEffectResults.ApplyResults[i]);
-	}
-
-	if(AbilityContext.InputContext.MovementPaths.Length > 0)
-	{
-		class'X2VisualizerHelpers'.static.ParsePath(AbilityContext, ArchonTrack);
-	}	
-	//****************************************************************************************
-
-	//****************************************************************************************
-	//Configure the visualization track for the targets
-	//****************************************************************************************
-	for (i = 0; i < AbilityContext.InputContext.MultiTargets.Length; ++i)
-	{
-		InteractingUnitRef = AbilityContext.InputContext.MultiTargets[i];
-		ActionMetadata = EmptyTrack;
-		ActionMetadata.StateObject_OldState = History.GetGameStateForObjectID(InteractingUnitRef.ObjectID, eReturnType_Reference, VisualizeGameState.HistoryIndex - 1);
-		ActionMetadata.StateObject_NewState = VisualizeGameState.GetGameStateForObjectID(InteractingUnitRef.ObjectID);
-		ActionMetadata.VisualizeActor = History.GetVisualizer(InteractingUnitRef.ObjectID);
-
-		class'X2Action_WaitForAbilityEffect'.static.AddToVisualizationTree(ActionMetadata, AbilityContext);
-		for( j = 0; j < AbilityContext.ResultContext.MultiTargetEffectResults[i].Effects.Length; ++j )
-		{
-			AbilityContext.ResultContext.MultiTargetEffectResults[i].Effects[j].AddX2ActionsForVisualization(VisualizeGameState, ActionMetadata, AbilityContext.ResultContext.MultiTargetEffectResults[i].ApplyResults[j]);
-		}
-
-		TargetVisualizerInterface = X2VisualizerInterface(ActionMetadata.VisualizeActor);
-		if( TargetVisualizerInterface != none )
-		{
-			//Allow the visualizer to do any custom processing based on the new game state. For example, units will create a death action when they reach 0 HP.
-			TargetVisualizerInterface.BuildAbilityEffectsVisualization(VisualizeGameState, ActionMetadata);
-		}
-	}
-	
-	//****************************************************************************************
-	//Configure the visualization tracks for the environment
-	//****************************************************************************************
-	foreach VisualizeGameState.IterateByClassType(class'XComGameState_EnvironmentDamage', EnvironmentDamageEvent)
-	{
-		ActionMetadata = EmptyTrack;
-		ActionMetadata.VisualizeActor = none;
-		ActionMetadata.StateObject_NewState = EnvironmentDamageEvent;
-		ActionMetadata.StateObject_OldState = EnvironmentDamageEvent;
-
-		//Wait until signaled by the shooter that the projectiles are hitting
-		class'X2Action_WaitForAbilityEffect'.static.AddToVisualizationTree(ActionMetadata, AbilityContext);
-
-		for( i = 0; i < AbilityTemplate.AbilityMultiTargetEffects.Length; ++i )
-		{
-			AbilityTemplate.AbilityMultiTargetEffects[i].AddX2ActionsForVisualization(VisualizeGameState, ActionMetadata, 'AA_Success');	
-		}
-
-			}
-
-	foreach VisualizeGameState.IterateByClassType(class'XComGameState_WorldEffectTileData', WorldDataUpdate)
-	{
-		ActionMetadata = EmptyTrack;
-		ActionMetadata.VisualizeActor = none;
-		ActionMetadata.StateObject_NewState = WorldDataUpdate;
-		ActionMetadata.StateObject_OldState = WorldDataUpdate;
-
-		//Wait until signaled by the shooter that the projectiles are hitting
-		class'X2Action_WaitForAbilityEffect'.static.AddToVisualizationTree(ActionMetadata, AbilityContext);
-
-		for( i = 0; i < AbilityTemplate.AbilityMultiTargetEffects.Length; ++i )
-		{
-			AbilityTemplate.AbilityMultiTargetEffects[i].AddX2ActionsForVisualization(VisualizeGameState, ActionMetadata, 'AA_Success');	
-		}
-
-			}
-	//****************************************************************************************
-
-	//Process any interactions with interactive objects
-	foreach VisualizeGameState.IterateByClassType(class'XComGameState_InteractiveObject', InteractiveObject)
-	{
-		// Add any doors that need to listen for notification
-		if( InteractiveObject.IsDoor() && InteractiveObject.HasDestroyAnim() && InteractiveObject.InteractionCount % 2 != 0 ) //Is this a closed door?
-		{
-			ActionMetadata = EmptyTrack;
-			//Don't necessarily have a previous state, so just use the one we know about
-			ActionMetadata.StateObject_OldState = InteractiveObject;
-			ActionMetadata.StateObject_NewState = InteractiveObject;
-			ActionMetadata.VisualizeActor = History.GetVisualizer(InteractiveObject.ObjectID);
-			class'X2Action_WaitForAbilityEffect'.static.AddToVisualizationTree(ActionMetadata, AbilityContext);
-			class'X2Action_BreakInteractActor'.static.AddToVisualizationTree(ActionMetadata, AbilityContext);
-
-					}
-	}
-
-	TypicalAbility_AddEffectRedirects(VisualizeGameState, ArchonTrack);
-}
-
 //! ======================================================
 //! Berserker Queen
 //! ======================================================
-
-
-
 
 static function X2AbilityTemplate Create_PA_QueenDevastatingPunchAbility(int MovementRangeAdjustment=1)
 {
@@ -1489,7 +949,7 @@ static function X2AbilityTemplate Create_PA_QueenDevastatingPunchAbility(int Mov
 	local X2Effect_PunchDamage WeaponDamageEffect;
 	local array<name> SkipExclusions;
 
-	`CREATE_X2ABILITY_TEMPLATE(Template, "PA_DevastatingPunch");
+	`CREATE_X2ABILITY_TEMPLATE(Template, 'PA_DevastatingPunch');
 	Template.IconImage = "img:///UILibrary_PerkIcons.UIPerk_muton_punch";
 	Template.Hostility = eHostility_Offensive;
 	Template.AbilitySourceName = 'eAbilitySource_Standard';
@@ -1497,7 +957,7 @@ static function X2AbilityTemplate Create_PA_QueenDevastatingPunchAbility(int Mov
 	Template.AdditionalAbilities.AddItem(class'X2Ability_Impairing'.default.ImpairingAbilityName);
 
 	ActionPointCost = new class'X2AbilityCost_ActionPoints';
-	ActionPointCost.iNumPoints = 1;
+	ActionPointCost.iNumPoints = default.PA_BerserkerQueen_Punch_ActionPointCost;
 	ActionPointCost.bConsumeAllPoints = default.PA_BerserkerQueen_Punch_ConsumeAllActionPointCost;
 	Template.AbilityCosts.AddItem(ActionPointCost);
 
@@ -1513,13 +973,13 @@ static function X2AbilityTemplate Create_PA_QueenDevastatingPunchAbility(int Mov
 	Template.AbilityTriggers.AddItem(new class'X2AbilityTrigger_EndOfMove');
 
 	Template.AbilityShooterConditions.AddItem(default.LivingShooterProperty);
-	
+
 	// May punch if the unit is burning or disoriented
 	SkipExclusions.AddItem(class'X2AbilityTemplateManager'.default.DisorientedName);
 	SkipExclusions.AddItem(class'X2StatusEffects'.default.BurningName);
 	Template.AddShooterEffectExclusions(SkipExclusions);
 
-	Template.AbilityTargetConditions.AddItem(new class'X2Condition_BerserkerDevastatingPunch');	
+	Template.AbilityTargetConditions.AddItem(new class'X2Condition_BerserkerDevastatingPunch');
 	Template.AbilityTargetConditions.AddItem(default.MeleeVisibilityCondition);
 
 	WeaponDamageEffect = new class'X2Effect_PunchDamage';
@@ -1549,7 +1009,7 @@ static function X2AbilityTemplate Create_PA_QueenDevastatingPunchAbility(int Mov
 	Template.BuildVisualizationFn = DevastatingPunchAbility_BuildVisualization;
 	Template.BuildInterruptGameStateFn = TypicalMoveEndAbility_BuildInterruptGameState;
 	Template.CinescriptCameraType = "Berserker_DevastatingPunch";
-	
+
 	return Template;
 }
 
@@ -1562,7 +1022,7 @@ function DevastatingPunchAbility_BuildVisualization(XComGameState VisualizeGameS
 	local X2Action_PlaySoundAndFlyOver SoundAndFlyOver;
 
 	TypicalAbility_BuildVisualization(VisualizeGameState);
-	
+
 	// Check if we should add a fly-over for 'Blind Rage' (iff both source and target are AI).
 	History = `XCOMHISTORY;
 	Context = XComGameStateContext_Ability(VisualizeGameState.GetContext());
@@ -1577,14 +1037,14 @@ function DevastatingPunchAbility_BuildVisualization(XComGameState VisualizeGameS
 			ActionMetadata.VisualizeActor = History.GetVisualizer(SourceState.ObjectID);
 
 			SoundAndFlyOver = X2Action_PlaySoundAndFlyOver(class'X2Action_PlaySoundAndFlyOver'.static.AddToVisualizationTree(ActionMetadata, Context, false, ActionMetadata.LastActionAdded));
- 			SoundAndFlyOver.SetSoundAndFlyOverParameters(None, default.BlindRageFlyover, '', eColor_Good);
+ 			SoundAndFlyOver.SetSoundAndFlyOverParameters(None, class'X2Ability_Berserker'.default.BlindRageFlyover, '', eColor_Good);
 		}
 	}
 }
 
 static function X2AbilityTemplate Create_PA_QuakeAbility()
 {
-	local X2AbilityTemplate							Template;	
+	local X2AbilityTemplate							Template;
 	local X2AbilityCost_ActionPoints				ActionPointCost;
 	local X2AbilityTarget_Cursor					CursorTarget;
 	local X2AbilityMultiTarget_Radius				RadiusMultiTarget;
@@ -1600,7 +1060,7 @@ static function X2AbilityTemplate Create_PA_QuakeAbility()
 	`CREATE_X2ABILITY_TEMPLATE(Template, 'PA_Quake');
 	Template.bDontDisplayInAbilitySummary = default.PA_BerserkerQueen_DontDisplay_Quake_InSummary;
 	Template.IconImage = "img:///UILibrary_DLC2Images.UIPerk_beserker_quake";
-	
+
 	ActionPointCost = new class'X2AbilityCost_ActionPoints';
 	ActionPointCost.iNumPoints = default.PA_BerserkerQueen_Quake_ActionPointCost;
 	ActionPointCost.bConsumeAllPoints = default.PA_BerserkerQueen_Quake_ConsumeAllActionPointCost;
@@ -1668,7 +1128,7 @@ static function X2AbilityTemplate Create_PA_QuakeAbility()
 	// trigger
 	InputTrigger = new class'X2AbilityTrigger_PlayerInput';
 	Template.AbilityTriggers.AddItem(InputTrigger);
-	
+
 	Template.AbilitySourceName = 'eAbilitySource_Standard';
 	Template.eAbilityIconBehaviorHUD = EAbilityIconBehavior_AlwaysShow;
 	Template.IconImage = "img:///UILibrary_DLC2Images.PerkIcons.UIPerk_beserker_quake";
@@ -1711,7 +1171,7 @@ static function X2AbilityTemplate Create_PA_Faithbreaker()
 	`CREATE_X2ABILITY_TEMPLATE(Template, 'PA_FaithBreaker');
 
 	Template.IconImage = "img:///UILibrary_DLC2Images.PerkIcons.UIPerk_beserker_faithbreaker";
-	
+
 	ActionPointCost = new class'X2AbilityCost_ActionPoints';
 	ActionPointCost.iNumPoints = default.PA_BerserkerQueen_FaithBreaker_ActionPointCost;
 	ActionPointCost.bConsumeAllPoints = default.PA_BerserkerQueen_FaithBreaker_ConsumeAllActionPointCost;
@@ -1782,7 +1242,7 @@ function name PA_FaithbreakerApplyChance(const out EffectAppliedData ApplyEffect
 		`assert(ArmorState != none);
 		BerserkerQueenArmorTemplate = X2BQArmorTemplate(ArmorState.GetMyTemplate());
 	}
-		
+
 		if (TargetUnit != none && BerserkerQueenArmorTemplate != none)
 	{
 		foreach class'X2AbilityToHitCalc_PanicCheck'.default.PanicImmunityAbilities(ImmuneName)
@@ -1818,7 +1278,7 @@ static function PA_FaithBreaker_PanickedVisualization(XComGameState VisualizeGam
 	UnitState = XComGameState_Unit(ActionMetadata.StateObject_NewState);
 	if (UnitState == none)
 	{
-		
+
 	}
 
 	if (!UnitState.IsCivilian() && EffectApplyResult != 'AA_Success')
@@ -1843,7 +1303,7 @@ static function X2AbilityTemplate Create_PA_BerserkerQueenSlash_Ability()
 	Template.eAbilityIconBehaviorHUD = EAbilityIconBehavior_AlwaysShow;
 	Template.BuildNewGameStateFn = TypicalMoveEndAbility_BuildGameState;
 	Template.BuildVisualizationFn = TypicalAbility_BuildVisualization;
-	Template.BuildInterruptGameStateFn = TypicalMoveEndAbility_BuildInterruptGameState;	
+	Template.BuildInterruptGameStateFn = TypicalMoveEndAbility_BuildInterruptGameState;
 	Template.CinescriptCameraType = "Ranger_Reaper";
 	Template.IconImage = "img:///UILibrary_PerkIcons.UIPerk_swordSlash";
 	Template.bHideOnClassUnlock = false;
@@ -1854,7 +1314,7 @@ static function X2AbilityTemplate Create_PA_BerserkerQueenSlash_Ability()
 	ActionPointCost.iNumPoints = 1;
 	ActionPointCost.bConsumeAllPoints = true;
 	Template.AbilityCosts.AddItem(ActionPointCost);
-	
+
 	StandardMelee = new class'X2AbilityToHitCalc_StandardMelee';
 	Template.AbilityToHitCalc = StandardMelee;
 
@@ -1882,7 +1342,7 @@ static function X2AbilityTemplate Create_PA_BerserkerQueenSlash_Ability()
 
 	Template.bAllowBonusWeaponEffects = true;
 	Template.bSkipMoveStop = true;
-	
+
 	// Voice events
 	//
 	Template.SuperConcealmentLoss = class'X2AbilityTemplateManager'.default.SuperConcealmentStandardShotLoss;
@@ -2186,13 +1646,13 @@ static function ArmorPanickedVisualization(XComGameState VisualizeGameState, out
 
 	if (EffectApplyResult != 'AA_Success')
 	{
-		
+
 	}
 
 	// pan to the panicking unit (but only if it isn't a civilian)
 	UnitState = XComGameState_Unit(ActionMetadata.StateObject_NewState);
 	if (UnitState == none)
-		
+
 
 	AbilityContext = XComGameStateContext_Ability(VisualizeGameState.GetContext());
 	AbilityTemplate = class'XComGameState_Ability'.static.GetMyTemplateManager().FindAbilityTemplate(AbilityContext.InputContext.AbilityTemplateName);
